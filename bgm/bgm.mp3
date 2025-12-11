@@ -1,0 +1,48 @@
+// 🎧 やさしいピアノ風ループBGM（クリックで再生）
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioCtx = new AudioContext();
+let isPlaying = false;
+
+// コード進行：C → Am → F → G
+const chords = [
+    [261.63, 329.63, 392.00], // C
+    [220.00, 261.63, 329.63], // Am
+    [174.61, 220.00, 261.63], // F
+    [196.00, 246.94, 392.00]  // G
+];
+
+function createNote(freq, start, duration = 2) {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+
+    osc.type = "sine";
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0, start);
+    gain.gain.linearRampToValueAtTime(0.12, start + 0.3);
+    gain.gain.linearRampToValueAtTime(0.05, start + duration - 0.3);
+    gain.gain.linearRampToValueAtTime(0, start + duration);
+
+    osc.connect(gain).connect(audioCtx.destination);
+    osc.start(start);
+    osc.stop(start + duration);
+}
+
+function generateMusic() {
+    const startTime = audioCtx.currentTime;
+    const duration = 2;
+
+    chords.forEach((chord, i) => {
+        const t = startTime + i * duration;
+        chord.forEach(freq => createNote(freq, t, duration));
+    });
+
+    setTimeout(generateMusic, chords.length * duration * 1000);
+}
+
+document.addEventListener("click", () => {
+    if (!isPlaying) {
+        audioCtx.resume();
+        isPlaying = true;
+        generateMusic();
+    }
+});

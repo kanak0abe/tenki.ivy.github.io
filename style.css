@@ -1,0 +1,408 @@
+/* style.css - 最終調整版 (PCデザインを維持しつつスマホ対応を適用) */
+
+/* ====================================================================
+ * 基本設定とレイアウト
+ * ==================================================================== */
+body {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    /* paddingを解除 */
+    display: flex;
+    justify-content: center;
+    /* PCではコンテンツを中央に固定 */
+    align-items: flex-start;
+    /* コンテンツを上寄せに */
+    min-height: 100vh;
+    /* サイト全体のグラデーション背景 */
+    background: linear-gradient(135deg,
+            #FFDCDC 0%, #FFECF0 15%, #F0E5FF 30%, #E0E5FF 45%,
+            #E0FFF0 60%, #FFFFE0 75%, #FFE5D0 90%, #FFDCDC 100%);
+    background-attachment: fixed;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    /* PCでの最大幅を維持 */
+    width: 100%;
+    position: relative;
+    padding-top: 55px;
+    margin: 20px 10px;
+    /* PCで上下に余白を設ける */
+}
+
+h1 {
+    text-align: center;
+    color: #ff4d88;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+h2 {
+    color: #34495e;
+    border-left: 3px solid #007bff;
+    padding-left: 8px;
+    margin-top: 15px;
+    text-align: left;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ====================================================================
+ * 現在の天気タイトルと日付 (変更なし)
+ * ==================================================================== */
+#weather-header-display {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding-right: 8px;
+    width: 100%;
+}
+
+#weather-header-display h2 {
+    margin: 0;
+    border-left: 3px solid #007bff;
+    padding-left: 8px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+#weather-header-display .current-date-info {
+    font-size: 1.0em;
+    color: #555;
+    white-space: nowrap;
+    margin: 0;
+    padding-left: 5px;
+    margin-left: 10px;
+    flex-shrink: 0;
+}
+
+/* ====================================================================
+ * ボタン、スタート画面、入力エリア (微調整)
+ * ==================================================================== */
+.start-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    max-width: 450px;
+    width: 100%;
+    text-align: center;
+    margin: 20vh auto;
+    /* 画面中央付近に配置 */
+}
+
+.start-input-group {
+    display: flex;
+    gap: 10px;
+    margin: 0 auto 10px auto;
+    width: 80%;
+    max-width: 300px;
+}
+
+#city-input-start {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 15px;
+}
+
+#start-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    margin: 0;
+}
+
+#current-location-btn {
+    background-color: #ff6699;
+    color: white;
+    border: none;
+    padding: 8px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    display: block;
+    width: 55%;
+    margin: 10px auto 10px auto;
+}
+
+.action-button {
+    z-index: 100;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.home-button {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #ffe0e0;
+    color: #ff6699;
+}
+
+.bgm-button.fixed-right-top {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background-color: #e0f7fa;
+    color: #00bcd4;
+}
+
+.bgm-button.off {
+    background-color: #f5f5f5;
+    color: #757575;
+}
+
+.input-area {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+#city-input {
+    flex-grow: 1;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 15px;
+}
+
+#get-weather-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+/* ====================================================================
+ * キャラクターエリア (PC/Mobile 共通スタイル)
+ * ==================================================================== */
+.character-area {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    margin: 15px 0;
+    padding: 10px;
+    border-radius: 8px;
+    position: relative;
+    min-height: 120px;
+    overflow: visible;
+}
+
+#character-img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 50%;
+    cursor: pointer;
+    flex-shrink: 0;
+    border: 5px solid var(--icon-border-color);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    margin-right: 5px;
+    transition: border-color 0.3s ease;
+}
+
+#character-comment {
+    flex-grow: 1;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #333;
+    background: var(--comment-bg-color);
+    transition: background 0.3s ease;
+}
+
+/* 吹き出しの三角 (PC: 左側) */
+.character-area::after {
+    content: '';
+    position: absolute;
+    left: 125px;
+    /* 画像の右端付近 */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 8px 8px 0;
+    border-color: transparent var(--comment-bg-color) transparent transparent;
+    z-index: auto;
+    transition: border-color 0.3s ease;
+}
+
+/* ====================================================================
+ * 週間予報コンテナ (PC: 5列均等)
+ * ==================================================================== */
+.forecast-section h2 {
+    margin-top: 25px;
+}
+
+.forecast-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 5px 0;
+}
+
+.forecast-item {
+    box-sizing: border-box;
+    /* PC: 5列で表示（幅の計算を正確に行う） */
+    flex-basis: calc(20% - 12px);
+    /* 100% / 5 - ギャップ */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100px;
+    min-width: 70px;
+    text-align: center;
+    padding: 8px 3px;
+
+    border: 1px solid #f8d7da;
+    border-radius: 4px;
+    background-color: var(--forecast-bg-color, #fff0f5);
+    font-size: 0.9em;
+}
+
+.item-date {
+    order: 1;
+}
+
+.item-icon {
+    order: 2;
+}
+
+.item-temp {
+    order: 3;
+}
+
+/* ====================================================================
+ * レスポンシブ対応 (スマホ専用の修正 - 600px以下のみ適用)
+ * ==================================================================== */
+@media (max-width: 600px) {
+
+    /* 1. コンテナの調整：画面幅いっぱいに */
+    .container {
+        margin: 0;
+        /* PCで設定した余白をリセット */
+        padding: 15px;
+        padding-top: 50px;
+    }
+
+    /* 2. スタート画面の調整 */
+    .start-container {
+        margin-top: 5vh;
+        margin-bottom: 5vh;
+    }
+
+    .start-input-group {
+        width: 100%;
+        max-width: none;
+    }
+
+    #current-location-btn {
+        width: 80%;
+    }
+
+    /* 3. 固定ボタンの調整 */
+    .action-button {
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+
+    .home-button {
+        top: 10px;
+        left: 10px;
+    }
+
+    .bgm-button.fixed-right-top {
+        top: 10px;
+        right: 10px;
+    }
+
+    /* 4. キャラクターエリアのスマホレイアウト（縦並び） */
+    .character-area {
+        flex-direction: column;
+        align-items: flex-start;
+        min-height: auto;
+    }
+
+    /* 吹き出しの三角位置を上部中央に修正 */
+    .character-area::after {
+        top: 115px;
+        left: 50px;
+        transform: none;
+        border-width: 0 8px 8px 8px;
+        /* 下向きの三角 */
+        border-color: transparent transparent var(--comment-bg-color) transparent;
+    }
+
+    /* 5. 週間予報の「スマホ1列」対応 */
+    .forecast-container {
+        gap: 10px;
+    }
+
+    .forecast-item {
+        flex-basis: 100%;
+        /* 幅いっぱいを使用し、1列にする */
+        padding: 10px 15px;
+        flex-direction: row;
+        /* アイテム内は横並びに */
+        justify-content: space-between;
+        align-items: center;
+        min-height: auto;
+        font-size: 1.0em;
+    }
+
+    /* アイテム内要素の配置調整 */
+    .forecast-item .item-date {
+        order: 1;
+        flex-basis: 35%;
+        text-align: left;
+        font-weight: bold;
+    }
+
+    .forecast-item .item-icon {
+        order: 2;
+        flex-basis: 30%;
+        font-size: 2.0em;
+    }
+
+    .forecast-item .item-temp {
+        order: 3;
+        flex-basis: 35%;
+        text-align: right;
+    }
+}
