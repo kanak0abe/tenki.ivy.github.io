@@ -180,7 +180,7 @@ function getFormattedTodayDate() {
 }
 
 // ====================================================================
-// ★★★ 拡張された CITY_NAME_MAP (地名リスト) - 静岡表記を修正済み ★★★
+// ★★★ 拡張された CITY_NAME_MAP (地名リスト) ★★★
 // ====================================================================
 const CITY_NAME_MAP = {
     // -------------------
@@ -215,9 +215,7 @@ const CITY_NAME_MAP = {
     '甲府': 'Kofu', '山梨': 'Kofu', '山梨県': 'Kofu',
     '長野': 'Nagano', '長野県': 'Nagano',
     '岐阜': 'Gifu', '岐阜県': 'Gifu',
-    // --- ★★★ ここを 'Shizuoka' に修正しました ★★★ ---
-    '静岡': 'Shizuoka', '静岡県': 'Shizuoka', 
-    // ------------------------------------------------
+    '静岡': 'Shizuoka', '静岡県': 'Shizuoka', // 修正済み
     '名古屋': 'Nagoya', '愛知': 'Nagoya', '愛知県': 'Nagoya',
 
     // -------------------
@@ -389,7 +387,7 @@ const weatherMap = {
 // ====================================================================
 
 function triggerCharacterAnimation(targetElement) {
-    const element = targetElement || characterImg;
+    const element = targetElement;
 
     element.classList.remove('animate');
     // リフローを強制してアニメーションをリセット
@@ -532,9 +530,6 @@ function handleGeoError(error) {
     startPage.classList.remove('hidden');
 }
 
-/**
- * テンプレートリテラルの構文エラーを修正済み
- */
 async function getWeatherByCoords(lat, lon) {
     const currentUrl = `${CURRENT_BASE_URL}?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=ja`;
 
@@ -636,7 +631,7 @@ async function getWeather(city) {
 }
 
 /**
- * テンプレートリテラルの構文エラーを修正済み
+ * 🔴 【重要】ヘッダーHTMLの構造を修正し、都市名と定型文のサイズをCSSで分離できるようにした
  */
 function displayWeather(data, displayCityName) {
     const cityName = displayCityName;
@@ -680,9 +675,12 @@ function displayWeather(data, displayCityName) {
     // ハイフン付きの日付を挿入
     const todayDate = getFormattedTodayDate();
 
-    // ヘッダーHTMLの構築 (CSSでレイアウトを整えるためのタグ構造)
+    // 🔴 修正済みヘッダーHTMLの構築 (都市名に city-name-large クラスを付与)
     const headerHtml = ` 
-        <h2>${cityName}の現在の天気</h2>
+        <h2 class="weather-title">
+            <span class="city-name-large">${cityName}</span>
+            <span class="subtitle-small">の現在の天気</span>
+        </h2>
         <span class="current-date-info">${todayDate}</span>
     `;
 
@@ -773,9 +771,10 @@ function displayForecast(data, displayCityName) {
         if (forecastItem) {
             forecastItem.style.cursor = 'pointer';
 
+            // 週間予報アイテムクリック時にアニメーションを発動
             forecastItem.addEventListener('click', () => {
-                    triggerCharacterAnimation(forecastItem);
-                });
+                        triggerCharacterAnimation(forecastItem);
+                    });
         }
     });
 }
@@ -851,6 +850,28 @@ function setupAutocomplete(inputElement, triggerElement) {
             autocompleteList.classList.remove('hidden');
             autocompleteList.innerHTML = '';
 
+            // リストの位置を入力フィールドに合わせる
+            const isStartInput = inputElement.id === 'city-input-start';
+            const inputRect = inputElement.getBoundingClientRect();
+            
+            // start-pageとmain-contentで親の要素が異なるため、位置を調整
+            if (isStartInput) {
+                // start-containerは中央に配置されるため、input-areaのスタイルを流用できない
+                // 暫定的に、start-input-groupの幅と位置を使い、下に固定する
+                autocompleteList.style.position = 'absolute';
+                autocompleteList.style.top = `${inputRect.bottom + window.scrollY}px`;
+                autocompleteList.style.left = `${inputRect.left}px`;
+                autocompleteList.style.width = `${inputRect.width}px`;
+                autocompleteList.style.maxWidth = `${inputRect.width}px`;
+            } else {
+                // main-content内では input-area が position: relative を持っているため、CSSで定義された位置 (top: 100%) をそのまま使用する
+                autocompleteList.style.position = 'absolute';
+                autocompleteList.style.top = '100%';
+                autocompleteList.style.left = '0';
+                autocompleteList.style.width = 'auto'; // 親の input-area に合わせる
+                autocompleteList.style.maxWidth = '100%';
+            }
+
             
             for (let i = 0; i < cityKeys.length && matchCount < MAX_CANDIDATES; i++) {
                 const cityKey = cityKeys[i];
@@ -910,7 +931,7 @@ document.addEventListener("click", function (e) {
     });
 
 // ====================================================================
-// ★★★ オートコンプリート機能 ★★★
+// ★★★ 初期化 ★★★
 // ====================================================================
 
 setupAutocomplete(cityInputStart, startBtn);

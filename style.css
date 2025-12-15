@@ -1,7 +1,5 @@
-/* style.css - 最終調整・完全版 (中央寄せ・拡大・罫線削除・ゲージ非表示) */
-
 /* ====================================================================
- * 1. 基本設定とコンテナ (中央寄せの再適用とレイアウト調整)
+ * 1. 基本設定とコンテナ
  * ==================================================================== */
 body {
     font-family: 'Arial', sans-serif;
@@ -9,14 +7,13 @@ body {
     margin: 0;
     padding: 0;
     
-    /* 垂直・水平方向を中央寄せに設定 (メイン画面とスタート画面の両方を中央に配置し、下部空白を解消) */
     display: flex; 
     justify-content: center; 
     align-items: center; 
     
-    min-height: 100vh; 
+    min-height: 100vh;
+    height: 100vh; 
     
-    /* 元のグラデーション背景 */
     background: linear-gradient(135deg,
                 #FFDCDC 0%, #FFECF0 15%, #F0E5FF 30%, #E0E5FF 45%,
                 #E0FFF0 60%, #FFFFE0 75%, #FFE5D0 90%, #FFDCDC 100%);
@@ -29,21 +26,18 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     
-    /* PCでの最大幅を広げ、コンテンツをゆったり表示 */
     max-width: 650px; 
     width: 100%;
     position: relative;
     padding-top: 55px;
 
-    /* 垂直方向の配置はbodyに任せ、コンテンツ自体は上から順に配置 */
     min-height: auto; 
     display: flex;
     flex-direction: column;
     justify-content: flex-start; 
     align-items: stretch; 
     
-    /* PC表示での上下の余白 */
-    margin: 20px auto; 
+    margin: auto; 
 }
 
 h1 {
@@ -53,20 +47,17 @@ h1 {
     margin-bottom: 15px;
 }
 
-/* h2の基本設定 (罫線削除維持) */
+/* h2の基本設定: 罫線を完全に無効化し、サイズを1.2emに制御（週間予報以外） */
 h2 {
     color: #34495e;
-    border-left: none; 
+    border: none !important; /* 罫線を完全に削除 */
     padding-left: 0;
-    font-size: 1.2em; 
-    margin: 15px 0 10px 0;
+    font-size: 1.2em !important; 
+    margin: 15px 0 10px 0 !important; 
     text-align: left;
     display: block; 
-    border-bottom: none !important; 
 }
-
 h2::after {
-    /* 擬似要素による罫線も削除 */
     display: none !important;
 }
 
@@ -75,14 +66,13 @@ h2::after {
 }
 
 /* ====================================================================
- * 2. スタート画面 (中央寄せ維持と拡大調整)
+ * 2. スタート画面 
  * ==================================================================== */
 .start-container {
     background-color: #ffffff;
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    /* PC/タブレットでの最大幅を調整 */
     max-width: 500px; 
     width: 90%; 
     text-align: center;
@@ -138,7 +128,7 @@ h2::after {
 }
 
 /* ====================================================================
- * 3. ボタンとアクションエリア (変更なし)
+ * 3. ボタンとアクションエリア 
  * ==================================================================== */
 .action-button {
     z-index: 100;
@@ -160,9 +150,6 @@ h2::after {
     background-color: #ffe0e0;
     color: #ff6699;
 }
-.home-button:hover {
-    background-color: #ffcccc;
-}
 .bgm-button.fixed-right-top {
     position: fixed;
     top: 15px;
@@ -170,15 +157,9 @@ h2::after {
     background-color: #e0f7fa;
     color: #00bcd4;
 }
-.bgm-button.fixed-right-top:hover {
-    background-color: #b2ebf2;
-}
 .bgm-button.off {
     background-color: #f5f5f5;
     color: #757575;
-}
-.bgm-button.off:hover {
-    background-color: #e0e0e0;
 }
 
 /* ====================================================================
@@ -207,7 +188,7 @@ h2::after {
     font-size: 15px;
 }
 
-/* オートコンプリートのスタイル (変更なし) */
+/* オートコンプリートのスタイル */
 #autocomplete-list {
     position: absolute;
     top: 100%;
@@ -222,8 +203,19 @@ h2::after {
     border-radius: 0 0 4px 4px;
     margin-top: 1px;
 }
+.autocomplete-item {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+}
 
-/* キャラクターエリア (変更なし) */
+.autocomplete-item:hover {
+    background-color: #e9e9e9;
+}
+
+
+/* キャラクターエリア */
 .character-area {
     display: flex;
     align-items: center;
@@ -283,33 +275,74 @@ h2::after {
     transition: border-color 0.3s ease;
 }
 
-/* ローディングスピナー (非表示) */
+/* ローディングスピナー */
 #loading-overlay {
-    display: none !important; 
-}
-.spinner {
-    display: none !important;
-    /* (元のスタイルは非表示のため省略) */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
+    border-radius: 8px;
 }
 
-/* 現在の天気タイトルと日付 (罫線削除を維持) */
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: #ff6699;
+    animation: spin 1s ease infinite;
+    margin: 20px auto;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+/* 現在の天気タイトルと日付 */
 #weather-header-display {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     margin-top: 15px;
     margin-bottom: 10px;
-    border-bottom: none !important; 
+    border-bottom: none !important; /* 確実に下線を削除 */
     padding-bottom: 5px;
 }
 
-#weather-header-display h2 {
-    margin: 0;
-    padding-left: 0; 
-    font-size: 1.2em;
+/* 都市名と定型文のサイズを分離するCSS定義 */
+#weather-header-display .weather-title {
+    margin: 0 !important; 
+    padding: 0;
+    line-height: 1.2; 
     flex-shrink: 0;
-    white-space: nowrap;
 }
+
+/* 都市名（例：東京）を大きく */
+#weather-header-display .city-name-large {
+    font-size: 1.4em !important; 
+    font-weight: bold;
+    color: #34495e;
+    display: inline;
+}
+
+/* 「の現在の天気」を小さく維持 */
+#weather-header-display .subtitle-small {
+    font-size: 1.0em !important; 
+    font-weight: normal;
+    color: #555;
+    display: inline;
+    padding-left: 5px;
+}
+
+/* 日付情報は小さく維持 */
 #weather-header-display .current-date-info {
     font-size: 1.0em;
     color: #555;
@@ -319,34 +352,35 @@ h2::after {
     flex-shrink: 1;
 }
 
-/* 罫線削除: 情報行と <hr> タグの薄い線を削除 (機能維持) */
+/* 現在の天気情報内の各行のボーダーを削除する */
+#weather-display p,
+#weather-display hr {
+    border: none !important;
+    margin: 0 !important;
+    padding: 5px 0 !important;
+}
+
+/* HTMLの<hr>タグ（日出/日入りの上にある線）も削除 */
 #weather-display hr {
     display: none !important;
 }
 
-.sun-info-row,
-.current-details, 
-.weather-info-line {
-    border: none !important; 
-    padding: 5px 0 !important;
-    margin: 0 !important;
-}
-
 
 /* ====================================================================
- * 5. 週間予報 (中央揃え維持)
+ * 5. 週間予報 
  * ==================================================================== */
 .forecast-section h2 {
-    border-top: none;
+    font-size: 1.4em !important; 
+    border: none !important; 
     padding-top: 15px;
     display: block; 
-    margin-top: 25px; 
-    margin-bottom: 10px;
+    margin-top: 25px !important; 
+    margin-bottom: 10px !important;
 }
 
 .forecast-container {
     display: flex;
-    justify-content: center; /* 中央揃えを維持 */
+    justify-content: center; 
     flex-wrap: wrap;
     gap: 10px;
     padding: 5px 0;
@@ -366,70 +400,75 @@ h2::after {
 
     background-color: #ffe0f0;
     font-size: 0.9em;
-    transition: transform 0.1s;
+    transition: transform 0.1s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s; 
+    cursor: pointer; /* クリック可能であることを示す */
 }
 
+/* ★★★ 週間予報アイテム クリック・ホバー時のスタイル変更 (ご要望の濃い色) ★★★ */
+.forecast-item:active,
 .forecast-item:hover {
-    background-color: #ffcccc;
-    transform: translateY(-2px);
+    background-color: #ffcce0; /* 背景色を濃くする */
+    border-color: #ff6699; /* 枠線を濃くする */
+    transform: scale(0.98); /* 押し込まれたような視覚効果 */
+    box-shadow: 0 0 15px rgba(255, 102, 153, 0.8); /* 影を強調 */
 }
+
 
 .item-icon {
     font-size: 1.8em;
     margin: 5px 0;
 }
-.item-temp {
-    font-weight: bold;
-    font-size: 0.95em;
+
+/* ====================================================================
+ * 6. アニメーション設定 (週間予報クリック時)
+ * ==================================================================== */
+
+/* 週間予報アイテムクリック時のアニメーション (pulse) */
+.forecast-item.animate {
+    animation: pulse 0.5s ease-in-out;
 }
-.night-temp {
-    color: #007bff;
-    font-weight: normal;
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); box-shadow: 0 0 10px rgba(255, 102, 153, 0.6); }
+    100% { transform: scale(1); }
+}
+
+/* キャラクターアイコンクリック時のアニメーション (wiggle) */
+#character-img.animate {
+    animation: wiggle 0.5s ease-in-out;
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-5deg) scale(1.05); }
+    75% { transform: rotate(5deg) scale(1.05); }
 }
 
 
 /* ====================================================================
- * 6. レスポンシブ対応 (スマホでの中央寄せと拡大調整)
+ * 7. レスポンシブ対応
  * ==================================================================== */
 @media (max-width: 600px) {
-    /* メインコンテナ: 中央寄せを維持し、画面幅を広く利用 */
-    .container {
-        width: 95%; /* 画面端に少し余白を持たせる */
-        max-width: none; 
-        margin: auto; /* 中央寄せを維持 */
-        padding: 15px;
-        padding-top: 50px;
-        min-height: auto; 
-        border-radius: 8px; 
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-        justify-content: flex-start; 
+    
+    /* スマホでの文字サイズ個別調整 */
+    h2 {
+        font-size: 1.2em !important; 
+    }
+    /* 都市名と週間天気タイトルは大きく */
+    .forecast-section h2,
+    #weather-header-display .city-name-large {
+        font-size: 1.4em !important; 
+    }
+    /* 「の現在の天気」は小さく維持 */
+    #weather-header-display .subtitle-small {
+        font-size: 1.0em !important; 
     }
 
-    /* スタート画面: 中央寄せを維持し、見た目を大きくする */
-    .start-container {
-        width: 90%; 
-        margin: auto; /* 中央寄せを維持 */
-        padding: 20px;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
-        border-radius: 12px;
-    }
-    
-    .start-container h1 {
-        font-size: 2.0em; /* 見出しを大きく */
-    }
-    
-    .start-input-group {
-        width: 100%; 
-        max-width: none;
-    }
-    
-    .bgm-button.fixed-right-top {
-        top: 10px;
-        right: 10px;
-    }
-    .home-button {
-        top: 10px;
-        left: 10px;
+    .container {
+        width: 95%; 
+        padding: 15px;
+        padding-top: 50px;
     }
     
     /* キャラクターエリアの縦並び表示 (スマホ向け) */
