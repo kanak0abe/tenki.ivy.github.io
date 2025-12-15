@@ -299,7 +299,7 @@ const weatherMap = {
     },
     'Clouds': {
         image: 'img/character_clouds.png',
-        comment: (city) => `${city}は曇りかぁ。傘は一応持っていく？☁️`,
+        comment: (city) => `${city}は曇りかぁ。念のため、傘を持っていこう！☁️`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
@@ -910,7 +910,7 @@ document.addEventListener("click", function (e) {
     });
 
 // ====================================================================
-// ★★★ オートコンプリート機能の適用 ★★★
+// ★★★ オートコンプリート機能 ★★★
 // ====================================================================
 
 setupAutocomplete(cityInputStart, startBtn);
