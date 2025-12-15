@@ -27,7 +27,7 @@ const bgmToggleBtn = document.getElementById('bgm-toggle-btn');
 
 
 // ====================================================================
-// ★★★ BGM 制御ロジック (変更なし) ★★★
+// ★★★ BGM 制御ロジック ★★★
 // ====================================================================
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -134,25 +134,27 @@ bgmToggleBtn.addEventListener('click', toggleBGM);
 
 // BGMの状態をロードするが、自動再生は試みない (ブラウザの制限対策)
 document.addEventListener('DOMContentLoaded', () => {
-        const savedState = localStorage.getItem('bgmState');
+    const savedState = localStorage.getItem('bgmState');
 
-        if (savedState === 'off') {
-            isBGMPlaying = false;
-        }
+    if (savedState === 'off') {
+        isBGMPlaying = false;
+    }
 
-        else {
-            isBGMPlaying = true;
-        }
+    else {
+        isBGMPlaying = true;
+    }
 
-        updateBGMButton(isBGMPlaying);
-    });
+    updateBGMButton(isBGMPlaying);
+});
 
 
 // ====================================================================
-// ★★★ ユーティリティ/定数 (変更なし) ★★★
+// ★★★ ユーティリティ/定数 ★★★
 // ====================================================================
 
-const API_KEY = 'b805c0aa4bdcc94949925b79c2c4d405'; // APIキーは公開環境では秘匿化を検討
+// OpenWeatherMapのAPIキーとURL
+// 注意: 実際のデプロイ時には、APIキーをサーバー側で管理することが推奨されます。
+const API_KEY = 'b805c0aa4bdcc94949925b79c2c4d405'; 
 const CURRENT_BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
 const FORECAST_BASE_URL = 'https://api.openweathermap.org/data/2.5/forecast';
 
@@ -181,7 +183,7 @@ function getFormattedTodayDate() {
 }
 
 // ====================================================================
-// ★★★ 拡張された CITY_NAME_MAP (地名リスト) (変更なし) ★★★
+// ★★★ CITY_NAME_MAP (地名リスト) ★★★
 // ====================================================================
 const CITY_NAME_MAP = {
     // -------------------
@@ -287,7 +289,7 @@ const CITY_NAME_MAP = {
 
 
 // ====================================================================
-// ★★★ 天気ごとのキャラクター画像・コメント定義 (変更なし) ★★★
+// ★★★ 天気ごとのキャラクター画像・コメント定義 ★★★
 // ====================================================================
 const weatherMap = {
     'Clear': {
@@ -384,7 +386,7 @@ const weatherMap = {
 
 
 // ====================================================================
-// ★★★ アニメーション機能 (変更なし) ★★★
+// ★★★ アニメーション機能 ★★★
 // ====================================================================
 
 function triggerCharacterAnimation(targetElement) {
@@ -404,80 +406,80 @@ function triggerCharacterAnimation(targetElement) {
 characterImg.addEventListener('click', () => triggerCharacterAnimation(characterImg));
 
 // ====================================================================
-// ★★★ イベントリスナーと画面遷移 (タイトル表示制御を追加) ★★★
+// ★★★ イベントリスナーと画面遷移 ★★★
 // ====================================================================
 
 startBtn.addEventListener('click', () => {
-        const enteredCity = cityInputStart.value.trim();
+    const enteredCity = cityInputStart.value.trim();
 
-        if (!enteredCity) {
-            alert("検索したい都市名を入力してください。");
-            return;
-        }
+    if (!enteredCity) {
+        alert("検索したい都市名を入力してください。");
+        return;
+    }
 
-        startBtn.disabled = true;
+    startBtn.disabled = true;
 
-        // 画面遷移時にグローバルタイトルを非表示にする
-        startWelcomeTitle.classList.add('hidden');
-        startPage.classList.add('hidden');
-        mainContent.classList.remove('hidden');
+    // 画面遷移時にグローバルタイトルを非表示にする
+    startWelcomeTitle.classList.add('hidden');
+    startPage.classList.add('hidden');
+    mainContent.classList.remove('hidden');
 
-        // BGMがON設定であれば再生を試みる (ユーザー操作)
-        if (isBGMPlaying && audioCtx.state !== 'running') {
-            startBGM();
-        }
+    // BGMがON設定であれば再生を試みる (ユーザー操作)
+    if (isBGMPlaying && audioCtx.state !== 'running') {
+        startBGM();
+    }
 
-        cityInput.value = enteredCity;
+    cityInput.value = enteredCity;
 
-        getWeather(enteredCity).finally(() => {
-                startBtn.disabled = false;
-            });
+    getWeather(enteredCity).finally(() => {
+        startBtn.disabled = false;
     });
+});
 
 currentLocationBtn.addEventListener('click', () => {
 
-        // 画面遷移時にグローバルタイトルを非表示にする
-        startWelcomeTitle.classList.add('hidden');
-        
-        // BGMがON設定であれば再生を試みる (ユーザー操作)
-        if (isBGMPlaying && audioCtx.state !== 'running') {
-            startBGM();
-        }
+    // 画面遷移時にグローバルタイトルを非表示にする
+    startWelcomeTitle.classList.add('hidden');
+    
+    // BGMがON設定であれば再生を試みる (ユーザー操作)
+    if (isBGMPlaying && audioCtx.state !== 'running') {
+        startBGM();
+    }
 
-        getCurrentLocationWeather();
-    });
+    getCurrentLocationWeather();
+});
 
 backToStartBtn.addEventListener('click', () => {
-        // スタート画面に戻るときにグローバルタイトルを再表示する
-        startWelcomeTitle.classList.remove('hidden');
-        mainContent.classList.add('hidden');
-        startPage.classList.remove('hidden');
-        cityInputStart.value = '';
-        cityInputStart.focus();
-        closeAllLists();
-    });
+    // スタート画面に戻るときにグローバルタイトルを再表示する
+    startWelcomeTitle.classList.remove('hidden');
+    mainContent.classList.add('hidden');
+    startPage.classList.remove('hidden');
+    cityInputStart.value = '';
+    cityInputStart.focus();
+    closeAllLists();
+});
 
 getWeatherBtn.addEventListener('click', () => {
-        const city = cityInput.value.trim();
+    const city = cityInput.value.trim();
 
-        if (city) {
-            getWeather(city);
-        }
+    if (city) {
+        getWeather(city);
+    }
 
-        else {
-            alert('都市名を入力してください。');
-        }
-    });
+    else {
+        alert('都市名を入力してください。');
+    }
+});
 
 cityInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            getWeatherBtn.click();
-        }
-    });
+    if (e.key === 'Enter') {
+        getWeatherBtn.click();
+    }
+});
 
 
 // ====================================================================
-// ★★★ 現在地検索機能 (Geolocation) (変更なし) ★★★
+// ★★★ 現在地検索機能 (Geolocation) ★★★
 // ====================================================================
 
 function getCurrentLocationWeather() {
@@ -493,18 +495,18 @@ function getCurrentLocationWeather() {
     characterComment.innerHTML = `位置情報を取得中だよ...`;
 
     navigator.geolocation.getCurrentPosition(position => {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            getWeatherByCoords(lat, lon);
-        }
-        ,
-        error => {
-            setLoading(false);
-            handleGeoError(error);
-        }
-        ,
-        {
-        enableHighAccuracy: true, timeout: 5000, maximumAge: 0
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        getWeatherByCoords(lat, lon);
+    }
+    ,
+    error => {
+        setLoading(false);
+        handleGeoError(error);
+    }
+    ,
+    {
+    enableHighAccuracy: true, timeout: 5000, maximumAge: 0
     });
 }
 
@@ -577,7 +579,7 @@ async function getWeatherByCoords(lat, lon) {
 
 
 // ====================================================================
-// ★★★ 都市名から天気取得 (メインロジック) (変更なし) ★★★
+// ★★★ 都市名から天気取得 (メインロジック) ★★★
 // ====================================================================
 
 async function getWeather(city) {
@@ -640,7 +642,7 @@ async function getWeather(city) {
 }
 
 /**
- * ヘッダーHTMLの構造を修正し、都市名と定型文のサイズをCSSで分離できるようにした
+ * 現在の天気情報の表示とキャラクターの更新
  */
 function displayWeather(data, displayCityName) {
     const cityName = displayCityName;
@@ -661,7 +663,7 @@ function displayWeather(data, displayCityName) {
     const sunsetTime = new Date(sunsetTimestamp).toLocaleTimeString('ja-JP', options);
     const dataTime = new Date(dataTimestamp).toLocaleTimeString('ja-JP', options);
 
-    // ★★★ 霧/大気対応済みロジック ★★★
+    // ★★★ キャラクター/コメント設定ロジック ★★★
     const charData = weatherMap[mainWeather] || {
         image: 'img/Q1.png', // デフォルト画像
         comment: (city) => `${description}なんだって。どんな一日になるかな！？`,
@@ -710,7 +712,9 @@ function displayWeather(data, displayCityName) {
     weatherDisplay.innerHTML = weatherHtml;
 }
 
-
+/**
+ * 週間予報の表示
+ */
 function displayForecast(data, displayCityName) {
     if (!forecastDisplay) return;
 
@@ -718,22 +722,22 @@ function displayForecast(data, displayCityName) {
     const today = new Date().toLocaleDateString();
 
     data.list.forEach(item => {
-            const date = new Date(item.dt_txt).toLocaleDateString();
+        const date = new Date(item.dt_txt).toLocaleDateString();
 
-            if (date === today) return;
+        if (date === today) return;
 
-            if (!dailyForecast[date]) {
-                dailyForecast[date] = {
-                    temp_max: -Infinity,
-                    temp_min: Infinity,
-                    weather_main: item.weather[0].main,
-                    dt: item.dt
-                };
-            }
+        if (!dailyForecast[date]) {
+            dailyForecast[date] = {
+                temp_max: -Infinity,
+                temp_min: Infinity,
+                weather_main: item.weather[0].main,
+                dt: item.dt
+            };
+        }
 
-            dailyForecast[date].temp_max = Math.max(dailyForecast[date].temp_max, item.main.temp_max);
-            dailyForecast[date].temp_min = Math.min(dailyForecast[date].temp_min, item.main.temp_min);
-        });
+        dailyForecast[date].temp_max = Math.max(dailyForecast[date].temp_max, item.main.temp_max);
+        dailyForecast[date].temp_min = Math.min(dailyForecast[date].temp_min, item.main.temp_min);
+    });
 
     forecastDisplay.innerHTML = '';
     let forecastHtml = '';
@@ -760,7 +764,7 @@ function displayForecast(data, displayCityName) {
         else if (weatherMain.includes('Rain') || weatherMain.includes('Drizzle') || weatherMain.includes('Squall')) iconSymbol = '☔';
         else if (weatherMain.includes('Snow')) iconSymbol = '☃️';
         else if (weatherMain.includes('Thunderstorm') || weatherMain.includes('Tornado')) iconSymbol = '⚡';
-        // ★★★ 霧/大気対応済み ★★★
+        // 霧/大気対応済み
         else if (weatherMain.includes('Mist') || weatherMain.includes('Fog') || weatherMain.includes('Haze') || weatherMain.includes('Smoke') || weatherMain.includes('Dust') || weatherMain.includes('Sand') || weatherMain.includes('Ash')) iconSymbol = '🌫️';
 
         forecastHtml += ` 
@@ -782,8 +786,8 @@ function displayForecast(data, displayCityName) {
 
             // 週間予報アイテムクリック時にアニメーションを発動
             forecastItem.addEventListener('click', () => {
-                        triggerCharacterAnimation(forecastItem);
-                    });
+                    triggerCharacterAnimation(forecastItem);
+                });
         }
     });
 }
@@ -824,130 +828,65 @@ function handleError(displayCityName, message) {
 }
 
 // ====================================================================
-// ★★★ オートコンプリート機能の実装 (共通化) (変更なし) ★★★
+// ★★★ オートコンプリート機能 ★★★
 // ====================================================================
 
+/**
+ * オートコンプリートリストを閉じる
+ */
 function closeAllLists() {
-    if (autocompleteList) {
-        // リストを非表示にする
-        autocompleteList.classList.add('hidden'); 
-        while (autocompleteList.firstChild) {
-            autocompleteList.removeChild(autocompleteList.firstChild);
-        }
+    autocompleteList.classList.add('hidden');
+    autocompleteList.innerHTML = '';
+}
+
+/**
+ * 入力イベントハンドラー
+ */
+function handleInput(inputElement) {
+    const val = inputElement.value.trim().toLowerCase();
+    closeAllLists();
+
+    if (!val) {
+        return false;
+    }
+
+    const matchedCities = Object.keys(CITY_NAME_MAP)
+        .filter(city => city.toLowerCase().startsWith(val))
+        .slice(0, 5); // 最大5件に制限
+
+    if (matchedCities.length > 0) {
+        matchedCities.forEach(city => {
+            const item = document.createElement('div');
+            item.classList.add('autocomplete-item');
+            
+            // 入力された部分を太字にする
+            const index = city.toLowerCase().indexOf(val);
+            const displayCity = `<strong>${city.substr(index, val.length)}</strong>${city.substr(index + val.length)}`;
+            item.innerHTML = displayCity;
+
+            item.addEventListener('click', function(e) {
+                inputElement.value = city;
+                closeAllLists();
+                // スタート画面のインプットであれば自動で検索ボタンを押す
+                if (inputElement.id === 'city-input-start') {
+                    startBtn.click();
+                } else if (inputElement.id === 'city-input') {
+                    getWeatherBtn.click();
+                }
+            });
+            autocompleteList.appendChild(item);
+        });
+        autocompleteList.classList.remove('hidden');
     }
 }
 
-// ====================================================================
-// ★★★ setupAutocomplete 関数 (部分一致検索に対応) (変更なし) ★★★
-// ====================================================================
-function setupAutocomplete(inputElement, triggerElement) {
-    inputElement.addEventListener('input', function() {
-            const inputValue = this.value.trim();
-            closeAllLists();
+// イベントリスナーの追加
+cityInputStart.addEventListener('input', () => handleInput(cityInputStart));
+cityInput.addEventListener('input', () => handleInput(cityInput));
 
-            if (!inputValue) {
-                return false;
-            }
-
-            const cityKeys = Object.keys(CITY_NAME_MAP);
-            let matchCount = 0;
-            const MAX_CANDIDATES = 10;
-            const upperVal = inputValue.toUpperCase();
-
-            // リストを再表示
-            autocompleteList.classList.remove('hidden');
-            autocompleteList.innerHTML = '';
-
-            const isStartInput = inputElement.id === 'city-input-start';
-            
-            // 親要素の切り替えロジック
-            if (isStartInput) {
-                // スタート画面の入力グループ (.start-input-group) を基準にする
-                const startInputGroup = inputElement.closest('.start-input-group');
-                
-                // オートコンプリートリストを .start-input-group 内に移動
-                if (startInputGroup && autocompleteList.parentNode !== startInputGroup) {
-                    startInputGroup.appendChild(autocompleteList);
-                }
-                
-                // インラインスタイルをリセットし、CSSファイルの設定 (.start-input-group > #autocomplete-list) に任せる
-                autocompleteList.style.cssText = ''; 
-                autocompleteList.style.position = 'absolute'; // positionだけは確実に設定
-
-            } else {
-                // メインコンテンツ側 (.input-area) を基準にする
-                const inputArea = inputElement.closest('.input-area');
-                
-                // オートコンプリートリストを .input-area 内に移動
-                if (inputArea && autocompleteList.parentNode !== inputArea) {
-                    inputArea.appendChild(autocompleteList);
-                }
-                
-                // インラインスタイルをリセットし、CSSファイルの設定 (#autocomplete-list) に任せる
-                autocompleteList.style.cssText = '';
-            }
-
-            
-            for (let i = 0; i < cityKeys.length && matchCount < MAX_CANDIDATES; i++) {
-                const cityKey = cityKeys[i];
-                const upperKey = cityKey.toUpperCase();
-
-                // 部分一致チェック: cityKey（都市名や県名）が入力値を含むか
-                if (upperKey.includes(upperVal)) {
-
-                    let itemDiv = document.createElement("DIV");
-                    itemDiv.setAttribute("class", "autocomplete-item");
-
-                    // 一致部分を太字にするために、一致開始位置と長さを計算
-                    const startIndex = upperKey.indexOf(upperVal);
-                    const matchPart = cityKey.substring(startIndex, startIndex + inputValue.length);
-
-                    // 候補の表示を構成
-                    itemDiv.innerHTML = cityKey.substring(0, startIndex);
-                    itemDiv.innerHTML += "<strong>" + matchPart + "</strong>";
-                    itemDiv.innerHTML += cityKey.substring(startIndex + inputValue.length);
-
-                    // 隠しフィールドには、オートコンプリートで選ばれた日本語名を入れる
-                    itemDiv.innerHTML += "<input type='hidden' value='" + cityKey + "'>";
-
-                    itemDiv.addEventListener("click", function() {
-                                inputElement.value = this.getElementsByTagName("input")[0].value;
-                                closeAllLists();
-
-                                if (triggerElement) {
-                                    triggerElement.click();
-                                }
-                            });
-                    autocompleteList.appendChild(itemDiv);
-                    matchCount++;
-                }
-            }
-
-            if (matchCount === 0) {
-                autocompleteList.classList.add('hidden');
-            }
-        });
-
-    inputElement.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                closeAllLists();
-
-                if (triggerElement) {
-                    triggerElement.click();
-                }
-            }
-        });
-}
-
-document.addEventListener("click", function (e) {
-        if (e.target !== cityInput && e.target !== cityInputStart && e.target.closest('#autocomplete-list') === null) {
-            closeAllLists();
-        }
-    });
-
-// ====================================================================
-// ★★★ 初期化 (変更なし) ★★★
-// ====================================================================
-
-setupAutocomplete(cityInputStart, startBtn);
-setupAutocomplete(cityInput, getWeatherBtn);
+// 他の場所をクリックしたらリストを閉じる
+document.addEventListener("click", function(e) {
+    if (e.target.closest('#autocomplete-list') === null && e.target !== cityInputStart && e.target !== cityInput) {
+        closeAllLists();
+    }
+});
