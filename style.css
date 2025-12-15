@@ -7,7 +7,9 @@ body {
     margin: 0;
     padding: 0;
     
+    /* コンテンツを中央に配置するための設定 */
     display: flex; 
+    flex-direction: column; /* 固定要素のために垂直方向の配置を許可 */
     justify-content: center; 
     align-items: center; 
     
@@ -20,6 +22,26 @@ body {
     background-attachment: fixed;
 }
 
+/* 🔴 修正点1: グローバルタイトルIDの変更と位置・サイズ再調整 */
+#start-welcome-title {
+    position: fixed;
+    top: 50px; /* ★★★ 修正: 上からの位置を調整し、スタート画面上部に配置 ★★★ */
+    left: 50%;
+    transform: translateX(-50%); 
+    z-index: 100; 
+    
+    font-size: 2.8em; 
+    color: #ff6699; 
+    font-weight: 800;
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.9); 
+    white-space: nowrap;
+    
+    /* 初期状態では表示 */
+    display: block; 
+}
+
+
+/* メインコンテンツ（遷移後の画面）のコンテナ */
 .container {
     background-color: #ffffff;
     padding: 20px;
@@ -29,7 +51,7 @@ body {
     max-width: 650px; 
     width: 100%;
     position: relative;
-    padding-top: 55px;
+    padding-top: 55px; /* 戻るボタンのスペース */
 
     min-height: auto; 
     display: flex;
@@ -69,38 +91,60 @@ h2::after {
  * 2. スタート画面 
  * ==================================================================== */
 .start-container {
+    position: relative; 
+    
     background-color: #ffffff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    max-width: 500px; 
+    padding: 30px 25px; 
+    border-radius: 15px; 
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
+    max-width: 600px; 
     width: 90%; 
     text-align: center;
-    margin: auto;
+    
+    /* 🔴 修正点2: グローバルタイトル(top:50px)の下に来るように調整 */
+    margin-top: 150px; /* ★★★ 修正: 距離を確保し重ならないように調整 ★★★ */
+    margin-bottom: 20px; 
+}
+
+/* カード内のタイトル: 「☀️ 天気予報サイト 🌧️」 */
+.start-container h1 {
+    font-size: 2.0em; 
+    color: #ff4d88;
+    margin-top: 15px; 
+    margin-bottom: 25px; 
+    font-weight: bold;
+    border: none;
+}
+
+/* ... (以下、その他のCSSは前回と同じ) ... */
+
+.start-container p {
+    font-size: 1.1em; 
 }
 
 .start-input-group {
     display: flex;
     gap: 10px;
-    margin: 15px auto;
+    margin: 20px auto; 
     width: 90%;
-    max-width: 350px;
+    max-width: 400px; 
+    position: relative; 
 }
 #city-input-start {
     flex-grow: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 15px;
+    padding: 10px; 
+    border: 2px solid #ff99cc; 
+    border-radius: 6px;
+    font-size: 16px;
 }
 #start-btn {
     background-color: #28a745;
     color: white;
     border: none;
-    padding: 8px 15px;
+    padding: 10px 20px; 
     border-radius: 6px;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: bold;
     transition: background-color 0.2s;
 }
@@ -108,19 +152,19 @@ h2::after {
     background-color: #ff6699;
     color: white;
     border: none;
-    padding: 10px 25px;
-    border-radius: 6px;
+    padding: 12px 30px; 
+    border-radius: 8px; 
     cursor: pointer;
-    font-size: 16px;
+    font-size: 17px; 
     font-weight: bold;
     display: block;
-    width: 60%;
-    margin: 10px auto 15px auto;
+    width: 65%; 
+    margin: 15px auto 20px auto;
 }
 .small-text {
-    font-size: 0.8em;
+    font-size: 0.9em; 
     color: #888;
-    margin: 2px 0;
+    margin: 3px 0;
 }
 .small-text1 {
     color: #cc3333;
@@ -188,7 +232,7 @@ h2::after {
     font-size: 15px;
 }
 
-/* オートコンプリートのスタイル */
+/* オートコンプリートのスタイル (メイン画面 - 親要素: .input-area) */
 #autocomplete-list {
     position: absolute;
     top: 100%;
@@ -203,6 +247,18 @@ h2::after {
     border-radius: 0 0 4px 4px;
     margin-top: 1px;
 }
+
+/* スタート画面でのオートコンプリートの位置 (親要素: .start-input-group) */
+.start-input-group > #autocomplete-list {
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    right: 0;
+    width: 100%; 
+    margin-top: 5px; 
+}
+
+
 .autocomplete-item {
     padding: 10px;
     cursor: pointer;
@@ -224,6 +280,7 @@ h2::after {
     padding: 10px;
     border-radius: 8px;
     position: relative;
+    /* CSS変数で色を制御 */
     --comment-bg-color: #C5CAE9;
     --icon-border-color: #007bff;
     min-height: 120px;
@@ -313,7 +370,7 @@ h2::after {
     align-items: center;
     margin-top: 15px;
     margin-bottom: 10px;
-    border-bottom: none !important; /* 確実に下線を削除 */
+    border-bottom: none !important; 
     padding-bottom: 5px;
 }
 
@@ -370,7 +427,7 @@ h2::after {
  * 5. 週間予報 
  * ==================================================================== */
 .forecast-section h2 {
-    font-size: 1.4em !important; 
+    font-size: 1.6em !important; 
     border: none !important; 
     padding-top: 15px;
     display: block; 
@@ -401,16 +458,16 @@ h2::after {
     background-color: #ffe0f0;
     font-size: 0.9em;
     transition: transform 0.1s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s; 
-    cursor: pointer; /* クリック可能であることを示す */
+    cursor: pointer; 
 }
 
-/* ★★★ 週間予報アイテム クリック・ホバー時のスタイル変更 (ご要望の濃い色) ★★★ */
+/* 週間予報アイテム クリック・ホバー時のスタイル変更 */
 .forecast-item:active,
 .forecast-item:hover {
-    background-color: #ffcce0; /* 背景色を濃くする */
-    border-color: #ff6699; /* 枠線を濃くする */
-    transform: scale(0.98); /* 押し込まれたような視覚効果 */
-    box-shadow: 0 0 15px rgba(255, 102, 153, 0.8); /* 影を強調 */
+    background-color: #ffcce0; 
+    border-color: #ff6699; 
+    transform: scale(0.98); 
+    box-shadow: 0 0 15px rgba(255, 102, 153, 0.8); 
 }
 
 
@@ -420,7 +477,7 @@ h2::after {
 }
 
 /* ====================================================================
- * 6. アニメーション設定 (週間予報クリック時)
+ * 6. アニメーション設定 
  * ==================================================================== */
 
 /* 週間予報アイテムクリック時のアニメーション (pulse) */
@@ -451,6 +508,24 @@ h2::after {
  * ==================================================================== */
 @media (max-width: 600px) {
     
+    /* モバイル用のグローバルタイトル調整 */
+    #start-welcome-title {
+        font-size: 1.6em;
+        top: 15px; 
+    }
+    
+    /* スタート画面のコンテナの調整 */
+    .start-container {
+        margin-top: 80px; /* モバイルでは上部タイトルの下に詰める */
+    }
+
+    /* カード内のタイトル調整 (モバイル) */
+    .start-container h1 {
+        font-size: 1.5em;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+    
     /* スマホでの文字サイズ個別調整 */
     h2 {
         font-size: 1.2em !important; 
@@ -458,7 +533,7 @@ h2::after {
     /* 都市名と週間天気タイトルは大きく */
     .forecast-section h2,
     #weather-header-display .city-name-large {
-        font-size: 1.4em !important; 
+        font-size: 1.6em !important; 
     }
     /* 「の現在の天気」は小さく維持 */
     #weather-header-display .subtitle-small {
@@ -499,4 +574,5 @@ h2::after {
             flex-basis: calc(50% - 6px); 
         }
     }
+    
 }

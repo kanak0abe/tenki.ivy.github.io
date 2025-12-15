@@ -3,6 +3,7 @@
 // ====================================================================
 const startPage = document.getElementById('start-page');
 const mainContent = document.getElementById('main-content');
+const startWelcomeTitle = document.getElementById('start-welcome-title'); 
 const startBtn = document.getElementById('start-btn');
 const backToStartBtn = document.getElementById('back-to-start-btn');
 
@@ -26,7 +27,7 @@ const bgmToggleBtn = document.getElementById('bgm-toggle-btn');
 
 
 // ====================================================================
-// ★★★ BGM 制御ロジック (Web Audio API - 正確なループ再生) ★★★
+// ★★★ BGM 制御ロジック (変更なし) ★★★
 // ====================================================================
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -148,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ====================================================================
-// ★★★ ユーティリティ/定数 ★★★
+// ★★★ ユーティリティ/定数 (変更なし) ★★★
 // ====================================================================
 
 const API_KEY = 'b805c0aa4bdcc94949925b79c2c4d405'; // APIキーは公開環境では秘匿化を検討
@@ -180,7 +181,7 @@ function getFormattedTodayDate() {
 }
 
 // ====================================================================
-// ★★★ 拡張された CITY_NAME_MAP (地名リスト) ★★★
+// ★★★ 拡張された CITY_NAME_MAP (地名リスト) (変更なし) ★★★
 // ====================================================================
 const CITY_NAME_MAP = {
     // -------------------
@@ -215,7 +216,7 @@ const CITY_NAME_MAP = {
     '甲府': 'Kofu', '山梨': 'Kofu', '山梨県': 'Kofu',
     '長野': 'Nagano', '長野県': 'Nagano',
     '岐阜': 'Gifu', '岐阜県': 'Gifu',
-    '静岡': 'Shizuoka', '静岡県': 'Shizuoka', // 修正済み
+    '静岡': 'Shizuoka', '静岡県': 'Shizuoka', 
     '名古屋': 'Nagoya', '愛知': 'Nagoya', '愛知県': 'Nagoya',
 
     // -------------------
@@ -255,7 +256,7 @@ const CITY_NAME_MAP = {
     '那覇': 'Naha', '沖縄': 'Naha', '沖縄県': 'Naha',
 
     // -------------------
-    // その他の主要都市（既存のもの）
+    // その他の主要都市（大分県内を含む）
     // -------------------
     '唐津': 'Karatsu',
     '別府': 'Beppu', '中津': 'Nakatsu', '日田': 'Hita', '佐伯': 'Saiki', '臼杵': 'Usuki', '津久見': 'Tsukumi', '竹田': 'Taketa', '豊後高田': 'Bungo-Takada', '杵築': 'Kitsuki', '宇佐': 'Usa', '豊後大野': 'Bungo-ono', '由布': 'Yufu', '国東': 'Kunisaki', '日出': 'Hiji', '玖珠': 'Kusu', '九重': 'Kokonoe',
@@ -286,7 +287,7 @@ const CITY_NAME_MAP = {
 
 
 // ====================================================================
-// ★★★ 天気ごとのキャラクター画像・コメント定義 ★★★
+// ★★★ 天気ごとのキャラクター画像・コメント定義 (変更なし) ★★★
 // ====================================================================
 const weatherMap = {
     'Clear': {
@@ -383,7 +384,7 @@ const weatherMap = {
 
 
 // ====================================================================
-// ★★★ アニメーション機能 ★★★
+// ★★★ アニメーション機能 (変更なし) ★★★
 // ====================================================================
 
 function triggerCharacterAnimation(targetElement) {
@@ -403,7 +404,7 @@ function triggerCharacterAnimation(targetElement) {
 characterImg.addEventListener('click', () => triggerCharacterAnimation(characterImg));
 
 // ====================================================================
-// ★★★ イベントリスナーと画面遷移 ★★★
+// ★★★ イベントリスナーと画面遷移 (タイトル表示制御を追加) ★★★
 // ====================================================================
 
 startBtn.addEventListener('click', () => {
@@ -416,6 +417,8 @@ startBtn.addEventListener('click', () => {
 
         startBtn.disabled = true;
 
+        // 画面遷移時にグローバルタイトルを非表示にする
+        startWelcomeTitle.classList.add('hidden');
         startPage.classList.add('hidden');
         mainContent.classList.remove('hidden');
 
@@ -433,6 +436,9 @@ startBtn.addEventListener('click', () => {
 
 currentLocationBtn.addEventListener('click', () => {
 
+        // 画面遷移時にグローバルタイトルを非表示にする
+        startWelcomeTitle.classList.add('hidden');
+        
         // BGMがON設定であれば再生を試みる (ユーザー操作)
         if (isBGMPlaying && audioCtx.state !== 'running') {
             startBGM();
@@ -442,6 +448,8 @@ currentLocationBtn.addEventListener('click', () => {
     });
 
 backToStartBtn.addEventListener('click', () => {
+        // スタート画面に戻るときにグローバルタイトルを再表示する
+        startWelcomeTitle.classList.remove('hidden');
         mainContent.classList.add('hidden');
         startPage.classList.remove('hidden');
         cityInputStart.value = '';
@@ -469,7 +477,7 @@ cityInput.addEventListener('keypress', (e) => {
 
 
 // ====================================================================
-// ★★★ 現在地検索機能 (Geolocation) ★★★
+// ★★★ 現在地検索機能 (Geolocation) (変更なし) ★★★
 // ====================================================================
 
 function getCurrentLocationWeather() {
@@ -528,6 +536,7 @@ function handleGeoError(error) {
 
     mainContent.classList.add('hidden');
     startPage.classList.remove('hidden');
+    startWelcomeTitle.classList.remove('hidden'); // エラー時もタイトル再表示
 }
 
 async function getWeatherByCoords(lat, lon) {
@@ -568,7 +577,7 @@ async function getWeatherByCoords(lat, lon) {
 
 
 // ====================================================================
-// ★★★ 都市名から天気取得 (メインロジック) ★★★
+// ★★★ 都市名から天気取得 (メインロジック) (変更なし) ★★★
 // ====================================================================
 
 async function getWeather(city) {
@@ -631,7 +640,7 @@ async function getWeather(city) {
 }
 
 /**
- * 🔴 【重要】ヘッダーHTMLの構造を修正し、都市名と定型文のサイズをCSSで分離できるようにした
+ * ヘッダーHTMLの構造を修正し、都市名と定型文のサイズをCSSで分離できるようにした
  */
 function displayWeather(data, displayCityName) {
     const cityName = displayCityName;
@@ -654,7 +663,7 @@ function displayWeather(data, displayCityName) {
 
     // ★★★ 霧/大気対応済みロジック ★★★
     const charData = weatherMap[mainWeather] || {
-        image: 'img/luck.png',
+        image: 'img/Q1.png', // デフォルト画像
         comment: (city) => `${description}なんだって。どんな一日になるかな！？`,
         bgColor: '#f5ffcdff',
         borderColor: '#f5ffcdff'
@@ -675,7 +684,7 @@ function displayWeather(data, displayCityName) {
     // ハイフン付きの日付を挿入
     const todayDate = getFormattedTodayDate();
 
-    // 🔴 修正済みヘッダーHTMLの構築 (都市名に city-name-large クラスを付与)
+    // 修正済みヘッダーHTMLの構築 (都市名に city-name-large クラスを付与)
     const headerHtml = ` 
         <h2 class="weather-title">
             <span class="city-name-large">${cityName}</span>
@@ -815,13 +824,12 @@ function handleError(displayCityName, message) {
 }
 
 // ====================================================================
-// ★★★ オートコンプリート機能の実装 (共通化) ★★★
+// ★★★ オートコンプリート機能の実装 (共通化) (変更なし) ★★★
 // ====================================================================
 
 function closeAllLists() {
     if (autocompleteList) {
-        // スタート画面の入力に対するオートコンプリートも、このリストを使用するため、
-        // メイン画面とスタート画面の入力フィールドからリストが見えないよう設定する
+        // リストを非表示にする
         autocompleteList.classList.add('hidden'); 
         while (autocompleteList.firstChild) {
             autocompleteList.removeChild(autocompleteList.firstChild);
@@ -830,7 +838,7 @@ function closeAllLists() {
 }
 
 // ====================================================================
-// ★★★ setupAutocomplete 関数 (部分一致検索に対応) ★★★
+// ★★★ setupAutocomplete 関数 (部分一致検索に対応) (変更なし) ★★★
 // ====================================================================
 function setupAutocomplete(inputElement, triggerElement) {
     inputElement.addEventListener('input', function() {
@@ -850,26 +858,33 @@ function setupAutocomplete(inputElement, triggerElement) {
             autocompleteList.classList.remove('hidden');
             autocompleteList.innerHTML = '';
 
-            // リストの位置を入力フィールドに合わせる
             const isStartInput = inputElement.id === 'city-input-start';
-            const inputRect = inputElement.getBoundingClientRect();
             
-            // start-pageとmain-contentで親の要素が異なるため、位置を調整
+            // 親要素の切り替えロジック
             if (isStartInput) {
-                // start-containerは中央に配置されるため、input-areaのスタイルを流用できない
-                // 暫定的に、start-input-groupの幅と位置を使い、下に固定する
-                autocompleteList.style.position = 'absolute';
-                autocompleteList.style.top = `${inputRect.bottom + window.scrollY}px`;
-                autocompleteList.style.left = `${inputRect.left}px`;
-                autocompleteList.style.width = `${inputRect.width}px`;
-                autocompleteList.style.maxWidth = `${inputRect.width}px`;
+                // スタート画面の入力グループ (.start-input-group) を基準にする
+                const startInputGroup = inputElement.closest('.start-input-group');
+                
+                // オートコンプリートリストを .start-input-group 内に移動
+                if (startInputGroup && autocompleteList.parentNode !== startInputGroup) {
+                    startInputGroup.appendChild(autocompleteList);
+                }
+                
+                // インラインスタイルをリセットし、CSSファイルの設定 (.start-input-group > #autocomplete-list) に任せる
+                autocompleteList.style.cssText = ''; 
+                autocompleteList.style.position = 'absolute'; // positionだけは確実に設定
+
             } else {
-                // main-content内では input-area が position: relative を持っているため、CSSで定義された位置 (top: 100%) をそのまま使用する
-                autocompleteList.style.position = 'absolute';
-                autocompleteList.style.top = '100%';
-                autocompleteList.style.left = '0';
-                autocompleteList.style.width = 'auto'; // 親の input-area に合わせる
-                autocompleteList.style.maxWidth = '100%';
+                // メインコンテンツ側 (.input-area) を基準にする
+                const inputArea = inputElement.closest('.input-area');
+                
+                // オートコンプリートリストを .input-area 内に移動
+                if (inputArea && autocompleteList.parentNode !== inputArea) {
+                    inputArea.appendChild(autocompleteList);
+                }
+                
+                // インラインスタイルをリセットし、CSSファイルの設定 (#autocomplete-list) に任せる
+                autocompleteList.style.cssText = '';
             }
 
             
@@ -896,13 +911,13 @@ function setupAutocomplete(inputElement, triggerElement) {
                     itemDiv.innerHTML += "<input type='hidden' value='" + cityKey + "'>";
 
                     itemDiv.addEventListener("click", function() {
-                            inputElement.value = this.getElementsByTagName("input")[0].value;
-                            closeAllLists();
+                                inputElement.value = this.getElementsByTagName("input")[0].value;
+                                closeAllLists();
 
-                            if (triggerElement) {
-                                triggerElement.click();
-                            }
-                        });
+                                if (triggerElement) {
+                                    triggerElement.click();
+                                }
+                            });
                     autocompleteList.appendChild(itemDiv);
                     matchCount++;
                 }
@@ -931,7 +946,7 @@ document.addEventListener("click", function (e) {
     });
 
 // ====================================================================
-// ★★★ 初期化 ★★★
+// ★★★ 初期化 (変更なし) ★★★
 // ====================================================================
 
 setupAutocomplete(cityInputStart, startBtn);
