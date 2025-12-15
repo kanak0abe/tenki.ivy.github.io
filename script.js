@@ -299,7 +299,7 @@ const weatherMap = {
     },
     'Clouds': {
         image: 'img/character_clouds.png',
-        comment: (city) => `${city}は曇りかぁ。念のため、傘を持っていこう！☁️`,
+        comment: (city) => `${city}は曇りかぁ。念のため、傘を持っていこう☁️`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },

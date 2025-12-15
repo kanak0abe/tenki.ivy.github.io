@@ -1,4 +1,4 @@
-/* style.css - 改善された最終版 (ゲージ非表示・機能維持・レイアウト調整) */
+/* style.css - 修正適用版 */
 
 /* ====================================================================
  * 1. 基本設定とコンテナ (中央寄せとモバイル上部寄せの調整)
@@ -12,9 +12,9 @@ body {
     /* 垂直方向は上部寄せに変更（コンテンツが上から始まるように） */
     display: flex; 
     justify-content: center; /* 水平方向は中央寄せを維持 */
-    align-items: flex-start; /* 垂直方向は上部寄せに変更 (下部空白解消のため) */
+    align-items: flex-start; /* 垂直方向は上部寄せに変更 */
     
-    min-height: 100vh; /* 画面全体に背景グラデーションを適用するために維持 */
+    min-height: 100vh; 
     
     /* 元のグラデーション背景 */
     background: linear-gradient(135deg,
@@ -29,13 +29,13 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     
-    /* PCでの最大幅を広げ、コンテンツをゆったり表示 (レイアウト拡張) */
+    /* PCでの最大幅を広げ、コンテンツをゆったり表示 */
     max-width: 650px; 
     width: 100%;
     position: relative;
     padding-top: 55px;
 
-    /* 垂直方向の上部寄せ（下部空白解消） */
+    /* 垂直方向の上部寄せ */
     min-height: auto; 
     display: flex;
     flex-direction: column;
@@ -52,7 +52,7 @@ h1 {
     margin-bottom: 15px;
 }
 
-/* h2の基本設定：縦線、下線、文字幅調整、擬似要素による線をすべて削除 */
+/* h2の基本設定 */
 h2 {
     color: #34495e;
     border-left: none; 
@@ -73,7 +73,7 @@ h2::after {
 }
 
 /* ====================================================================
- * 2. スタート画面 (変更なし)
+ * 2. スタート画面 (スマホで拡大する設定を適用)
  * ==================================================================== */
 .start-container {
     background-color: #ffffff;
@@ -282,22 +282,11 @@ h2::after {
 
 /* ローディングスピナー */
 #loading-overlay {
-    /* 🔴 修正: オーバーレイも非表示にする */
     display: none !important; 
 }
 .spinner {
-    /* 🔴 修正: ゲージの要素を強制的に非表示にする */
     display: none !important;
-    
-    /* 元のスタイル (非表示になっているため実質無効) */
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #3498db;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
 }
-
 
 /* 現在の天気タイトルと日付 (罫線削除を維持) */
 #weather-header-display {
@@ -341,7 +330,7 @@ h2::after {
 
 
 /* ====================================================================
- * 5. 週間予報 (変更なし)
+ * 5. 週間予報 (中央揃えに修正)
  * ==================================================================== */
 .forecast-section h2 {
     border-top: none;
@@ -353,7 +342,8 @@ h2::after {
 
 .forecast-container {
     display: flex;
-    justify-content: space-between;
+    /* 🔴 ここを修正: space-between から center に変更し、余白を均等に */
+    justify-content: center;
     flex-wrap: wrap;
     gap: 10px;
     padding: 5px 0;
@@ -361,6 +351,7 @@ h2::after {
 
 .forecast-item {
     box-sizing: border-box;
+    /* PCの5列表示の計算式はそのまま維持 */
     flex-basis: calc(20% - 8px); 
     display: flex;
     flex-direction: column;
@@ -399,6 +390,7 @@ h2::after {
  * 6. レスポンシブ対応 (スマホでの全幅表示と余白調整)
  * ==================================================================== */
 @media (max-width: 600px) {
+    /* 🔴 メインコンテナ: 画面幅いっぱいに */
     .container {
         width: 100%;
         max-width: none; 
@@ -409,6 +401,26 @@ h2::after {
         border-radius: 0;
         box-shadow: none;
         justify-content: flex-start; 
+    }
+
+    /* 🔴 スタート画面: 画面幅いっぱいに拡大 */
+    .start-container {
+        max-width: 100%; 
+        width: 100%;
+        margin: 0; 
+        padding: 20px 10px;
+        box-shadow: none; 
+        border-radius: 0;
+        margin-top: 5vh; 
+    }
+    
+    .start-container h1 {
+        font-size: 1.8em;
+    }
+
+    .start-input-group {
+        width: 95%; /* 画面幅を広く利用 */
+        max-width: none;
     }
     
     .bgm-button.fixed-right-top {
@@ -436,15 +448,18 @@ h2::after {
     
     /* 週間予報：3列表示 (600px以下) */
     .forecast-item {
-        flex-basis: calc(33.333% - 8px); 
-        min-height: 100px;
+        /* 中央揃えを活かすため、flex-basisを調整 */
+        flex-basis: calc(33.333% - 7px); 
+        min-height: 90px;
+        font-size: 0.8em; 
         flex-direction: column; 
     }
     
     /* 週間予報：2列表示 (400px以下) */
     @media (max-width: 400px) {
         .forecast-item {
-            flex-basis: calc(50% - 8px); 
+            /* 中央揃えを活かすため、flex-basisを調整 */
+            flex-basis: calc(50% - 6px); 
         }
     }
 }
