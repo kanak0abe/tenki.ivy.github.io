@@ -25,13 +25,13 @@ body {
 /* 🔴 グローバルタイトル */
 #start-welcome-title {
     position: fixed;
-    top: 30px;
+    top: 100px; /* 👈 修正: タイトルを下に移動 */
     left: 50%;
-    /* 修正: Y軸方向の調整を削除し、X軸方向(-50%)のみで、要素の左端が50%の位置に来るように調整 */
+    /* X軸方向の中央配置 */
     transform: translate(-50%, 0%); 
     z-index: 100;
 
-    /* 追加: テキストの中央揃えを強制 */
+    /* テキストの中央揃えを強制 */
     text-align: center; 
 
     /* PC版の文字サイズ */
@@ -39,7 +39,6 @@ body {
     color: #ff6699;
     font-weight: 800;
     text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.9);
-    /* white-space: nowrap; は改行コード<br>があるので削除（あるいはコメントアウト）しても良いが、今回は中央揃えのために維持する */
     white-space: nowrap;
 
     display: block;
@@ -105,7 +104,7 @@ h2::after {
     text-align: center;
 
     /* グローバルタイトルの下に配置するための調整 */
-    margin-top: 180px;
+    margin-top: 220px; /* 👈 修正: カード位置をさらに下に移動 */
     margin-bottom: 20px;
 }
 
@@ -552,17 +551,24 @@ h2::after {
  * ==================================================================== */
 @media (max-width: 600px) {
 
-    /* グローバルタイトル: PCと同じ設定をベースに、文字サイズだけ縮小 (今回の修正点) */
+    /* グローバルタイトル: PCと同じ設定をベースに、文字サイズを調整 */
     #start-welcome-title {
-        font-size: 2.5em; /* 👈 修正: PCの 4.5em から縮小 */
-        top: 30px; 
-        transform: translate(-50%, 0%); /* 👈 PC版と統一 */
+        font-size: 2.2em; 
+        top: 100px; /* 👈 修正: top: 100pxに統一 */
+        transform: translate(-50%, 0%); 
         text-align: center;
     }
 
-    /* スタート画面のコンテナの調整: PCと同じ設定を維持 */
+    /* メイン画面とスタート画面のカードの幅を大きくする */
+    .container {
+        width: 95%; /* 画面幅に対して広めに */
+        max-width: none; /* 最大幅の制限を解除 */
+    }
+
     .start-container {
-        margin-top: 180px; 
+        width: 95%; /* 画面幅に対して広めに */
+        max-width: none;
+        margin-top: 220px; /* 👈 修正: タイトル位置変更に合わせてカード位置をさらに下げる */
     }
 
     /* キャラクターエリア: PCと同じ横並びを維持 */
@@ -586,5 +592,41 @@ h2::after {
         flex-basis: calc(20% - 8px); 
         min-height: 110px;
         font-size: 0.9em;
+    }
+}
+
+
+/* 🔴 画面幅400px以下のデバイス (iPhone SEなどの小さいスマホ) に特化した調整 */
+@media (max-width: 400px) {
+    #start-welcome-title {
+        font-size: 2.2em; /* 調整: 400px以下でも2.2emを維持 */
+        white-space: normal;
+        line-height: 1.2;
+    }
+
+    /* スタート画面のカードの幅を画面いっぱいに広げる */
+    .start-container {
+        padding: 20px 15px;
+        width: 98%; /* 画面ほぼいっぱいに広げる */
+        margin-top: 200px; /* 👈 修正: タイトル位置変更に合わせてカード位置をさらに下げる */
+    }
+
+    /* メイン画面のカードの幅も画面いっぱいに広げる */
+    .container {
+        width: 98%;
+        padding: 15px;
+        padding-top: 50px;
+    }
+
+    /* 週間予報をスマホ用に4列表示にする */
+    .forecast-item {
+        flex-basis: calc(25% - 7.5px); /* 4列に調整 */
+        font-size: 0.8em;
+    }
+
+    /* BGMボタンのサイズも少し調整 */
+    .bgm-button.fixed-right-top {
+        padding: 6px 12px;
+        font-size: 12px;
     }
 }
