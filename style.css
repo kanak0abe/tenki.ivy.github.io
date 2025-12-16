@@ -1,19 +1,19 @@
 /* ====================================================================
- * 1. 基本設定とコンテナ
+ * 0. HTML要素の基本設定 (全体スクロールの確保と中央寄せの制御)
  * ==================================================================== */
+html {
+    height: 100%;
+    /* 💡【全体スクロールの強制有効化】 */
+    overflow-y: scroll; 
+}
+
 body {
     font-family: 'Noto Sans JP', sans-serif;
     color: #333;
     margin: 0;
     padding: 0;
-
-    /* コンテンツを中央に配置するための設定 */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* 画面上部から配置するよう変更 */
-    align-items: center;
-
-    /* 💡【重要修正】高さを min-height に変更し、コンテンツ量に応じてスクロールを可能にする */
+    
+    /* display: flex は削除済み */
     min-height: 100vh;
     height: auto; 
     
@@ -21,38 +21,33 @@ body {
                 #FFDCDC 0%, #FFECF0 15%, #F0E5FF 30%, #E0E5FF 45%,
                 #E0FFF0 60%, #FFFFE0 75%, #FFE5D0 90%, #FFDCDC 100%);
     background-attachment: fixed;
-    /* 上部にタイトル分の余白を確保 */
-    padding-top: 40px; 
+    
+    /* 💡【レイアウト回復】body自体に幅を制限し、中央寄せを適用 */
+    width: 100%;
+    max-width: 900px; 
+    margin: 0 auto; 
 }
 
 /* 🔴 グローバルタイトル */
 #start-welcome-title {
-    position: fixed;
-    /* 💡【重なり対策】画面の最上部に固定 */
-    top: 0px; 
-    left: 50%;
-    /* X軸方向の中央配置 */
-    transform: translate(-50%, 0%);
+    margin: 0 auto; 
     z-index: 100;
 
     /* テキストの中央揃えを強制 */
     text-align: center;
+    width: 100%; 
+    max-width: 900px; 
+    
+    padding: 50px 0 60px 0; 
 
     /* PC版の文字サイズ */
     font-size: 4.5em;
     color: #ff88aa;
-    /* 鮮やかなピンク */
     font-weight: 900;
-    /* より太く */
-    /* 白い光沢とピンクの強い影 */
     text-shadow:
         0 0 10px rgba(255, 255, 255, 1),
         3px 3px 15px rgba(255, 102, 153, 0.7);
-
-    /* 💡【重なり対策】要素の高さを強制的に確保 */
-    height: 380px; 
     
-    /* 行の高さを適切に確保 */
     line-height: 1.15 !important; 
     white-space: normal !important; 
 
@@ -63,24 +58,24 @@ body {
 .container {
     background-color: #ffffff;
     padding: 25px;
-    /* 💡【修正】下部に余白を追加し、表示切れを防ぐ */
     padding-bottom: 40px; 
     
     border-radius: 12px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 
     max-width: 750px;
-    /* 幅拡張 */
     width: 90%;
     position: relative;
     padding-top: 60px;
     min-height: auto;
-    display: flex;
+    
+    display: flex; 
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
 
-    margin: 40px auto; /* 上下に余白を追加 */
+    /* 中央配置を維持 */
+    margin: 40px auto; 
 }
 
 h1 {
@@ -120,18 +115,18 @@ h2::after {
     border-radius: 15px;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
     max-width: 750px;
-    /* 幅拡張 */
     width: 90%;
     text-align: center;
-
-    /* 💡【重なり対策】タイトル高さ(380px) + 余白(70px) = 450pxで再設定 */
-    margin-top: 450px; 
-    margin-bottom: 30px;
+    
+    /* 中央配置を維持 */
+    margin-top: 0px; 
+    margin-bottom: 50px; 
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* カード内のタイトル: 「☀️ 天気予報 🌧️」 */
 .start-container h1 {
-    /* 💡【文字サイズ調整】 */
     font-size: 3em; 
     color: #ff4d88;
     margin-top: 15px;
@@ -141,7 +136,6 @@ h2::after {
 }
 
 .start-container p {
-    /* 💡【文字サイズ調整】 */
     font-size: 1.2em; 
 }
 
@@ -185,8 +179,12 @@ h2::after {
     font-size: 18px; 
     font-weight: bold;
     display: block;
-    width: 65%;
-    margin: 25px auto 30px auto;
+    
+    /* 💡【ボタン幅修正】現在の天気ボタンの幅を短く調整 */
+    width: 40%; 
+    max-width: 250px; 
+    
+    margin: 25px auto 30px auto; 
 }
 
 .small-text {
@@ -218,7 +216,7 @@ h2::after {
 }
 
 .home-button {
-    position: absolute;
+    position: absolute; 
     top: 15px;
     left: 15px;
     background-color: #ffe0e0;
@@ -226,16 +224,20 @@ h2::after {
 }
 
 .bgm-button.fixed-right-top {
-    position: fixed;
+    /* BGMボタンのみ画面右上に固定 */
+    position: fixed; 
     top: 15px;
     right: 15px;
     background-color: #e0f7fa;
     color: #00bcd4;
+    
+    /* 💡【透過性の追加】コンテンツの邪魔にならないように */
+    opacity: 0.7; 
+    transition: opacity 0.3s;
 }
 
-.bgm-button.off {
-    background-color: #f5f5f5;
-    color: #757575;
+.bgm-button.fixed-right-top:hover {
+    opacity: 1.0; 
 }
 
 /* ====================================================================
@@ -355,7 +357,8 @@ h2::after {
 .character-area::after {
     content: '';
     position: absolute;
-    left: 130px; 
+    /* 💡【吹き出し位置修正】130pxから140pxに調整し、キャラクターとの重なりを解消 */
+    left: 140px; 
     top: 50%;
     transform: translateY(-50%);
     width: 0;
@@ -450,7 +453,7 @@ h2::after {
     flex-shrink: 1;
 }
 
-/* 🔴 最重要調整: 現在の天気情報内の各行のボーダーと余白を徹底的に削減 */
+/* 🔴 現在の天気情報内の各行のボーダーと余白を徹底的に削減 */
 #weather-display p,
 #weather-display hr {
     border: none !important;
@@ -501,19 +504,15 @@ h2::after {
 .forecast-container {
     display: flex;
     justify-content: flex-start;
-    /* 横一列に並べるため左寄せ */
     flex-wrap: nowrap;
-    /* 折り返しを禁止 */
     gap: 15px; 
     padding: 5px 0;
     overflow-x: auto;
-    /* 横スクロールを許可 */
     padding-bottom: 15px; 
 }
 
 .forecast-item {
     box-sizing: border-box;
-    /* 縮小・伸長せず、最小幅を固定して横一列表示を確保 */
     flex: 0 0 calc(20% - 12px); 
     min-width: 120px; 
 
@@ -594,30 +593,17 @@ h2::after {
 
 
 /* ====================================================================
- * 7. レスポンシブ対応 (PCと同じ表示を優先)
+ * 7. レスポンシブ対応 
  * ==================================================================== */
 @media (max-width: 600px) {
 
     /* 🔴 グローバルタイトル - スマホでの位置とサイズ調整 */
     #start-welcome-title {
         font-size: 2.5em;
-        /* 💡【重なり対策】最上部に固定 */
-        top: 0px; 
-        transform: translate(-50%, 0%);
-        text-align: center;
-        /* スマホでもデザインを適用 */
-        color: #ff88aa;
-        font-weight: 900;
-        text-shadow:
-            0 0 5px rgba(255, 255, 255, 1),
-            2px 2px 10px rgba(255, 102, 153, 0.5);
-            
-        /* 💡【重なり対策】スマホでの高さも強制確保 */
-        height: 250px; 
-            
-        /* 行の高さを適切に確保 */
-        line-height: 1.15 !important; 
-        white-space: normal !important; 
+        margin: 0 auto;
+        
+        /* スマホ版の余白を調整 */
+        padding: 30px 0 30px 0; 
     }
 
     /* 🟢 メイン画面のカードの幅を大きくする (スマホでは95%で広めに) */
@@ -625,8 +611,8 @@ h2::after {
         width: 95%;
         max-width: none;
         padding: 20px; 
-        padding-bottom: 30px; /* スマホ版も下余白を確保 */
-        margin: 20px auto;
+        padding-bottom: 30px;
+        margin: 20px auto; 
     }
 
     /* 🟢 スタート画面のカードの幅を大きくする (スマホでは95%で広めに) */
@@ -634,26 +620,11 @@ h2::after {
         width: 95%;
         max-width: none;
         padding: 30px 20px;
-        /* 💡【重なり対策】スマホ版もタイトル全体を避けるため再々増加 (500px) */
-        margin-top: 500px; 
+        /* 中央配置を維持 */
+        margin-top: 0px; 
         margin-bottom: 20px;
-    }
-
-    /* キャラクターエリア: PCと同じ横並びを維持 */
-    .character-area {
-        flex-direction: row;
-        align-items: center;
-        min-height: 120px;
-        gap: 15px;
-    }
-
-    /* 吹き出しの矢印: PCと同じ横向きを維持 */
-    .character-area::after {
-        top: 50%;
-        left: 130px;
-        transform: translateY(-50%);
-        border-width: 8px 8px 8px 0;
-        border-color: transparent var(--comment-bg-color) transparent transparent;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     /* 週間予報: 5列表示（PCと同じ）を維持 */
@@ -663,36 +634,39 @@ h2::after {
         min-height: 120px;
         font-size: 1.0em; 
     }
+    
+    /* 💡【ボタン幅修正】スマホでも現在の天気ボタンの幅を短く調整 */
+    #current-location-btn {
+        width: 60%; 
+        max-width: 250px; 
+    }
+    
+    /* 吹き出しの矢印（スマホ）: PCと同じ横向きを維持 */
+    .character-area::after {
+        /* 💡【吹き出し位置修正】PCと同じ値に設定し、重なりを解消 */
+        left: 140px; 
+    }
 }
 
 
-/* 🔴 画面幅400px以下のデバイス (iPhone SEなどの小さいスマホ) に特化した調整 */
+/* 🔴 画面幅400px以下のデバイス (最小スマホ) に特化した調整 */
 @media (max-width: 400px) {
     #start-welcome-title {
         font-size: 2.0em;
-        /* 💡【重なり対策】最上部に固定 */
-        top: 0px;
-        white-space: normal !important;
-        line-height: 1.2;
-        /* スマホ最小幅でもデザインを適用 */
-        text-shadow:
-            0 0 4px rgba(255, 255, 255, 1),
-            2px 2px 8px rgba(255, 102, 153, 0.5);
-        
-        /* 💡【重なり対策】最小スマホでの高さも強制確保 */
-        height: 200px;
+        /* スマホ最小幅の余白を調整 */
+        padding: 20px 0 20px 0;
     }
     
     .start-container h1 {
-        font-size: 2.5em; /* 小さいスマホでは少し小さく */
+        font-size: 2.5em; 
     }
 
     /* スタート画面のカードの幅を画面いっぱいに広げる */
     .start-container {
         padding: 20px 15px;
         width: 98%;
-        /* 💡【重なり対策】最小スマホ版もタイトル全体を避けるため再々増加 (400px) */
-        margin-top: 400px; 
+        margin-top: 0px; 
+        margin-bottom: 20px;
     }
 
     /* メイン画面のカードの幅も画面いっぱいに広げる */
@@ -701,6 +675,7 @@ h2::after {
         padding: 15px;
         padding-top: 50px;
         padding-bottom: 25px;
+        margin: 15px auto;
     }
 
     /* 週間予報は横スクロールで5列表示を維持 */
@@ -714,5 +689,10 @@ h2::after {
     .bgm-button.fixed-right-top {
         padding: 6px 12px;
         font-size: 12px;
+    }
+    
+    /* 💡【ボタン幅修正】最小スマホでも幅を維持 */
+    #current-location-btn {
+        width: 65%; 
     }
 }
