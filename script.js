@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // ====================================================================
 
 // OpenWeatherMapのAPIキーとURL
-// 注意: 実際のデプロイ時には、APIキーをサーバー側で管理することが推奨されます。
+// 実際のデプロイ時には、APIキーをサーバー側で管理することが推奨されます。
 const API_KEY = 'b805c0aa4bdcc94949925b79c2c4d405'; 
 const CURRENT_BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
 const FORECAST_BASE_URL = 'https://api.openweathermap.org/data/2.5/forecast';
@@ -183,7 +183,7 @@ function getFormattedTodayDate() {
 }
 
 // ====================================================================
-// ★★★ CITY_NAME_MAP (地名リスト) - 大幅追加版 ★★★
+// ★★★ CITY_NAME_MAP (地名リスト)  ★★★
 // ====================================================================
 const CITY_NAME_MAP = {
     // -------------------
@@ -258,7 +258,7 @@ const CITY_NAME_MAP = {
     '那覇': 'Naha', '沖縄': 'Naha', '沖縄県': 'Naha', '宮古島': 'Miyakojima', '石垣島': 'Ishigaki',
     
     // -------------------
-    // 世界の主要都市 (大幅追加)
+    // 世界の主要都市
     // -------------------
     // 北米
     'ニューヨーク': 'New York', 'ロサンゼルス': 'Los Angeles', 'サンフランシスコ': 'San Francisco', 'ボストン': 'Boston', 'シカゴ': 'Chicago', 'シアトル': 'Seattle', 'ラスベガス': 'Las Vegas', 'ヒューストン': 'Houston', 'アトランタ': 'Atlanta', 'ダラス': 'Dallas', 'フィラデルフィア': 'Philadelphia', 'ワシントンD.C.': 'Washington D.C.',
@@ -282,92 +282,92 @@ const CITY_NAME_MAP = {
 // ★★★ 天気ごとのキャラクター画像・コメント定義 ★★★
 // ====================================================================
 const weatherMap = {
-    'Clear': {
+    'Clear': {　// 晴れ
         image: 'img/character_clear.png',
         comment: (city) => `${city}は快晴だよ！お出かけ日和だね！☀️`,
         bgColor: '#FFE0B2',
         borderColor: '#FFC107'
     },
-    'Clouds': {
+    'Clouds': {　// 曇り
         image: 'img/character_clouds.png',
         comment: (city) => `${city}は曇りかぁ。念のため、傘を持っていこう☁️`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
-    'Rain': {
+    'Rain': {　// 雨
         image: 'img/character_rain.png',
         comment: (city) => `${city}は雨が降っているよ。濡れないように気をつけてね☔️`,
         bgColor: '#B3E5FC',
         borderColor: '#2196F3'
     },
-    'Mist': {
-        image: 'img/character_clouds.png',
+    'Mist': { // 霧
+        image: 'img/character_kiri.png',
         comment: (city) => `${city}は霧が出てるみたい。運転や足元に注意だよ！`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
     'Fog': { // 濃霧
-        image: 'img/character_clouds.png',
+        image: 'img/character_noumu.png',
         comment: (city) => `${city}は濃い霧だよ。運転や足元に注意してね！`, 
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
     'Haze': { // もや
-        image: 'img/character_clouds.png',
+        image: 'img/character_cloudsmoya.png',
         comment: (city) => `${city}はもやがかかっているよ。視界に気をつけてね！`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
     'Smoke': { // 煙
-        image: 'img/character_clouds.png',
+        image: 'img/character_cloudskemu.png',
         comment: (city) => `${city}は煙が報告されているよ。空気に注意！`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
     'Dust': { // 塵
-        image: 'img/character_clouds.png',
+        image: 'img/character_cloudstiri.png',
         comment: (city) => `${city}は塵（ちり）が多いみたい。マスクの着用をおすすめするよ！`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
     'Sand': { // 砂
-        image: 'img/character_clouds.png',
+        image: 'img/character_cloudsuna.png',
         comment: (city) => `${city}は砂が多いみたい。空気に注意だよ！`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
     'Ash': { // 火山灰
-        image: 'img/character_clouds.png',
+        image: 'character_cloudskazan.png',
         comment: (city) => `${city}は火山灰が降っているかも。空気に注意だよ！`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
     'Squall': { // スコール/突風
-        image: 'img/character_rain.png',
+        image: 'img/character_squall.png',
         comment: (city) => `${city}は突風やスコールに注意！急な天候変化に備えてね！`,
         bgColor: '#B3E5FC',
         borderColor: '#2196F3'
     },
     'Tornado': { // トルネード
-        image: 'img/character_rain.png',
+        image: 'img/character_tor.png',
         comment: (city) => `${city}は竜巻注意報が出ているよ！安全な場所に避難して！`,
         bgColor: '#B3E5FC',
         borderColor: '#9C27B0'
     },
-    'Snow': {
+    'Snow': { // 雪
         image: 'img/character_snow.png',
         comment: (city) => `${city}は雪！積もるかな？あったかくしてね！☃️`,
         bgColor: '#E3F2FD',
         borderColor: '#00BCD4'
     },
-    'Thunderstorm': {
-        image: 'img/character_rain.png',
+    'Thunderstorm': {　// 雷雨
+        image: 'img/character_raiu.png',
         comment: (city) => `${city}は雷雨の予報！気をつけてね⚡️`,
         bgColor: '#B3E5FC',
         borderColor: '#9C27B0'
     },
-    'Drizzle': {
-        image: 'img/character_rain.png',
+    'Drizzle': {　// 小雨
+        image: 'img/character_rains.png',
         comment: (city) => `${city}は小雨が降っているよ。`,
         bgColor: '#B3E5FC',
         borderColor: '#2196F3'
@@ -677,7 +677,7 @@ function displayWeather(data, displayCityName) {
     // ハイフン付きの日付を挿入
     const todayDate = getFormattedTodayDate();
 
-    // 修正済みヘッダーHTMLの構築 (都市名に city-name-large クラスを付与)
+    // ヘッダーHTMLの構築 (都市名に city-name-large クラスを付与)
     const headerHtml = ` 
         <h2 class="weather-title">
             <span class="city-name-large">${cityName}</span>
@@ -690,7 +690,7 @@ function displayWeather(data, displayCityName) {
         weatherHeaderDisplay.innerHTML = headerHtml;
     }
 
-    // 日の出/日の入り部分を .sun-info-line クラスで一行に強制 (CSSと連携)
+    // 日の出/日の入り部分をCSSと連携
     const weatherHtml = ` 
         <p class="current-temp-line">🌡️ 現在の気温: <strong>${temp}℃</strong></p>
         <p>✨ 詳しい天気: <strong>${description}</strong></p>
@@ -711,7 +711,7 @@ function displayWeather(data, displayCityName) {
 
 /**
  * 週間予報の表示
- * 🔴 5日間表示に制限
+ * 5日間表示
  */
 function displayForecast(data, displayCityName) {
     if (!forecastDisplay) return;
