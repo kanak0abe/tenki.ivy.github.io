@@ -284,13 +284,13 @@ const CITY_NAME_MAP = {
 const weatherMap = {
     'Clear': {　// 晴れ
         image: 'img/character_clear.png',
-        comment: (city) => `${city}は快晴だよ！お出かけ日和だね！☀️`,
+        comment: (city) => `${city}は快晴！お出かけ日和だね！☀️`,
         bgColor: '#FFE0B2',
         borderColor: '#FFC107'
     },
     'Clouds': {　// 曇り
         image: 'img/character_clouds.png',
-        comment: (city) => `${city}は曇りかぁ。念のため、傘を持っていこう☁️`,
+        comment: (city) => `${city}は曇り。念のため、傘を持っていこう☁️`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
