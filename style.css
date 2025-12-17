@@ -6,6 +6,11 @@ html {
     overflow-y: scroll; 
 }
 
+/* 💡 全要素に適用することで、paddingが原因の横幅突き抜けを防止 */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Noto Sans JP', sans-serif;
     color: #333;
@@ -28,7 +33,7 @@ body {
     text-align: center;
     width: 100%; 
     max-width: 900px; 
-    padding: 50px 0 60px 0; 
+    padding: 50px 20px 60px 20px; 
     font-size: 4.5em;
     color: #ff88aa;
     font-weight: 900;
@@ -56,7 +61,7 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
-    margin: 40px auto; 
+    margin: 40px auto; /* 💡 中央寄せ */
 }
 
 h1 {
@@ -97,10 +102,7 @@ h2::after {
     max-width: 750px;
     width: 90%;
     text-align: center;
-    margin-top: 0px; 
-    margin-bottom: 50px; 
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto 50px auto; /* 💡 左右autoで中央配置を徹底 */
 }
 
 /* カード内のタイトル: 「☀️ 天気予報 🌧️」 */
@@ -591,39 +593,43 @@ h2::after {
  * 7. レスポンシブ対応 (モバイル環境での修正)
  * ==================================================================== */
 @media (max-width: 600px) {
-    /* 💡【余白調整】画面の端に十分な余白を設ける */
+    /* 💡【余白調整】画面の端に均等な余白を設ける */
     body {
-        padding-left: 25px; /* さらに余白を増やして、圧迫感を軽減 */
-        padding-right: 25px;
+        padding-left: 20px; 
+        padding-right: 20px;
     }
 
     /* 🔴 グローバルタイトル */
     #start-welcome-title {
         font-size: 2.5em;
         padding: 30px 0 30px 0; 
+        width: 100%;
+        box-sizing: border-box;
     }
 
     /* 🟢 メイン画面のカード */
     .container {
         width: 100%; 
-        max-width: none;
-        padding: 35px; /* 内側パディングを増やす */
+        max-width: 100%;
+        padding: 35px 20px; /* 💡 左右のパディングを均等化 */
         padding-top: 60px; 
         padding-bottom: 40px;
+        margin: 20px auto; /* 💡 中央寄せを徹底 */
     }
 
     /* 🟢 スタート画面のカード */
     .start-container {
         width: 100%; 
-        max-width: none;
-        padding: 45px 35px; /* 内側パディングを大きく増やす */
+        max-width: 100%;
+        padding: 45px 20px; /* 💡 左右のパディングを均等化 */
+        margin: 0 auto 50px auto; /* 💡 中央寄せを徹底 */
     }
     
     /* 💡【最重要修正】検索ボタンの横並びを絶対確保 */
     .start-input-group {
         display: flex;
-        flex-direction: row; /* 横並びを強制 */
-        flex-wrap: nowrap; /* 狭くなっても改行しない */
+        flex-direction: row; 
+        flex-wrap: nowrap; 
         width: 100%; 
         max-width: none;
         gap: 10px;
@@ -633,34 +639,34 @@ h2::after {
     #city-input-start {
         flex-grow: 1;
         width: auto; 
-        min-width: 0; /* 縮小時に柔軟に対応させる */
+        min-width: 0; 
         padding: 12px;
     }
     
     #start-btn {
-        flex-shrink: 0; /* 狭くなってもボタンは絶対に縮まないように固定 */
+        flex-shrink: 0; 
         width: auto; 
         padding: 12px 18px; 
     }
 
-    /* 💡【維持】現在の天気ボタンの幅を短く調整 */
+    /* 現在の天気ボタンの幅調整 */
     #current-location-btn {
-        width: 60%; 
+        width: 80%; 
+        max-width: 280px;
     }
     
-    /* 💡【維持】吹き出しの矢印の位置調整 */
+    /* 吹き出しの矢印の位置調整 */
     .character-area::after {
-        left: 140px; 
+        left: 105px; /* 💡 アイコンサイズ等に合わせて調整 */
     }
 }
 
 
 /* 🔴 画面幅400px以下のデバイス (最小スマホ) に特化した調整 */
 @media (max-width: 400px) {
-    /* 💡【余白調整】最小スマホでの外側余白 */
     body {
-        padding-left: 20px;
-        padding-right: 20px;
+        padding-left: 15px;
+        padding-right: 15px;
     }
     
     #start-welcome-title {
@@ -668,26 +674,12 @@ h2::after {
         padding: 20px 0 20px 0;
     }
     
-    /* スタート画面のカード */
-    .start-container {
-        padding: 35px 25px; /* 最小スマホでも内側余白を確保 */
-        width: 100%;
-    }
-
-    /* メイン画面のカード */
-    .container {
-        width: 100%;
-        padding: 30px 25px;
-        padding-top: 50px;
+    .start-container, .container {
+        padding-left: 15px;
+        padding-right: 15px;
     }
     
-    /* 💡【維持】最小スマホでも横並びを確保 */
-    .start-input-group {
-        gap: 8px; 
-    }
-    
-    /* 💡【維持】現在の天気ボタンの幅を維持 */
     #current-location-btn {
-        width: 65%; 
+        width: 85%; 
     }
 }
