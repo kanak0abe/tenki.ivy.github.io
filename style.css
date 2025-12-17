@@ -3,11 +3,13 @@
  * ==================================================================== */
 html {
     height: 100%;
-    overflow-y: scroll; 
+    overflow-y: scroll;
 }
 
 /* 💡 全要素に適用することで、paddingが原因の横幅突き抜けを防止 */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
@@ -16,32 +18,32 @@ body {
     color: #333;
     margin: 0;
     padding: 0;
-    
+
     min-height: 100vh;
-    height: auto; 
-    
+    height: auto;
+
     background: linear-gradient(135deg,
-                #FFDCDC 0%, #FFECF0 15%, #F0E5FF 30%, #E0E5FF 45%,
-                #E0FFF0 60%, #FFFFE0 75%, #FFE5D0 90%, #FFDCDC 100%);
+            #FFDCDC 0%, #FFECF0 15%, #F0E5FF 30%, #E0E5FF 45%,
+            #E0FFF0 60%, #FFFFE0 75%, #FFE5D0 90%, #FFDCDC 100%);
     background-attachment: fixed;
 }
 
 /* グローバルタイトル */
 #start-welcome-title {
-    margin: 0 auto; 
+    margin: 0 auto;
     z-index: 100;
     text-align: center;
-    width: 100%; 
-    max-width: 900px; 
-    padding: 50px 20px 60px 20px; 
+    width: 100%;
+    max-width: 900px;
+    padding: 50px 20px 60px 20px;
     font-size: 4.5em;
     color: #ff88aa;
     font-weight: 900;
     text-shadow:
         0 0 10px rgba(255, 255, 255, 1),
         3px 3px 15px rgba(255, 102, 153, 0.7);
-    line-height: 1.15 !important; 
-    white-space: normal !important; 
+    line-height: 1.15 !important;
+    white-space: normal !important;
     display: block;
 }
 
@@ -49,7 +51,7 @@ body {
 .container {
     background-color: #ffffff;
     padding: 25px;
-    padding-bottom: 40px; 
+    padding-bottom: 40px;
     border-radius: 12px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
     max-width: 750px;
@@ -57,11 +59,12 @@ body {
     position: relative;
     padding-top: 60px;
     min-height: auto;
-    display: flex; 
+    display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
-    margin: 40px auto; /* 💡 中央寄せ */
+    margin: 40px auto;
+    /* 💡 中央寄せ */
 }
 
 h1 {
@@ -102,12 +105,13 @@ h2::after {
     max-width: 750px;
     width: 90%;
     text-align: center;
-    margin: 0 auto 50px auto; /* 💡 左右autoで中央配置を徹底 */
+    margin: 0 auto 50px auto;
+    /* 💡 左右autoで中央配置を徹底 */
 }
 
 /* カード内のタイトル: 「☀️ 天気予報 🌧️」 */
 .start-container h1 {
-    font-size: 3em; 
+    font-size: 3em;
     color: #ff4d88;
     margin-top: 15px;
     margin-bottom: 25px;
@@ -116,25 +120,25 @@ h2::after {
 }
 
 .start-container p {
-    font-size: 1.2em; 
+    font-size: 1.2em;
 }
 
 /* スタート画面の検索入力欄とボタンのコンテナ (PCレイアウト維持) */
 .start-input-group {
     display: flex;
-    gap: 10px; 
-    margin: 20px auto; 
+    gap: 10px;
+    margin: 20px auto;
     width: 90%;
-    max-width: 450px; 
+    max-width: 450px;
     position: relative;
 }
 
 #city-input-start {
     flex-grow: 1;
-    padding: 12px; 
+    padding: 12px;
     border: 2px solid #ff99cc;
     border-radius: 6px;
-    font-size: 17px; 
+    font-size: 17px;
 }
 
 #start-btn,
@@ -142,32 +146,32 @@ h2::after {
     background-color: #28a745;
     color: white;
     border: none;
-    padding: 12px 25px; 
+    padding: 12px 25px;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 17px; 
+    font-size: 17px;
     font-weight: bold;
     transition: background-color 0.2s;
-    flex-shrink: 0; 
+    flex-shrink: 0;
 }
 
 #current-location-btn {
     background-color: #ff6699;
     color: white;
     border: none;
-    padding: 14px 35px; 
+    padding: 14px 35px;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 18px; 
+    font-size: 18px;
     font-weight: bold;
     display: block;
-    width: 40%; 
-    max-width: 250px; 
-    margin: 25px auto 30px auto; 
+    width: 40%;
+    max-width: 250px;
+    margin: 25px auto 30px auto;
 }
 
 .small-text {
-    font-size: 1.0em; 
+    font-size: 1.0em;
     color: #888;
     margin: 3px 0;
 }
@@ -184,8 +188,8 @@ h2::after {
     z-index: 100;
     border: none;
     border-radius: 20px;
-    padding: 10px 18px; 
-    font-size: 15px; 
+    padding: 10px 18px;
+    font-size: 15px;
     font-weight: bold;
     cursor: pointer;
     display: flex;
@@ -195,7 +199,7 @@ h2::after {
 }
 
 .home-button {
-    position: absolute; 
+    position: absolute;
     top: 15px;
     left: 15px;
     background-color: #ffe0e0;
@@ -203,17 +207,17 @@ h2::after {
 }
 
 .bgm-button.fixed-right-top {
-    position: fixed; 
+    position: fixed;
     top: 15px;
     right: 15px;
     background-color: #e0f7fa;
     color: #00bcd4;
-    opacity: 0.7; 
+    opacity: 0.7;
     transition: opacity 0.3s;
 }
 
 .bgm-button.fixed-right-top:hover {
-    opacity: 1.0; 
+    opacity: 1.0;
 }
 
 /* ====================================================================
@@ -221,22 +225,22 @@ h2::after {
  * ==================================================================== */
 .input-area {
     display: flex;
-    gap: 10px; 
-    margin-bottom: 20px; 
+    gap: 10px;
+    margin-bottom: 20px;
     position: relative;
 }
 
 #city-input {
     flex-grow: 1;
-    padding: 10px 12px; 
+    padding: 10px 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 16px; 
+    font-size: 16px;
 }
 
 #get-weather-btn {
-    padding: 10px 18px; 
-    font-size: 16px; 
+    padding: 10px 18px;
+    font-size: 16px;
 }
 
 /* オートコンプリートのスタイル */
@@ -281,9 +285,9 @@ h2::after {
 .character-area {
     display: flex;
     align-items: center;
-    gap: 20px; 
-    margin: 20px 0; 
-    padding: 15px; 
+    gap: 20px;
+    margin: 20px 0;
+    padding: 15px;
     border-radius: 8px;
     position: relative;
     --comment-bg-color: #C5CAE9;
@@ -293,7 +297,7 @@ h2::after {
 }
 
 #character-img {
-    width: 110px; 
+    width: 110px;
     height: 110px;
     object-fit: contain;
     border-radius: 50%;
@@ -320,9 +324,9 @@ h2::after {
 
 #character-comment {
     flex-grow: 1;
-    padding: 12px 18px; 
+    padding: 12px 18px;
     border-radius: 8px;
-    font-size: 1.0em; 
+    font-size: 1.0em;
     font-weight: bold;
     color: #333;
     background: var(--comment-bg-color);
@@ -333,7 +337,7 @@ h2::after {
 .character-area::after {
     content: '';
     position: absolute;
-    left: 140px; 
+    left: 140px;
     top: 50%;
     transform: translateY(-50%);
     width: 0;
@@ -388,16 +392,18 @@ h2::after {
     0% {
         transform: translateY(0);
     }
+
     50% {
         transform: translateY(-5px);
     }
+
     100% {
         transform: translateY(0);
     }
 }
 
 #main-weather-icon {
-    display: inline-block; 
+    display: inline-block;
     animation: float-y 4s ease-in-out infinite;
     transition: transform 0.3s;
     will-change: transform;
@@ -425,7 +431,7 @@ h2::after {
 
 /* 都市名（例：東京）を大きく */
 #weather-header-display .city-name-large {
-    font-size: 1.5em !important; 
+    font-size: 1.5em !important;
     font-weight: bold;
     color: #34495e;
     display: inline;
@@ -433,7 +439,7 @@ h2::after {
 
 /* 「の現在の天気」を小さく維持 */
 #weather-header-display .subtitle-small {
-    font-size: 1.1em !important; 
+    font-size: 1.1em !important;
     font-weight: normal;
     color: #555;
     display: inline;
@@ -442,7 +448,7 @@ h2::after {
 
 /* 日付情報は小さく維持 */
 #weather-header-display .current-date-info {
-    font-size: 1.1em; 
+    font-size: 1.1em;
     color: #555;
     white-space: nowrap;
     margin: 0;
@@ -455,9 +461,9 @@ h2::after {
 #weather-display hr {
     border: none !important;
     margin: 0 !important;
-    padding: 3px 0 !important; 
-    line-height: 1.5; 
-    font-size: 1.1em; 
+    padding: 3px 0 !important;
+    line-height: 1.5;
+    font-size: 1.1em;
 }
 
 /* HTMLの<hr>タグ（日出/日入りの上にある線）は表示しない */
@@ -468,20 +474,20 @@ h2::after {
 /* 日の出/日の入り行をコンパクトに表示 */
 #weather-display .sun-info-line {
     display: block;
-    margin-top: 10px !important; 
+    margin-top: 10px !important;
     padding-bottom: 5px !important;
 }
 
 /* 日の出と日の入りの間のスペースを削除 */
 #weather-display .sun-info-set {
-    padding-left: 10px !important; 
+    padding-left: 10px !important;
 }
 
 /* データ取得時刻 */
 #weather-display p[style*="font-size: 0.8em;"] {
-    font-size: 0.85em !important; 
+    font-size: 0.85em !important;
     color: #888;
-    margin-top: 5px !important; 
+    margin-top: 5px !important;
 }
 
 
@@ -489,11 +495,11 @@ h2::after {
  * 5. 週間予報 
  * ==================================================================== */
 .forecast-section h2 {
-    font-size: 1.7em !important; 
+    font-size: 1.7em !important;
     border: none !important;
-    padding-top: 20px; 
+    padding-top: 20px;
     display: block;
-    margin-top: 30px !important; 
+    margin-top: 30px !important;
     margin-bottom: 15px !important;
 }
 
@@ -502,28 +508,28 @@ h2::after {
     display: flex;
     justify-content: flex-start;
     flex-wrap: nowrap;
-    gap: 15px; 
+    gap: 15px;
     padding: 5px 0;
     overflow-x: auto;
-    padding-bottom: 15px; 
+    padding-bottom: 15px;
 }
 
 .forecast-item {
     box-sizing: border-box;
-    flex: 0 0 calc(20% - 12px); 
-    min-width: 120px; 
+    flex: 0 0 calc(20% - 12px);
+    min-width: 120px;
 
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    min-height: 130px; 
+    min-height: 130px;
     text-align: center;
-    padding: 10px 5px; 
+    padding: 10px 5px;
     border: 1px solid #f8d7da;
-    border-radius: 8px; 
+    border-radius: 8px;
 
     background-color: #ffe0f0;
-    font-size: 1.1em; 
+    font-size: 1.1em;
     transition: transform 0.1s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
     cursor: pointer;
 }
@@ -539,7 +545,7 @@ h2::after {
 
 
 .item-icon {
-    font-size: 2.0em; 
+    font-size: 2.0em;
     margin: 8px 0;
 }
 
@@ -593,71 +599,77 @@ h2::after {
  * 7. レスポンシブ対応 (モバイル環境での修正)
  * ==================================================================== */
 @media (max-width: 600px) {
+
     /* 💡【余白調整】画面の端に均等な余白を設ける */
     body {
-        padding-left: 20px; 
+        padding-left: 20px;
         padding-right: 20px;
     }
 
     /* グローバルタイトル */
     #start-welcome-title {
         font-size: 2.5em;
-        padding: 30px 0 30px 0; 
+        padding: 30px 0 30px 0;
         width: 100%;
         box-sizing: border-box;
     }
 
     /* メイン画面のカード */
     .container {
-        width: 100%; 
+        width: 100%;
         max-width: 100%;
-        padding: 35px 20px; /* 💡 左右のパディングを均等化 */
-        padding-top: 60px; 
+        padding: 35px 20px;
+        /* 💡 左右のパディングを均等化 */
+        padding-top: 60px;
         padding-bottom: 40px;
-        margin: 20px auto; /* 💡 中央寄せを徹底 */
+        margin: 20px auto;
+        /* 💡 中央寄せを徹底 */
     }
 
     /* スタート画面のカード */
     .start-container {
-        width: 100%; 
+        width: 100%;
         max-width: 100%;
-        padding: 45px 20px; /* 💡 左右のパディングを均等化 */
-        margin: 0 auto 50px auto; /* 💡 中央寄せを徹底 */
+        padding: 45px 20px;
+        /* 💡 左右のパディングを均等化 */
+        margin: 0 auto 50px auto;
+        /* 💡 中央寄せを徹底 */
     }
-    
+
     /* 検索ボタンの横並びを確保 */
     .start-input-group {
         display: flex;
-        flex-direction: row; 
-        flex-wrap: nowrap; 
-        width: 100%; 
+        flex-direction: row;
+        flex-wrap: nowrap;
+        width: 100%;
         max-width: none;
         gap: 10px;
-        margin: 20px auto; 
+        margin: 20px auto;
     }
-    
+
     #city-input-start {
         flex-grow: 1;
-        width: auto; 
-        min-width: 0; 
+        width: auto;
+        min-width: 0;
         padding: 12px;
     }
-    
+
     #start-btn {
-        flex-shrink: 0; 
-        width: auto; 
-        padding: 12px 18px; 
+        flex-shrink: 0;
+        width: auto;
+        padding: 12px 18px;
     }
 
     /* 現在の天気ボタンの幅調整 */
     #current-location-btn {
-        width: 80%; 
+        width: 80%;
         max-width: 280px;
     }
-    
+
     /* 吹き出しの矢印の位置調整 */
     .character-area::after {
-        left: 105px; /* 💡 アイコンサイズ等に合わせて調整 */
+        left: 105px;
+        /* 💡 アイコンサイズ等に合わせて調整 */
     }
 }
 
@@ -668,18 +680,257 @@ h2::after {
         padding-left: 15px;
         padding-right: 15px;
     }
-    
+
     #start-welcome-title {
         font-size: 2.0em;
         padding: 20px 0 20px 0;
     }
-    
-    .start-container, .container {
+
+    .start-container,
+    .container {
         padding-left: 15px;
         padding-right: 15px;
     }
-    
+
     #current-location-btn {
-        width: 85%; 
+        width: 85%;
+    }
+}
+
+/* ====================================================================
+ * レイアウトを変えずに動きだけを注入
+ * ==================================================================== */
+
+/* 1. 背景を動かす（既存のbody設定を上書きしてアニメーションを有効化） */
+body {
+    background-size: 400% 400% !important;
+    animation: gradientBG 15s ease infinite !important;
+}
+
+/* 2. 背景アニメーションの定義 */
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* 3. キャラクターとタイトルの「浮遊・光彩」を追加 */
+#character-img {
+    animation: sway 4s ease-in-out infinite !important;
+}
+
+#start-welcome-title {
+    animation: titleGlow 3s ease-in-out infinite alternate !important;
+}
+
+/* 4. 浮遊と光彩のアニメーション定義 */
+@keyframes sway {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-8px) rotate(1deg) scale(1.02);
+    }
+}
+
+@keyframes titleGlow {
+    from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 1), 3px 3px 15px rgba(255, 102, 153, 0.5);
+    }
+
+    to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 1), 3px 3px 25px rgba(255, 102, 153, 0.8);
+    }
+}
+
+/* 天気アイコンも浮遊させる（すでにIDがある場合） */
+#main-weather-icon {
+    animation: float-y 4s ease-in-out infinite !important;
+}
+
+/* ====================================================================
+ * 動きとクリックリアクションの完全統合
+ * ==================================================================== */
+
+/* 1. 背景を大きくして動かす */
+body {
+    background-size: 400% 400% !important;
+    animation: gradientBG 15s ease infinite !important;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* 2. キャラクターの浮遊（名前を sway-motion に変えて衝突を回避） */
+#character-img {
+    animation: sway-motion 4s ease-in-out infinite !important;
+    transition: transform 0.2s ease !important;
+}
+
+@keyframes sway-motion {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* 3. クリックした時のブルブル（既存の .animate クラスが効くように設定） */
+#character-img.animate {
+    animation: wiggle-click 0.5s ease-in-out !important;
+}
+
+@keyframes wiggle-click {
+
+    0%,
+    100% {
+        transform: rotate(0deg) scale(1.1);
+    }
+
+    25% {
+        transform: rotate(-8deg);
+    }
+
+    75% {
+        transform: rotate(8deg);
+    }
+}
+
+/* 4. タイトルの光彩 */
+#start-welcome-title {
+    animation: titleGlow 3s ease-in-out infinite alternate !important;
+}
+
+@keyframes titleGlow {
+    from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 1), 3px 3px 15px rgba(255, 102, 153, 0.5);
+    }
+
+    to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 1), 3px 3px 25px rgba(255, 102, 153, 0.8);
+    }
+}
+
+/* 5. 天気アイコンの浮遊 */
+#main-weather-icon {
+    animation: float-y-motion 4s ease-in-out infinite !important;
+}
+
+@keyframes float-y-motion {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* ====================================================================
+ * 【サイズアップ】キャラクター・吹き出し・文字の調整
+ * ==================================================================== */
+
+/* 1. キャラクター画像を大きく (110px → 140px) */
+#character-img {
+    width: 140px !important;
+    height: 140px !important;
+    border-width: 6px !important;
+    /* 枠線も少し太くして強調 */
+    animation: sway-motion 4s ease-in-out infinite !important;
+}
+
+/* 2. 吹き出しを大きく、文字を太く大きく */
+#character-comment {
+    font-size: 1.3em !important;
+    /* 文字を大きく (1.0em → 1.3em) */
+    padding: 18px 25px !important;
+    /* 吹き出しの中の余白を広げる */
+    line-height: 1.4 !important;
+    min-height: 80px !important;
+    /* 高さにゆとりを持たせる */
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* 3. 吹き出しの矢印（三角部分）の位置調整 */
+.character-area::after {
+    left: 175px !important;
+    /* 画像が大きくなった分、右へ移動 (140pxから調整) */
+    border-width: 10px 10px 10px 0 !important;
+    /* 矢印も少し大きく */
+}
+
+/* 💡 クリック時のアニメーション（サイズに合わせて拡大率を調整） */
+@keyframes wiggle-click {
+
+    0%,
+    100% {
+        transform: rotate(0deg) scale(1.05);
+    }
+
+    25% {
+        transform: rotate(-8deg) scale(1.1);
+    }
+
+    75% {
+        transform: rotate(8deg) scale(1.1);
+    }
+}
+
+/* 💡 浮遊アニメーション（大きな画像に合わせて動きを最適化） */
+@keyframes sway-motion {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+/* 4. モバイル環境でのサイズ微調整 */
+@media (max-width: 600px) {
+    #character-img {
+        width: 110px !important;
+        height: 110px !important;
+    }
+
+    #character-comment {
+        font-size: 1.1em !important;
+        padding: 12px 18px !important;
+    }
+
+    .character-area::after {
+        left: 140px !important;
     }
 }
