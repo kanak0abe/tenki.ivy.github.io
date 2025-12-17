@@ -934,3 +934,71 @@ body {
         left: 140px !important;
     }
 }
+
+/* ====================================================================
+ * 背景とキャラクターの浮遊アニメーション
+ * ==================================================================== */
+
+/* 1. 背景グラデーションを動かす設定 */
+body {
+    background-size: 400% 400% !important;
+    animation: gradientBG 15s ease infinite !important;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* 2. キャラクターと天気アイコンを常時ゆらゆらさせる */
+#character-img,
+#main-weather-icon {
+    /* 浮遊(sway-constant) */
+    animation: sway-constant 4s ease-in-out infinite !important;
+}
+
+@keyframes sway-constant {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+
+    /* 12px分、上下に動く */
+}
+
+/* 3. クリックした時の「ピクッ」とする動きを優先させる設定 */
+#character-img.animate {
+    animation: wiggle 0.5s ease-in-out !important;
+}
+
+/* 4. 画面を開いた時の「ふわっと登場」 */
+.start-container,
+.container {
+    animation: fadeInUp 1.0s ease-out both !important;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
