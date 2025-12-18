@@ -379,10 +379,25 @@ function displayForecast(data, displayCityName) {
     });
     forecastDisplay.innerHTML = html;
 }
-
+// エラーが発生した時の処理
 function handleError(name, msg) {
-    characterComment.innerHTML = `"${name}" が見つからなかったよ。`;
-    weatherDisplay.innerHTML = `<p style="color:red;">エラーが発生しました。</p>`;
+    setLoading(false);
+    
+    // 見つからない場合は Q1.png を表示
+    characterImg.src = 'img/Q1.png'; 
+    
+    // メッセージも統一
+    characterComment.innerHTML = `ごめんね、その場所は見つからなかったよ。<br>もう一度教えてね！`;
+    
+    // 背景色と枠線もエラー用に変更
+    characterArea.style.setProperty('--comment-bg-color', '#FFCCBC');
+    characterArea.style.setProperty('--icon-border-color', '#FF7043');
+    characterComment.style.background = '#FFCCBC';
+
+    // 天気表示エリアを空にする
+    weatherHeaderDisplay.innerHTML = '';
+    weatherDisplay.innerHTML = `<p style="color:red; font-weight:bold;">「${name}」が見つかりませんでした。</p>`;
+    forecastDisplay.innerHTML = ''; // 週間予報も消す
 }
 
 // ====================================================================
