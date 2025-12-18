@@ -353,7 +353,7 @@ function displayWeather(data, displayCityName) {
     characterArea.style.setProperty('--icon-border-color', charData.borderColor);
     triggerCharacterAnimation(characterImg);
 
-    weatherHeaderDisplay.innerHTML = `<h2 class="weather-title"><span class="city-name-large">${displayCityName}</span>の天気</h2><span class="current-date-info">${getFormattedTodayDate()}</span>`;
+    weatherHeaderDisplay.innerHTML = `<h2 class="weather-title"><span class="city-name-large">${displayCityName}</span>現在の天気</h2><span class="current-date-info">${getFormattedTodayDate()}</span>`;
     weatherDisplay.innerHTML = `<p>🌡️ 気温: <strong>${Math.round(data.main.temp)}℃</strong></p><p>✨ 天気: <strong>${data.weather[0].description}</strong></p><p>💧 湿度: <strong>${data.main.humidity}%</strong></p>`;
 }
 
