@@ -23,8 +23,9 @@
         <p>検索したい都市を入力してください。</p>
         
         <div class="start-input-group">
-            <input type="text" id="city-input-start" placeholder="例: 大分, パリ">
+            <input type="text" id="city-input-start" placeholder="例: 大分, パリ" autocomplete="off">
             <button id="start-btn">検索</button>
+            <div id="autocomplete-list-start" class="autocomplete-list hidden"></div>
         </div>
         
         <button id="current-location-btn">📍現在地の天気</button>
@@ -45,9 +46,9 @@
         <h1>天気予報</h1>
         
         <div class="input-area">
-            <input type="text" id="city-input" placeholder="検索したい都市をいれてね">
+            <input type="text" id="city-input" placeholder="検索したい都市をいれてね" autocomplete="off">
             <button id="get-weather-btn">検索</button>
-            <div id="autocomplete-list" class="hidden"></div>
+            <div id="autocomplete-list" class="autocomplete-list hidden"></div>
         </div>
 
         <div class="character-area" style="--comment-bg-color: #E0E0E0; --icon-border-color: #9E9E9E;">

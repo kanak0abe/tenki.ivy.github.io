@@ -10,7 +10,6 @@ const backToStartBtn = document.getElementById('back-to-start-btn');
 const cityInputStart = document.getElementById('city-input-start');
 const currentLocationBtn = document.getElementById('current-location-btn');
 
-// メイン画面のDOM要素
 const cityInput = document.getElementById('city-input');
 const getWeatherBtn = document.getElementById('get-weather-btn');
 const weatherDisplay = document.getElementById('weather-display');
@@ -19,17 +18,12 @@ const characterImg = document.getElementById('character-img');
 const characterComment = document.getElementById('character-comment');
 const characterArea = document.querySelector('.character-area');
 const forecastDisplay = document.getElementById('forecast-display');
-const autocompleteList = document.getElementById('autocomplete-list');
 const loadingOverlay = document.getElementById('loading-overlay');
-
-// BGM関連のDOM要素
 const bgmToggleBtn = document.getElementById('bgm-toggle-btn');
-
 
 // ====================================================================
 // ★★★ BGM 制御ロジック ★★★
 // ====================================================================
-
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
 
@@ -50,17 +44,13 @@ const LOOP_LENGTH = chords.length * CHORD_DURATION;
 function createNote(freq, start, duration = CHORD_DURATION) {
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
-
     gain.gain.setValueAtTime(0, start);
     gain.gain.linearRampToValueAtTime(0.12, start + 0.3);
     gain.gain.linearRampToValueAtTime(0.05, start + duration - 0.3);
     gain.gain.linearRampToValueAtTime(0, start + duration);
-
     osc.type = "sine";
     osc.frequency.value = freq;
-
     osc.connect(gain).connect(audioCtx.destination);
-
     osc.start(start);
     osc.stop(start + duration);
 }
@@ -70,16 +60,12 @@ function generateMusic() {
         nextLoopTime = audioCtx.currentTime;
         return;
     }
-
     chords.forEach((chord, i) => {
         const t = nextLoopTime + i * CHORD_DURATION;
         chord.forEach(freq => createNote(freq, t, CHORD_DURATION));
     });
-
     nextLoopTime += LOOP_LENGTH;
-
     const timeoutTime = (nextLoopTime - audioCtx.currentTime - LOOKAHEAD_TIME) * 1000;
-
     setTimeout(generateMusic, Math.max(0, timeoutTime));
 }
 
@@ -89,18 +75,13 @@ function stopBGM() {
 }
 
 function startBGM() {
-
-    // ユーザー操作後にaudioCtxが動作していない場合のみresume/start
     if (audioCtx.state === 'suspended') {
         audioCtx.resume();
     }
-
     isBGMPlaying = true;
-
     if (nextLoopTime < audioCtx.currentTime) {
         nextLoopTime = audioCtx.currentTime;
     }
-
     generateMusic();
 }
 
@@ -109,9 +90,7 @@ function toggleBGM() {
         stopBGM();
         localStorage.setItem('bgmState', 'off');
         updateBGMButton(false);
-    }
-
-    else {
+    } else {
         startBGM();
         localStorage.setItem('bgmState', 'on');
         updateBGMButton(true);
@@ -122,9 +101,7 @@ function updateBGMButton(isPlaying) {
     if (isPlaying) {
         bgmToggleBtn.innerHTML = 'BGM: ON 🔈';
         bgmToggleBtn.classList.remove('off');
-    }
-
-    else {
+    } else {
         bgmToggleBtn.innerHTML = 'BGM: OFF 🔇';
         bgmToggleBtn.classList.add('off');
     }
@@ -132,28 +109,15 @@ function updateBGMButton(isPlaying) {
 
 bgmToggleBtn.addEventListener('click', toggleBGM);
 
-// BGMの状態をロードするが、自動再生は試みない (ブラウザの制限対策)
 document.addEventListener('DOMContentLoaded', () => {
     const savedState = localStorage.getItem('bgmState');
-
-    if (savedState === 'off') {
-        isBGMPlaying = false;
-    }
-
-    else {
-        isBGMPlaying = true;
-    }
-
+    isBGMPlaying = (savedState !== 'off');
     updateBGMButton(isBGMPlaying);
 });
-
 
 // ====================================================================
 // ★★★ ユーティリティ/定数 ★★★
 // ====================================================================
-
-// OpenWeatherMapのAPIキーとURL
-// 実際のデプロイ時には、APIキーをサーバー側で管理することが推奨されます。
 const API_KEY = 'b805c0aa4bdcc94949925b79c2c4d405';
 const CURRENT_BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
 const FORECAST_BASE_URL = 'https://api.openweathermap.org/data/2.5/forecast';
@@ -162,32 +126,22 @@ function setLoading(isLoading) {
     if (isLoading) {
         loadingOverlay.classList.remove('hidden');
         getWeatherBtn.disabled = true;
-    }
-
-    else {
+    } else {
         loadingOverlay.classList.add('hidden');
         getWeatherBtn.disabled = false;
     }
 }
 
-
 function getFormattedTodayDate() {
     const today = new Date();
     const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
-
-    const month = today.getMonth() + 1;
-    const day = today.getDate();
-    const dayOfWeek = weekdays[today.getDay()];
-
-    return `- ${month}月${day}日(${dayOfWeek})`;
+    return `- ${today.getMonth() + 1}月${today.getDate()}日(${weekdays[today.getDay()]})`;
 }
+
 // ====================================================================
-// ★★★ CITY_NAME_MAP (国内・海外・観光地・2025トレンド 統合版) ★★★
+// ★★★ CITY_NAME_MAP ★★★
 // ====================================================================
 const CITY_NAME_MAP = {
-    // ------------------------------------------------------------
-    // 1. 日本国内：主要都市（都道府県庁所在地・主要地方都市）
-    // ------------------------------------------------------------
     '札幌': 'Sapporo', '北海道': 'Sapporo', '旭川': 'Asahikawa', '函館': 'Hakodate', '帯広': 'Obihiro', '釧路': 'Kushiro', '小樽': 'Otaru', '苫小牧': 'Tomakomai', '室蘭': 'Muroran', '北見': 'Kitami', '網走': 'Abashiri', '稚内': 'Wakkanai',
     '青森': 'Aomori', '青森県': 'Aomori', '弘前': 'Hirosaki', '八戸': 'Hachinohe',
     '盛岡': 'Morioka', '岩手': 'Morioka', '岩手県': 'Morioka', '大船渡': 'Ofunato',
@@ -231,50 +185,31 @@ const CITY_NAME_MAP = {
     '佐賀': 'Saga', '佐賀県': 'Saga', '唐津': 'Karatsu',
     '長崎': 'Nagasaki', '長崎県': 'Nagasaki', '佐世保': 'Sasebo',
     '熊本': 'Kumamoto', '熊本県': 'Kumamoto', '阿蘇': 'Aso',
-    '大分': 'Oita', '大分県': 'Oita', '別府': 'Beppu', '中津': 'Nakatsu', '日田': 'Hita', '佐伯': 'Saiki', '臼杵': 'Usuki', '津久見': 'Tsukumi', '竹田': 'Taketa', '豊後高田': 'Bungo-Takada', '杵築': 'Kitsuki', '宇佐': 'Usa', '豊後大野': 'Bungo-ono', '由布': 'Yufu', '国東': 'Kunisaki', '日出': 'Hiji', '玖珠': 'Kusu', '九重': 'Kokonoe',
+    '大分': 'Oita', '大分市': 'Oita', '別府': 'Beppu', '中津': 'Nakatsu', '日田': 'Hita', '佐伯': 'Saiki', '臼杵': 'Usuki', '津久見': 'Tsukumi', '竹田': 'Taketa', '豊後高田': 'Bungo-Takada', '杵築': 'Kitsuki', '宇佐': 'Usa', '豊後大野': 'Bungo-ono', '由布': 'Yufu', '国東': 'Kunisaki', '日出': 'Hiji', '玖珠': 'Kusu', '九重': 'Kokonoe',
     '宮崎': 'Miyazaki', '宮崎県': 'Miyazaki', '延岡': 'Nobeoka', '都城': 'Miyakonojo',
     '鹿児島': 'Kagoshima', '鹿児島県': 'Kagoshima', '奄美': 'Amami', '種子島': 'Tanegashima',
     '那覇': 'Naha', '沖縄': 'Naha', '沖縄県': 'Naha', '宮古島': 'Miyakojima', '石垣島': 'Ishigaki',
-
-    // ------------------------------------------------------------
-    // 2. 国内：テーマパーク・絶景・世界遺産
-    // ------------------------------------------------------------
     '舞浜': 'Urayasu', 'ディズニー': 'Urayasu', 'ユニバ': 'Osaka', 'USJ': 'Osaka', 'ハウステンボス': 'Sasebo',
     '白川郷': 'Ono', '屋久島': 'Yakushima', '宮島': 'Hatsukaichi', '厳島神社': 'Hatsukaichi',
     '知床': 'Shari', '直島': 'Naoshima', '美瑛': 'Biei', '富良野': 'Furano', '草津': 'Kusatsu', '名護': 'Nago',
-
-    // ------------------------------------------------------------
-    // 3. 海外：ビーチリゾート・太平洋
-    // ------------------------------------------------------------
     'ハワイ': 'Honolulu', 'ホノルル': 'Honolulu', 'ワイキキ': 'Honolulu',
     'グアム': 'Guam', 'サイパン': 'Saipan',
     'タヒチ': 'Papeete', 'バリ島': 'Bali', 'プーケット': 'Phuket',
     'セブ': 'Cebu', 'セブ島': 'Cebu', 'ボラカイ': 'Boracay', 'ダナン': 'Da Nang',
     'ニャチャン': 'Nha Trang', 'モルディブ': 'Male', 'フィジー': 'Suva', 'カンクン': 'Cancun',
-
-    // ------------------------------------------------------------
-    // 4. 海外：2025年トレンド・絶景・世界遺産
-    // ------------------------------------------------------------
     'ウユニ': 'Uyuni', 'マチュピチュ': 'Machu Picchu', 'ギザ': 'Giza', 'ピラミッド': 'Giza',
     'ロバニエミ': 'Rovaniemi', 'イエローナイフ': 'Yellowknife', 'レイキャビク': 'Reykjavik',
     'モンサンミッシェル': 'Pontorson', 'サントリーニ': 'Thira', 'イビザ': 'Ibiza',
-
-    // ------------------------------------------------------------
-    // 5. 海外：主要都市（北米・欧州・アジア・その他）
-    // ------------------------------------------------------------
-    // 北米・中南米
     'ニューヨーク': 'New York', 'ロサンゼルス': 'Los Angeles', 'サンフランシスコ': 'San Francisco',
     'ラスベガス': 'Las Vegas', 'シアトル': 'Seattle', 'ボストン': 'Boston', 'シカゴ': 'Chicago',
     'オーランド': 'Orlando', 'アナハイム': 'Anaheim', 'バンクーバー': 'Vancouver', 'トロント': 'Toronto',
     'メキシコシティ': 'Mexico City', 'リオデジャネイロ': 'Rio de Janeiro', 'ブエノスアイレス': 'Buenos Aires',
-    // ヨーロッパ
     'パリ': 'Paris', 'ニース': 'Nice', 'ロンドン': 'London', 'エディンバラ': 'Edinburgh',
     'ローマ': 'Rome', 'フィレンツェ': 'Florence', 'ヴェネツィア': 'Venice', 'ミラノ': 'Milan',
     'バルセロナ': 'Barcelona', 'マドリード': 'Madrid', 'ミュンヘン': 'Munich', 'フランクフルト': 'Frankfurt',
     'ベルリン': 'Berlin', 'ウィーン': 'Vienna', 'ザルツブルグ': 'Salzburg', 'プラハ': 'Prague',
     'アムステルダム': 'Amsterdam', 'ブリュッセル': 'Brussels', 'チューリッヒ': 'Zurich',
     'アテネ': 'Athens', 'イスタンブール': 'Istanbul',
-    // アジア・オセアニア
     'ソウル': 'Seoul', '釜山': 'Busan', '済州島': 'Jeju City',
     '台北': 'Taipei', '九份': 'New Taipei City', '高雄': 'Kaohsiung',
     '香港': 'Hong Kong', 'マカオ': 'Macau', 'バンコク': 'Bangkok', 'チェンマイ': 'Chiang Mai',
@@ -282,171 +217,58 @@ const CITY_NAME_MAP = {
     'マニラ': 'Manila', 'ジャカルタ': 'Jakarta', 'プノンペン': 'Phnom Penh', 'ビエンチャン': 'Vientiane',
     'シドニー': 'Sydney', 'メルボルン': 'Melbourne', 'ケアンズ': 'Cairns', 'ゴールドコースト': 'Gold Coast',
     'オークランド': 'Auckland', 'クイーンズタウン': 'Queenstown',
-    // 中東・アフリカ
     'ドバイ': 'Dubai', 'アブダビ': 'Abu Dhabi', 'カイロ': 'Cairo',
     'カサブランカ': 'Casablanca', 'ケープタウン': 'Cape Town'
 };
+
 // ====================================================================
-// ★★★ 天気ごとのキャラクター画像・コメント定義 ★★★
+// ★★★ キャラクター定義 ★★★
 // ====================================================================
 const weatherMap = {
-    'Clear': {　// 晴れ
-        image: 'img/character_clear.png',
-        comment: (city) => `${city}は「快晴」お出かけ日和だね！☀️`,
-        bgColor: '#FFE0B2',
-        borderColor: '#FFC107'
-    },
-    'Clouds': {　// 曇り
-        image: 'img/character_clouds.png',
-        comment: (city) => `${city}は「曇り」だよ。<br>念のため、傘を持っていこう☁️`,
-        bgColor: '#E0E0E0',
-        borderColor: '#9E9E9E'
-    },
-    'Rain': {　// 雨
-        image: 'img/character_rain.png',
-        comment: (city) => `${city}は「雨」が降っているよ。<br>濡れないように気をつけてね☔️`,
-        bgColor: '#B3E5FC',
-        borderColor: '#2196F3'
-    },
-    'Mist': { // 霧
-        image: 'img/character_kiri.png',
-        comment: (city) => `${city}は「霧が」出てるみたい。<br>運転や足元に注意だよ！`,
-        bgColor: '#E0E0E0',
-        borderColor: '#9E9E9E'
-    },
-    'Fog': { // 濃霧
-        image: 'img/character_noumu.png',
-        comment: (city) => `${city}は「濃い霧」だよ。<br>運転や足元に注意してね！`,
-        bgColor: '#E0E0E0',
-        borderColor: '#9E9E9E'
-    },
-    'Haze': { // もや
-        image: 'img/character_cloudsmoya.png',
-        comment: (city) => `${city}は「もや」がかかっているよ。<br>視界に気をつけてね！`,
-        bgColor: '#E0E0E0',
-        borderColor: '#9E9E9E'
-    },
-    'Smoke': { // 煙
-        image: 'img/character_cloudskemu.png',
-        comment: (city) => `${city}は「煙」が報告されているよ。<br>空気に注意！`,
-        bgColor: '#E0E0E0',
-        borderColor: '#9E9E9E'
-    },
-    'Dust': { // 塵
-        image: 'img/character_cloudstiri.png',
-        comment: (city) => `${city}は「塵（ちり）」が多いみたい。<br>マスクの着用をおすすめするよ！`,
-        bgColor: '#E0E0E0',
-        borderColor: '#9E9E9E'
-    },
-    'Sand': { // 砂
-        image: 'img/character_cloudsuna.png',
-        comment: (city) => `${city}は「砂」が多いみたい。<br>空気に注意だよ！`,
-        bgColor: '#E0E0E0',
-        borderColor: '#9E9E9E'
-    },
-    'Ash': { // 火山灰
-        image: 'character_cloudskazan.png',
-        comment: (city) => `${city}は「火山灰」が降っているかも。<br>空気に注意だよ！`,
-        bgColor: '#E0E0E0',
-        borderColor: '#9E9E9E'
-    },
-    'Squall': { // スコール/突風
-        image: 'img/character_squall.png',
-        comment: (city) => `${city}は「突風やスコール」に注意！<br>急な天候変化に備えてね！`,
-        bgColor: '#B3E5FC',
-        borderColor: '#2196F3'
-    },
-    'Tornado': { // トルネード
-        image: 'img/character_tor.png',
-        comment: (city) => `${city}は「竜巻」注意報が出ているよ！<br>安全な場所に避難して！`,
-        bgColor: '#B3E5FC',
-        borderColor: '#9C27B0'
-    },
-    'Snow': { // 雪
-        image: 'img/character_snow.png',
-        comment: (city) => `${city}は「雪」積もるかな？<br>あったかくしてね！☃️`,
-        bgColor: '#E3F2FD',
-        borderColor: '#00BCD4'
-    },
-    'Thunderstorm': {　// 雷雨
-        image: 'img/character_raiu.png',
-        comment: (city) => `${city}は「雷雨」の予報！<br>気をつけてね⚡️`,
-        bgColor: '#B3E5FC',
-        borderColor: '#9C27B0'
-    },
-    'Drizzle': {　// 小雨
-        image: 'img/character_rains.png',
-        comment: (city) => `${city}は「小雨」が降っているよ。<br>お気に入りの傘を持って出かけよう！`,
-        bgColor: '#B3E5FC',
-        borderColor: '#2196F3'
-    }
+    'Clear': { image: 'img/character_clear.png', comment: (city) => `${city}は「快晴」お出かけ日和だね！☀️`, bgColor: '#FFE0B2', borderColor: '#FFC107' },
+    'Clouds': { image: 'img/character_clouds.png', comment: (city) => `${city}は「曇り」だよ。<br>念のため、傘を持っていこう☁️`, bgColor: '#E0E0E0', borderColor: '#9E9E9E' },
+    'Rain': { image: 'img/character_rain.png', comment: (city) => `${city}は「雨」が降っているよ。<br>濡れないように気をつけてね☔️`, bgColor: '#B3E5FC', borderColor: '#2196F3' },
+    'Mist': { image: 'img/character_kiri.png', comment: (city) => `${city}は「霧が」出てるみたい。<br>運転や足元に注意だよ！`, bgColor: '#E0E0E0', borderColor: '#9E9E9E' },
+    'Fog': { image: 'img/character_noumu.png', comment: (city) => `${city}は「濃い霧」だよ。<br>運転や足元に注意してね！`, bgColor: '#E0E0E0', borderColor: '#9E9E9E' },
+    'Haze': { image: 'img/character_cloudsmoya.png', comment: (city) => `${city}は「もや」がかかっているよ。<br>視界に気をつけてね！`, bgColor: '#E0E0E0', borderColor: '#9E9E9E' },
+    'Snow': { image: 'img/character_snow.png', comment: (city) => `${city}は「雪」積もるかな？<br>あったかくしてね！☃️`, bgColor: '#E3F2FD', borderColor: '#00BCD4' },
+    'Thunderstorm': { image: 'img/character_raiu.png', comment: (city) => `${city}は「雷雨」の予報！<br>気をつけてね⚡️`, bgColor: '#B3E5FC', borderColor: '#9C27B0' },
+    'Drizzle': { image: 'img/character_rains.png', comment: (city) => `${city}は「小雨」が降っているよ。<br>お気に入りの傘を持って出かけよう！`, bgColor: '#B3E5FC', borderColor: '#2196F3' }
 };
-// ====================================================================
-// ★★★ アニメーション機能 ★★★
-// ====================================================================
 
+// ====================================================================
+// ★★★ アニメーション ★★★
+// ====================================================================
 function triggerCharacterAnimation(targetElement) {
-    const element = targetElement;
-
-    element.classList.remove('animate');
-    // リフローを強制してアニメーションをリセット
-    element.offsetHeight;
-    element.classList.add('animate');
-
-    setTimeout(() => {
-        element.classList.remove('animate');
-    }
-        , 510);
+    targetElement.classList.remove('animate');
+    targetElement.offsetHeight; // reflow
+    targetElement.classList.add('animate');
+    setTimeout(() => targetElement.classList.remove('animate'), 510);
 }
-
 characterImg.addEventListener('click', () => triggerCharacterAnimation(characterImg));
 
 // ====================================================================
-// ★★★ イベントリスナーと画面遷移 ★★★
+// ★★★ イベントリスナー ★★★
 // ====================================================================
-
 startBtn.addEventListener('click', () => {
     const enteredCity = cityInputStart.value.trim();
-
-    if (!enteredCity) {
-        alert("検索したい都市名を入力してください。");
-        return;
-    }
-
+    if (!enteredCity) { alert("検索したい都市名を入力してください。"); return; }
     startBtn.disabled = true;
-
-    // 画面遷移時にグローバルタイトルを非表示にする
     startWelcomeTitle.classList.add('hidden');
     startPage.classList.add('hidden');
     mainContent.classList.remove('hidden');
-
-    // BGMがON設定であれば再生を試みる (ユーザー操作)
-    if (isBGMPlaying && audioCtx.state !== 'running') {
-        startBGM();
-    }
-
+    if (isBGMPlaying && audioCtx.state !== 'running') startBGM();
     cityInput.value = enteredCity;
-
-    getWeather(enteredCity).finally(() => {
-        startBtn.disabled = false;
-    });
+    getWeather(enteredCity).finally(() => startBtn.disabled = false);
 });
 
 currentLocationBtn.addEventListener('click', () => {
-
-    // 画面遷移時にグローバルタイトルを非表示にする
     startWelcomeTitle.classList.add('hidden');
-
-    // BGMがON設定であれば再生を試みる (ユーザー操作)
-    if (isBGMPlaying && audioCtx.state !== 'running') {
-        startBGM();
-    }
-
+    if (isBGMPlaying && audioCtx.state !== 'running') startBGM();
     getCurrentLocationWeather();
 });
 
 backToStartBtn.addEventListener('click', () => {
-    // スタート画面に戻るときにグローバルタイトルを再表示する
     startWelcomeTitle.classList.remove('hidden');
     mainContent.classList.add('hidden');
     startPage.classList.remove('hidden');
@@ -457,440 +279,152 @@ backToStartBtn.addEventListener('click', () => {
 
 getWeatherBtn.addEventListener('click', () => {
     const city = cityInput.value.trim();
-
-    if (city) {
-        getWeather(city);
-    }
-
-    else {
-        alert('都市名を入力してください。');
-    }
+    if (city) getWeather(city); else alert('都市名を入力してください。');
 });
 
-cityInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        getWeatherBtn.click();
-    }
-});
-
+cityInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') getWeatherBtn.click(); });
 
 // ====================================================================
-// ★★★ 現在地検索機能 (Geolocation) ★★★
+// ★★★ 位置情報検索 ★★★
 // ====================================================================
-
 function getCurrentLocationWeather() {
-    if (!navigator.geolocation) {
-        alert("お使いのブラウザは現在地情報に対応していません。都市名を入力してください。");
-        return;
-    }
-
+    if (!navigator.geolocation) { alert("非対応ブラウザです"); return; }
     setLoading(true);
     startPage.classList.add('hidden');
     mainContent.classList.remove('hidden');
-
     characterComment.innerHTML = `位置情報を取得中だよ...`;
-
-    navigator.geolocation.getCurrentPosition(position => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        getWeatherByCoords(lat, lon);
-    }
-        ,
-        error => {
-            setLoading(false);
-            handleGeoError(error);
-        }
-        ,
-        {
-            enableHighAccuracy: true, timeout: 5000, maximumAge: 0
-        });
+    navigator.geolocation.getCurrentPosition(
+        pos => getWeatherByCoords(pos.coords.latitude, pos.coords.longitude),
+        err => { setLoading(false); handleGeoError(err); },
+        { enableHighAccuracy: true, timeout: 5000 }
+    );
 }
 
 function handleGeoError(error) {
-    let message = '現在地の取得に失敗しました。';
-
-    if (error.code === error.PERMISSION_DENIED) {
-        message = 'ブラウザで位置情報の利用が許可されていません。設定を確認してください。';
-    }
-
-    else if (error.code === error.POSITION_UNAVAILABLE) {
-        message = '位置情報が利用できません。';
-    }
-
-    else if (error.code === error.TIMEOUT) {
-        message = '位置情報の取得がタイムアウトしました。';
-    }
-
-    alert(message);
-
-    const errorBgColor = '#FFCDD2';
-    const errorBorderColor = '#FFCDD2';
-
-    characterComment.innerHTML = `ごめんね。${message}`;
-
-    characterComment.style.background = errorBgColor;
-    characterArea.style.setProperty('--comment-bg-color', errorBgColor);
-    characterArea.style.setProperty('--icon-border-color', errorBorderColor);
-
+    alert('位置情報の取得に失敗しました。');
     mainContent.classList.add('hidden');
     startPage.classList.remove('hidden');
-    startWelcomeTitle.classList.remove('hidden'); // エラー時もタイトル再表示
+    startWelcomeTitle.classList.remove('hidden');
 }
 
 async function getWeatherByCoords(lat, lon) {
     const currentUrl = `${CURRENT_BASE_URL}?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=ja`;
-
     const forecastUrl = `${FORECAST_BASE_URL}?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=ja`;
-
-    if (weatherHeaderDisplay) weatherHeaderDisplay.innerHTML = '';
-    weatherDisplay.innerHTML = `<p>位置情報から天気情報を取得中...</p>`;
-
     try {
-        const [currentResponse, forecastResponse] = await Promise.all([fetch(currentUrl), fetch(forecastUrl)]);
-
-        if (!currentResponse.ok || !forecastResponse.ok) {
-            throw new Error(`天気APIエラー`);
-        }
-
-        const currentData = await currentResponse.json();
-        const forecastData = await forecastResponse.json();
-
-        const finalDisplayCityName = currentData.name || "現在地";
-
-        cityInput.value = finalDisplayCityName;
-
-        displayWeather(currentData, finalDisplayCityName);
-        displayForecast(forecastData, finalDisplayCityName);
-
-    }
-
-    catch (error) {
-        handleError("現在地", error.message);
-    }
-
-    finally {
-        setLoading(false);
-    }
+        const [currRes, foreRes] = await Promise.all([fetch(currentUrl), fetch(forecastUrl)]);
+        const currData = await currRes.json();
+        const foreData = await foreRes.json();
+        const name = currData.name || "現在地";
+        cityInput.value = name;
+        displayWeather(currData, name);
+        displayForecast(foreData, name);
+    } catch (e) { handleError("現在地", e.message); }
+    finally { setLoading(false); }
 }
 
-
 // ====================================================================
-// ★★★ 都市名から天気取得 (メインロジック) ★★★
+// ★★★ 天気取得メイン ★★★
 // ====================================================================
-
 async function getWeather(city) {
     setLoading(true);
     closeAllLists();
-
-    if (weatherHeaderDisplay) weatherHeaderDisplay.innerHTML = '';
-    weatherDisplay.innerHTML = `<p>天気情報を取得中...</p>`;
-
-    if (forecastDisplay) {
-        forecastDisplay.innerHTML = `<p>週間予報を読み込み中...</p>`;
-    }
-
     characterComment.innerHTML = `ちょっと待ってね...`;
-
     let displayCityName = city.trim();
-    let searchCity = city;
-    let normalizedCity = displayCityName.replace(/[\s]+/g, '');
-    let isCityMapped = false;
-
-    if (CITY_NAME_MAP[normalizedCity]) {
-        searchCity = CITY_NAME_MAP[normalizedCity];
-        displayCityName = normalizedCity;
-        isCityMapped = true;
-    }
-
-    else {
-        searchCity = city;
-    }
-
+    let searchCity = CITY_NAME_MAP[displayCityName] || displayCityName;
     const currentUrl = `${CURRENT_BASE_URL}?q=${searchCity}&appid=${API_KEY}&units=metric&lang=ja`;
-
     const forecastUrl = `${FORECAST_BASE_URL}?q=${searchCity}&appid=${API_KEY}&units=metric&lang=ja`;
-
     try {
-        const [currentResponse, forecastResponse] = await Promise.all([fetch(currentUrl), fetch(forecastUrl)]);
-
-        if (!currentResponse.ok || !forecastResponse.ok) {
-            const errorData = await currentResponse.json();
-            throw new Error(errorData.message || `HTTPエラー`);
-        }
-
-        const currentData = await currentResponse.json();
-        const forecastData = await forecastResponse.json();
-
-        let finalDisplayCityName = isCityMapped ? displayCityName : currentData.name;
-
-        displayWeather(currentData, finalDisplayCityName);
-        displayForecast(forecastData, finalDisplayCityName);
-
-    }
-
-    catch (error) {
-        handleError(displayCityName, error.message);
-    }
-
-    finally {
-        setLoading(false);
-    }
+        const [currRes, foreRes] = await Promise.all([fetch(currentUrl), fetch(forecastUrl)]);
+        if (!currRes.ok) throw new Error("City not found");
+        const currData = await currRes.json();
+        const foreData = await foreRes.json();
+        displayWeather(currData, displayCityName);
+        displayForecast(foreData, displayCityName);
+    } catch (e) { handleError(displayCityName, e.message); }
+    finally { setLoading(false); }
 }
 
-/**
- * 現在の天気情報の表示とキャラクターの更新
- * 🔴 レイアウト崩れ修正を適用
- */
 function displayWeather(data, displayCityName) {
-    const cityName = displayCityName;
-    const temp = Math.round(data.main.temp);
-    const description = data.weather[0].description;
-    const mainWeather = data.weather[0].main;
-    const humidity = data.main.humidity;
-    const windSpeed = data.wind.speed;
-
-    const sunriseTimestamp = data.sys.sunrise * 1000;
-    const sunsetTimestamp = data.sys.sunset * 1000;
-    const dataTimestamp = data.dt * 1000;
-
-    const options = {
-        hour: '2-digit', minute: '2-digit', hour12: false
-    };
-    const sunriseTime = new Date(sunriseTimestamp).toLocaleTimeString('ja-JP', options);
-    const sunsetTime = new Date(sunsetTimestamp).toLocaleTimeString('ja-JP', options);
-    const dataTime = new Date(dataTimestamp).toLocaleTimeString('ja-JP', options);
-
-    // ★★★ キャラクター/コメント設定ロジック ★★★
-    const charData = weatherMap[mainWeather] || {
-        image: 'img/Q1.png', // デフォルト画像
-        comment: (city) => `${description}なんだって。どんな一日になるかな！？`,
-        bgColor: '#f5ffcdff',
-        borderColor: '#f5ffcdff'
-    };
-
-    const bgColor = charData.bgColor;
-    const borderColor = charData.borderColor;
-
+    const charData = weatherMap[data.weather[0].main] || { image: 'img/Q1.png', comment: (c) => `天気は${data.weather[0].description}だよ！`, bgColor: '#f5ffcd', borderColor: '#f5ffcd' };
     characterImg.src = charData.image;
-    characterComment.innerHTML = charData.comment(cityName);
-
-    characterComment.style.background = bgColor;
-    characterArea.style.setProperty('--comment-bg-color', bgColor);
-    characterArea.style.setProperty('--icon-border-color', borderColor);
-
+    characterComment.innerHTML = charData.comment(displayCityName);
+    characterComment.style.background = charData.bgColor;
+    characterArea.style.setProperty('--comment-bg-color', charData.bgColor);
+    characterArea.style.setProperty('--icon-border-color', charData.borderColor);
     triggerCharacterAnimation(characterImg);
 
-    // ハイフン付きの日付を挿入
-    const todayDate = getFormattedTodayDate();
-
-    // ヘッダーHTMLの構築 (都市名に city-name-large クラスを付与)
-    const headerHtml = ` 
-        <h2 class="weather-title">
-            <span class="city-name-large">${cityName}</span>
-            <span class="subtitle-small">の現在の天気</span>
-        </h2>
-        <span class="current-date-info">${todayDate}</span>
-    `;
-
-    if (weatherHeaderDisplay) {
-        weatherHeaderDisplay.innerHTML = headerHtml;
-    }
-
-    // 日の出/日の入り部分をCSSと連携
-    const weatherHtml = ` 
-        <p class="current-temp-line">🌡️ 現在の気温: <strong>${temp}℃</strong></p>
-        <p>✨ 詳しい天気: <strong>${description}</strong></p>
-        <p>💧 湿度: <strong>${humidity}%</strong></p>
-        <p>💨 風速: <strong>${windSpeed}m/s</strong></p>
-        
-        <hr style="border: 0; border-top: 1px solid #e0e0e0; margin: 10px 0;">
-        
-        <p class="sun-info-line">
-            <span class="sun-info">🌅 日の出: <strong>${sunriseTime}</strong></span>
-            <span class="sun-info sun-info-set">/ 🌇 日の入り: <strong>${sunsetTime}</strong></span>
-        </p>
-        <p style="font-size: 0.8em; color: #888; margin-top: 5px;">データ取得時刻: ${dataTime}</p>
-    `;
-
-    weatherDisplay.innerHTML = weatherHtml;
+    weatherHeaderDisplay.innerHTML = `<h2 class="weather-title"><span class="city-name-large">${displayCityName}</span>の天気</h2><span class="current-date-info">${getFormattedTodayDate()}</span>`;
+    weatherDisplay.innerHTML = `<p>🌡️ 気温: <strong>${Math.round(data.main.temp)}℃</strong></p><p>✨ 天気: <strong>${data.weather[0].description}</strong></p><p>💧 湿度: <strong>${data.main.humidity}%</strong></p>`;
 }
 
-/**
- * 週間予報の表示
- * 5日間表示
- */
 function displayForecast(data, displayCityName) {
-    if (!forecastDisplay) return;
-
-    const dailyForecast = {};
+    const daily = {};
     const today = new Date().toLocaleDateString();
-
     data.list.forEach(item => {
         const date = new Date(item.dt_txt).toLocaleDateString();
-
         if (date === today) return;
-
-        if (!dailyForecast[date]) {
-            dailyForecast[date] = {
-                temp_max: -Infinity,
-                temp_min: Infinity,
-                weather_main: item.weather[0].main,
-                dt: item.dt
-            };
-        }
-
-        dailyForecast[date].temp_max = Math.max(dailyForecast[date].temp_max, item.main.temp_max);
-        dailyForecast[date].temp_min = Math.min(dailyForecast[date].temp_min, item.main.temp_min);
+        if (!daily[date]) daily[date] = { max: -Infinity, min: Infinity, main: item.weather[0].main, dt: item.dt };
+        daily[date].max = Math.max(daily[date].max, item.main.temp_max);
+        daily[date].min = Math.min(daily[date].min, item.main.temp_min);
     });
-
-    forecastDisplay.innerHTML = '';
-    let forecastHtml = '';
-    // 5日間のみを横並びに表示
-    const forecastDates = Object.keys(dailyForecast).slice(0, 5);
-
-    forecastDates.forEach((dateKey, index) => {
-        const item = dailyForecast[dateKey];
-        const date = new Date(item.dt * 1000);
-
-        const dayOfWeek = date.toLocaleDateString('ja-JP', {
-            weekday: 'short'
-        });
-
-        const monthDay = date.toLocaleDateString('ja-JP', {
-            month: 'numeric', day: 'numeric'
-        });
-
-        const weatherMain = item.weather_main;
-        let iconSymbol = '❓';
-
-        if (weatherMain.includes('Clear')) iconSymbol = '☀️';
-        else if (weatherMain.includes('Clouds')) iconSymbol = '☁️';
-        else if (weatherMain.includes('Rain') || weatherMain.includes('Drizzle') || weatherMain.includes('Squall')) iconSymbol = '☔';
-        else if (weatherMain.includes('Snow')) iconSymbol = '☃️';
-        else if (weatherMain.includes('Thunderstorm') || weatherMain.includes('Tornado')) iconSymbol = '⚡';
-        // 霧/大気対応済み
-        else if (weatherMain.includes('Mist') || weatherMain.includes('Fog') || weatherMain.includes('Haze') || weatherMain.includes('Smoke') || weatherMain.includes('Dust') || weatherMain.includes('Sand') || weatherMain.includes('Ash')) iconSymbol = '🌫️';
-
-        forecastHtml += ` 
-            <div class="forecast-item" id="forecast-item-${index}" >
-                <p class="item-date"><strong>${monthDay}(${dayOfWeek})</strong></p>
-                <p class="item-icon" style="font-size: 1.5rem;">${iconSymbol}</p>
-                <p class="item-temp"><span class="day-temp">${Math.round(item.temp_max)}℃</span> / <span class="night-temp">${Math.round(item.temp_min)}℃</span></p>
-            </div> 
-        `;
+    let html = '';
+    Object.keys(daily).slice(0, 5).forEach((key, i) => {
+        const d = daily[key];
+        const dateObj = new Date(d.dt * 1000);
+        html += `<div class="forecast-item" id="forecast-item-${i}">
+            <p><strong>${dateObj.getMonth()+1}/${dateObj.getDate()}</strong></p>
+            <p style="font-size:1.5rem;">${d.main === 'Clear' ? '☀️' : '☁️'}</p>
+            <p>${Math.round(d.max)}℃ / ${Math.round(d.min)}℃</p>
+        </div>`;
     });
-
-    forecastDisplay.innerHTML = forecastHtml || `<p>週間予報のデータが見つかりませんでした。</p>`;
-
-    forecastDates.forEach((_, index) => {
-        const forecastItem = document.getElementById(`forecast-item-${index}`);
-
-        if (forecastItem) {
-            forecastItem.style.cursor = 'pointer';
-
-            // 週間予報アイテムクリック時にアニメーションを発動
-            forecastItem.addEventListener('click', () => {
-                triggerCharacterAnimation(forecastItem);
-            });
-        }
-    });
+    forecastDisplay.innerHTML = html;
 }
 
-function handleError(displayCityName, message) {
-    if (weatherHeaderDisplay) weatherHeaderDisplay.innerHTML = '';
-
-    weatherDisplay.innerHTML = `<p style="color: red;">エラーが発生しました: ${displayCityName}の天気情報を取得できませんでした。</p>`;
-
-    characterImg.src = 'img/Q1.png';
-
-    let commentText = '';
-
-    if (message && (message.includes('not found') || message.includes('city'))) {
-        commentText = `あれれ？ "${displayCityName}" という場所は見つからなかったよ。入力が正しいか確認してみてね！`;
-    }
-
-    else if (message && message.includes('401')) {
-        commentText = `⚠️ APIキーが無効か期限切れの可能性があります。`;
-    }
-
-    else {
-        commentText = `ごめん、データを取得中に予期せぬエラーが起きたみたい。`;
-    }
-
-    const errorBgColor = '#FFCDD2';
-    const errorBorderColor = '#FFCDD2';
-
-    characterComment.innerHTML = commentText;
-
-    characterComment.style.background = errorBgColor;
-    characterArea.style.setProperty('--comment-bg-color', errorBgColor);
-    characterArea.style.setProperty('--icon-border-color', errorBorderColor);
-
-    if (forecastDisplay) {
-        forecastDisplay.innerHTML = `<p style="color: red;">週間予報の取得に失敗しました。</p>`;
-    }
+function handleError(name, msg) {
+    characterComment.innerHTML = `"${name}" が見つからなかったよ。`;
+    weatherDisplay.innerHTML = `<p style="color:red;">エラーが発生しました。</p>`;
 }
 
 // ====================================================================
-// ★★★ オートコンプリート機能 ★★★
+// ★★★ オートコンプリート (五十音順対応版) ★★★
 // ====================================================================
-
-/**
- * オートコンプリートリストを閉じる
- */
 function closeAllLists() {
-    autocompleteList.classList.add('hidden');
-    autocompleteList.innerHTML = '';
+    document.querySelectorAll('.autocomplete-list').forEach(l => { l.classList.add('hidden'); l.innerHTML = ''; });
 }
 
-/**
- * 入力イベントハンドラー
- */
-function handleInput(inputElement) {
+function handleInputCustom(inputElement, listId) {
     const val = inputElement.value.trim().toLowerCase();
-    closeAllLists();
+    const targetList = document.getElementById(listId);
+    targetList.innerHTML = '';
+    targetList.classList.add('hidden');
+    if (!val) return;
 
-    if (!val) {
-        return false;
-    }
-
+    // ★★★ 五十音順（localeCompare）でソート ★★★
     const matchedCities = Object.keys(CITY_NAME_MAP)
         .filter(city => city.toLowerCase().startsWith(val))
-        .slice(0, 5); // 最大5件に制限
+        .sort((a, b) => a.localeCompare(b, 'ja')) // あいうえお順に並び替え
+        .slice(0, 15);
 
     if (matchedCities.length > 0) {
         matchedCities.forEach(city => {
             const item = document.createElement('div');
             item.classList.add('autocomplete-item');
-
-            // 入力された部分を太字にする
             const index = city.toLowerCase().indexOf(val);
-            const displayCity = `<strong>${city.substring(index, index + val.length)}</strong>${city.substring(index + val.length)}`;
-            item.innerHTML = displayCity;
-
-            item.addEventListener('click', function (e) {
+            item.innerHTML = `<strong>${city.substring(index, index + val.length)}</strong>${city.substring(index + val.length)}`;
+            item.addEventListener('click', () => {
                 inputElement.value = city;
                 closeAllLists();
-                // スタート画面のインプットであれば自動で検索ボタンを押す
-                if (inputElement.id === 'city-input-start') {
-                    startBtn.click();
-                } else if (inputElement.id === 'city-input') {
-                    getWeatherBtn.click();
-                }
+                if (inputElement.id === 'city-input-start') startBtn.click(); else getWeatherBtn.click();
             });
-            autocompleteList.appendChild(item);
+            targetList.appendChild(item);
         });
-        autocompleteList.classList.remove('hidden');
+        targetList.classList.remove('hidden');
     }
 }
 
-// イベントリスナーの追加
-cityInputStart.addEventListener('input', () => handleInput(cityInputStart));
-cityInput.addEventListener('input', () => handleInput(cityInput));
+cityInputStart.addEventListener('input', () => handleInputCustom(cityInputStart, 'autocomplete-list-start'));
+cityInput.addEventListener('input', () => handleInputCustom(cityInput, 'autocomplete-list'));
 
-// 他の場所をクリックしたらリストを閉じる
-document.addEventListener("click", function (e) {
-    if (e.target.closest('#autocomplete-list') === null && e.target !== cityInputStart && e.target !== cityInput) {
-        closeAllLists();
-    }
+document.addEventListener("click", (e) => {
+    if (!e.target.closest('.start-input-group') && !e.target.closest('.input-area')) closeAllLists();
 });
