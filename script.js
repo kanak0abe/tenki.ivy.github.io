@@ -182,34 +182,109 @@ function getFormattedTodayDate() {
     return `- ${month}月${day}日(${dayOfWeek})`;
 }
 // ====================================================================
-// ★★★ CITY_NAME_MAP (地名・観光地・トレンド) ★★★
+// ★★★ CITY_NAME_MAP (国内・海外・観光地・2025トレンド 統合版) ★★★
 // ====================================================================
 const CITY_NAME_MAP = {
-    // --- 国内主要都市 ---
-    '札幌': 'Sapporo', '函館': 'Hakodate', '旭川': 'Asahikawa', '青森': 'Aomori', '仙台': 'Sendai', '秋田': 'Akita', '山形': 'Yamagata', '福島': 'Fukushima',
-    '水戸': 'Mito', '宇都宮': 'Utsunomiya', '前橋': 'Maebashi', 'さいたま': 'Saitama', '千葉': 'Chiba', '東京': 'Tokyo', '横浜': 'Yokohama', '金沢': 'Kanazawa',
-    '福井': 'Fukui', '甲府': 'Kofu', '長野': 'Nagano', '岐阜': 'Gifu', '静岡': 'Shizuoka', '名古屋': 'Nagoya', '津': 'Tsu', '大津': 'Otsu', '京都': 'Kyoto',
-    '大阪': 'Osaka', '神戸': 'Kobe', '奈良': 'Nara', '和歌山': 'Wakayama', '鳥取': 'Tottori', '松江': 'Matsue', '岡山': 'Okayama', '広島': 'Hiroshima',
-    '山口': 'Yamaguchi', '徳島': 'Tokushima', '高松': 'Takamatsu', '松山': 'Matsuyama', '高知': 'Kochi', '福岡': 'Fukuoka', '佐賀': 'Saga', '長崎': 'Nagasaki',
-    '熊本': 'Kumamoto', '大分': 'Oita', '宮崎': 'Miyazaki', '鹿児島': 'Kagoshima', '那覇': 'Naha', '沖縄': 'Naha',
+    // ------------------------------------------------------------
+    // 1. 日本国内：主要都市（都道府県庁所在地・主要地方都市）
+    // ------------------------------------------------------------
+    '札幌': 'Sapporo', '北海道': 'Sapporo', '旭川': 'Asahikawa', '函館': 'Hakodate', '帯広': 'Obihiro', '釧路': 'Kushiro', '小樽': 'Otaru', '苫小牧': 'Tomakomai', '室蘭': 'Muroran', '北見': 'Kitami', '網走': 'Abashiri', '稚内': 'Wakkanai',
+    '青森': 'Aomori', '青森県': 'Aomori', '弘前': 'Hirosaki', '八戸': 'Hachinohe',
+    '盛岡': 'Morioka', '岩手': 'Morioka', '岩手県': 'Morioka', '大船渡': 'Ofunato',
+    '仙台': 'Sendai', '宮城': 'Sendai', '宮城県': 'Sendai', '石巻': 'Ishinomaki',
+    '秋田': 'Akita', '秋田県': 'Akita', '横手': 'Yokote', '大館': 'Odate',
+    '山形': 'Yamagata', '山形県': 'Yamagata', '米沢': 'Yonezawa', '鶴岡': 'Tsuruoka',
+    '福島': 'Fukushima', '福島県': 'Fukushima', '郡山': 'Koriyama', 'いわき': 'Iwaki', '会津若松': 'Aizu-Wakamatsu',
+    '水戸': 'Mito', '茨城': 'Mito', '茨城県': 'Mito', 'つくば': 'Tsukuba', '土浦': 'Tsuchiura',
+    '宇都宮': 'Utsunomiya', '栃木': 'Utsunomiya', '栃木県': 'Utsunomiya', '日光': 'Nikko', '足利': 'Ashikaga',
+    '前橋': 'Maebashi', '群馬': 'Maebashi', '群馬県': 'Maebashi', '高崎': 'Takasaki',
+    'さいたま': 'Saitama', '埼玉': 'Saitama', '埼玉県': 'Saitama', '川越': 'Kawagoe', '熊谷': 'Kumagaya', '所沢': 'Tokorozawa', '越谷': 'Koshigaya', '川口': 'Kawaguchi', '春日部': 'Kasukabe',
+    '千葉': 'Chiba', '千葉県': 'Chiba', '船橋': 'Funabashi', '柏': 'Kashiwa', '市川': 'Ichikawa', '松戸': 'Matsudo', '浦安': 'Urayasu', '成田': 'Narita',
+    '東京': 'Tokyo', '東京都': 'Tokyo', '八王子': 'Hachioji', '町田': 'Machida', '立川': 'Tachikawa', '三鷹': 'Mitaka', '府中': 'Fuchu',
+    '横浜': 'Yokohama', '神奈川': 'Yokohama', '神奈川県': 'Yokohama', '川崎': 'Kawasaki', '相模原': 'Sagamihara', '横須賀': 'Yokosuka', '藤沢': 'Fujisawa', '小田原': 'Odawara', '厚木': 'Atsugi', '茅ヶ崎': 'Chigasaki', '箱根': 'Hakone',
+    '新潟': 'Niigata', '新潟県': 'Niigata', '長岡': 'Nagaoka', '上越': 'Joetsu',
+    '富山': 'Toyama', '富山県': 'Toyama', '高岡': 'Takaoka',
+    '金沢': 'Kanazawa', '石川': 'Kanazawa', '石川県': 'Kanazawa', '小松': 'Komatsu',
+    '福井': 'Fukui', '福井県': 'Fukui', '敦賀': 'Tsuruga',
+    '甲府': 'Kofu', '山梨': 'Kofu', '山梨県': 'Kofu', '富士吉田': 'Fujiyoshida',
+    '長野': 'Nagano', '長野県': 'Nagano', '松本': 'Matsumoto', '軽井沢': 'Karuizawa', '諏訪': 'Suwa',
+    '岐阜': 'Gifu', '岐阜県': 'Gifu', '大垣': 'Ogaki', '高山': 'Takayama',
+    '静岡': 'Shizuoka', '静岡県': 'Shizuoka', '沼津': 'Numazu', '浜松': 'Hamamatsu', '熱海': 'Atami', '伊豆': 'Izu',
+    '名古屋': 'Nagoya', '愛知': 'Nagoya', '愛知県': 'Nagoya', '豊田': 'Toyota', '岡崎': 'Okazaki', '豊橋': 'Toyohashi', '一宮': 'Ichinomiya', '春日井': 'Kasugai',
+    '津': 'Tsu', '三重': 'Tsu', '三重県': 'Tsu', '四日市': 'Yokkaichi', '伊勢': 'Ise', '鳥羽': 'Toba',
+    '大津': 'Otsu', '滋賀': 'Otsu', '滋賀県': 'Otsu', '彦根': 'Hikone',
+    '京都': 'Kyoto', '京都府': 'Kyoto', '福知山': 'Fukuchiyama',
+    '大阪': 'Osaka', '大阪府': 'Osaka', '枚方': 'Hirakata', '堺': 'Sakai', '東大阪': 'Higashiosaka', '高槻': 'Takatsuki', '豊中': 'Toyonaka',
+    '神戸': 'Kobe', '兵庫': 'Kobe', '兵庫県': 'Kobe', '姫路': 'Himeji', '西宮': 'Nishinomiya', '明石': 'Akashi', '尼崎': 'Amagasaki',
+    '奈良': 'Nara', '奈良県': 'Nara',
+    '和歌山': 'Wakayama', '和歌山県': 'Wakayama',
+    '鳥取': 'Tottori', '鳥取県': 'Tottori', '米子': 'Yonago',
+    '松江': 'Matsue', '島根': 'Matsue', '島根県': 'Matsue', '出雲': 'Izumo',
+    '岡山': 'Okayama', '岡山県': 'Okayama', '倉敷': 'Kurashiki',
+    '広島': 'Hiroshima', '広島県': 'Hiroshima', '福山': 'Fukuyama', '呉': 'Kure', '尾道': 'Onomichi',
+    '山口': 'Yamaguchi', '山口県': 'Yamaguchi', '下関': 'Shimonoseki',
+    '徳島': 'Tokushima', '徳島県': 'Tokushima', '鳴門': 'Naruto',
+    '高松': 'Takamatsu', '香川': 'Takamatsu', '香川県': 'Takamatsu',
+    '松山': 'Matsuyama', '愛媛': 'Matsuyama', '愛媛県': 'Matsuyama', '今治': 'Imabari',
+    '高知': 'Kochi', '高知県': 'Kochi',
+    '福岡': 'Fukuoka', '福岡県': 'Fukuoka', '北九州': 'Kitakyushu', '久留米': 'Kurume', '大牟田': 'Omuta',
+    '佐賀': 'Saga', '佐賀県': 'Saga', '唐津': 'Karatsu',
+    '長崎': 'Nagasaki', '長崎県': 'Nagasaki', '佐世保': 'Sasebo',
+    '熊本': 'Kumamoto', '熊本県': 'Kumamoto', '阿蘇': 'Aso',
+    '大分': 'Oita', '大分県': 'Oita', '別府': 'Beppu', '中津': 'Nakatsu', '日田': 'Hita', '佐伯': 'Saiki', '臼杵': 'Usuki', '津久見': 'Tsukumi', '竹田': 'Taketa', '豊後高田': 'Bungo-Takada', '杵築': 'Kitsuki', '宇佐': 'Usa', '豊後大野': 'Bungo-ono', '由布': 'Yufu', '国東': 'Kunisaki', '日出': 'Hiji', '玖珠': 'Kusu', '九重': 'Kokonoe',
+    '宮崎': 'Miyazaki', '宮崎県': 'Miyazaki', '延岡': 'Nobeoka', '都城': 'Miyakonojo',
+    '鹿児島': 'Kagoshima', '鹿児島県': 'Kagoshima', '奄美': 'Amami', '種子島': 'Tanegashima',
+    '那覇': 'Naha', '沖縄': 'Naha', '沖縄県': 'Naha', '宮古島': 'Miyakojima', '石垣島': 'Ishigaki',
 
-    // --- 国内レジャー・絶景・2025トレンド ---
-    'ディズニー': 'Urayasu', '舞浜': 'Urayasu', 'ユニバ': 'Osaka', 'USJ': 'Osaka', 'ハウステンボス': 'Sasebo',
-    '白川郷': 'Ono', '屋久島': 'Yakushima', '宮島': 'Hatsukaichi', '日光': 'Nikko', '箱根': 'Hakone', '軽井沢': 'Karuizawa',
-    '知床': 'Shari', '直島': 'Naoshima', '美瑛': 'Biei', '富良野': 'Furano', '草津': 'Kusatsu', '伊勢': 'Ise', '出雲': 'Izumo',
-    '阿蘇': 'Aso', '石垣島': 'Ishigaki', '宮古島': 'Miyakojima', '名護': 'Nago',
+    // ------------------------------------------------------------
+    // 2. 国内：テーマパーク・絶景・世界遺産
+    // ------------------------------------------------------------
+    '舞浜': 'Urayasu', 'ディズニー': 'Urayasu', 'ユニバ': 'Osaka', 'USJ': 'Osaka', 'ハウステンボス': 'Sasebo',
+    '白川郷': 'Ono', '屋久島': 'Yakushima', '宮島': 'Hatsukaichi', '厳島神社': 'Hatsukaichi',
+    '知床': 'Shari', '直島': 'Naoshima', '美瑛': 'Biei', '富良野': 'Furano', '草津': 'Kusatsu', '名護': 'Nago',
 
-    // --- 海外リゾート・観光地 ---
-    'ハワイ': 'Honolulu', 'ホノルル': 'Honolulu', 'ワイキキ': 'Honolulu', 'グアム': 'Guam', 'サイパン': 'Saipan',
-    'バリ島': 'Bali', 'プーケット': 'Phuket', 'セブ島': 'Cebu', 'ダナン': 'Da Nang', 'ニャチャン': 'Nha Trang',
-    'モルディブ': 'Male', 'タヒチ': 'Papeete', 'ボラカイ': 'Boracay', 'カンクン': 'Cancun',
+    // ------------------------------------------------------------
+    // 3. 海外：ビーチリゾート・太平洋
+    // ------------------------------------------------------------
+    'ハワイ': 'Honolulu', 'ホノルル': 'Honolulu', 'ワイキキ': 'Honolulu',
+    'グアム': 'Guam', 'サイパン': 'Saipan',
+    'タヒチ': 'Papeete', 'バリ島': 'Bali', 'プーケット': 'Phuket',
+    'セブ': 'Cebu', 'セブ島': 'Cebu', 'ボラカイ': 'Boracay', 'ダナン': 'Da Nang',
+    'ニャチャン': 'Nha Trang', 'モルディブ': 'Male', 'フィジー': 'Suva', 'カンクン': 'Cancun',
 
-    // --- 海外主要都市・トレンド ---
-    'ニューヨーク': 'New York', 'ロサンゼルス': 'Los Angeles', 'ロンドン': 'London', 'パリ': 'Paris', 'ソウル': 'Seoul',
-    '台北': 'Taipei', '香港': 'Hong Kong', 'バンコク': 'Bangkok', 'シンガポール': 'Singapore', 'シドニー': 'Sydney',
-    'ローマ': 'Rome', 'バルセロナ': 'Barcelona', 'ベルリン': 'Berlin', 'バンクーバー': 'Vancouver', 'ドバイ': 'Dubai',
-    'ギザ': 'Giza', 'マチュピチュ': 'Machu Picchu', 'ウユニ': 'Uyuni', 'レイキャビク': 'Reykjavik',
-    'イエローナイフ': 'Yellowknife', 'ロバニエミ': 'Rovaniemi', 'カイロ': 'Cairo', 'ケープタウン': 'Cape Town'
+    // ------------------------------------------------------------
+    // 4. 海外：2025年トレンド・絶景・世界遺産
+    // ------------------------------------------------------------
+    'ウユニ': 'Uyuni', 'マチュピチュ': 'Machu Picchu', 'ギザ': 'Giza', 'ピラミッド': 'Giza',
+    'ロバニエミ': 'Rovaniemi', 'イエローナイフ': 'Yellowknife', 'レイキャビク': 'Reykjavik',
+    'モンサンミッシェル': 'Pontorson', 'サントリーニ': 'Thira', 'イビザ': 'Ibiza',
+
+    // ------------------------------------------------------------
+    // 5. 海外：主要都市（北米・欧州・アジア・その他）
+    // ------------------------------------------------------------
+    // 北米・中南米
+    'ニューヨーク': 'New York', 'ロサンゼルス': 'Los Angeles', 'サンフランシスコ': 'San Francisco',
+    'ラスベガス': 'Las Vegas', 'シアトル': 'Seattle', 'ボストン': 'Boston', 'シカゴ': 'Chicago',
+    'オーランド': 'Orlando', 'アナハイム': 'Anaheim', 'バンクーバー': 'Vancouver', 'トロント': 'Toronto',
+    'メキシコシティ': 'Mexico City', 'リオデジャネイロ': 'Rio de Janeiro', 'ブエノスアイレス': 'Buenos Aires',
+    // ヨーロッパ
+    'パリ': 'Paris', 'ニース': 'Nice', 'ロンドン': 'London', 'エディンバラ': 'Edinburgh',
+    'ローマ': 'Rome', 'フィレンツェ': 'Florence', 'ヴェネツィア': 'Venice', 'ミラノ': 'Milan',
+    'バルセロナ': 'Barcelona', 'マドリード': 'Madrid', 'ミュンヘン': 'Munich', 'フランクフルト': 'Frankfurt',
+    'ベルリン': 'Berlin', 'ウィーン': 'Vienna', 'ザルツブルグ': 'Salzburg', 'プラハ': 'Prague',
+    'アムステルダム': 'Amsterdam', 'ブリュッセル': 'Brussels', 'チューリッヒ': 'Zurich',
+    'アテネ': 'Athens', 'イスタンブール': 'Istanbul',
+    // アジア・オセアニア
+    'ソウル': 'Seoul', '釜山': 'Busan', '済州島': 'Jeju City',
+    '台北': 'Taipei', '九份': 'New Taipei City', '高雄': 'Kaohsiung',
+    '香港': 'Hong Kong', 'マカオ': 'Macau', 'バンコク': 'Bangkok', 'チェンマイ': 'Chiang Mai',
+    'シンガポール': 'Singapore', 'クアラルンプール': 'Kuala Lumpur', 'ホーチミン': 'Ho Chi Minh City', 'ハノイ': 'Hanoi',
+    'マニラ': 'Manila', 'ジャカルタ': 'Jakarta', 'プノンペン': 'Phnom Penh', 'ビエンチャン': 'Vientiane',
+    'シドニー': 'Sydney', 'メルボルン': 'Melbourne', 'ケアンズ': 'Cairns', 'ゴールドコースト': 'Gold Coast',
+    'オークランド': 'Auckland', 'クイーンズタウン': 'Queenstown',
+    // 中東・アフリカ
+    'ドバイ': 'Dubai', 'アブダビ': 'Abu Dhabi', 'カイロ': 'Cairo',
+    'カサブランカ': 'Casablanca', 'ケープタウン': 'Cape Town'
 };
 // ====================================================================
 // ★★★ 天気ごとのキャラクター画像・コメント定義 ★★★
@@ -217,97 +292,95 @@ const CITY_NAME_MAP = {
 const weatherMap = {
     'Clear': {　// 晴れ
         image: 'img/character_clear.png',
-        comment: (city) => `${city}は快晴！お出かけ日和だね！☀️`,
+        comment: (city) => `${city}は「快晴」お出かけ日和だね！☀️`,
         bgColor: '#FFE0B2',
         borderColor: '#FFC107'
     },
     'Clouds': {　// 曇り
-        image: 'img/character_rains.png',
-        comment: (city) => `${city}は曇り。念のため、傘を持っていこう☁️`,
+        image: 'img/character_clouds.png',
+        comment: (city) => `${city}は「曇り」だよ。<br>念のため、傘を持っていこう☁️`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
     'Rain': {　// 雨
         image: 'img/character_rain.png',
-        comment: (city) => `${city}は雨が降っているよ。濡れないように気をつけてね☔️`,
+        comment: (city) => `${city}は「雨」が降っているよ。<br>濡れないように気をつけてね☔️`,
         bgColor: '#B3E5FC',
         borderColor: '#2196F3'
     },
     'Mist': { // 霧
         image: 'img/character_kiri.png',
-        comment: (city) => `${city}は霧が出てるみたい。運転や足元に注意だよ！`,
+        comment: (city) => `${city}は「霧が」出てるみたい。<br>運転や足元に注意だよ！`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
     'Fog': { // 濃霧
         image: 'img/character_noumu.png',
-        comment: (city) => `${city}は濃い霧だよ。運転や足元に注意してね！`,
+        comment: (city) => `${city}は「濃い霧」だよ。<br>運転や足元に注意してね！`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
     'Haze': { // もや
         image: 'img/character_cloudsmoya.png',
-        comment: (city) => `${city}はもやがかかっているよ。視界に気をつけてね！`,
+        comment: (city) => `${city}は「もや」がかかっているよ。<br>視界に気をつけてね！`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
     'Smoke': { // 煙
         image: 'img/character_cloudskemu.png',
-        comment: (city) => `${city}は煙が報告されているよ。空気に注意！`,
+        comment: (city) => `${city}は「煙」が報告されているよ。<br>空気に注意！`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
     'Dust': { // 塵
         image: 'img/character_cloudstiri.png',
-        comment: (city) => `${city}は塵（ちり）が多いみたい。マスクの着用をおすすめするよ！`,
+        comment: (city) => `${city}は「塵（ちり）」が多いみたい。<br>マスクの着用をおすすめするよ！`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
     'Sand': { // 砂
         image: 'img/character_cloudsuna.png',
-        comment: (city) => `${city}は砂が多いみたい。空気に注意だよ！`,
+        comment: (city) => `${city}は「砂」が多いみたい。<br>空気に注意だよ！`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
     'Ash': { // 火山灰
         image: 'character_cloudskazan.png',
-        comment: (city) => `${city}は火山灰が降っているかも。空気に注意だよ！`,
+        comment: (city) => `${city}は「火山灰」が降っているかも。<br>空気に注意だよ！`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
     'Squall': { // スコール/突風
         image: 'img/character_squall.png',
-        comment: (city) => `${city}は突風やスコールに注意！急な天候変化に備えてね！`,
+        comment: (city) => `${city}は「突風やスコール」に注意！<br>急な天候変化に備えてね！`,
         bgColor: '#B3E5FC',
         borderColor: '#2196F3'
     },
     'Tornado': { // トルネード
         image: 'img/character_tor.png',
-        comment: (city) => `${city}は竜巻注意報が出ているよ！安全な場所に避難して！`,
+        comment: (city) => `${city}は「竜巻」注意報が出ているよ！<br>安全な場所に避難して！`,
         bgColor: '#B3E5FC',
         borderColor: '#9C27B0'
     },
     'Snow': { // 雪
         image: 'img/character_snow.png',
-        comment: (city) => `${city}は雪！積もるかな？あったかくしてね！☃️`,
+        comment: (city) => `${city}は「雪」積もるかな？<br>あったかくしてね！☃️`,
         bgColor: '#E3F2FD',
         borderColor: '#00BCD4'
     },
     'Thunderstorm': {　// 雷雨
         image: 'img/character_raiu.png',
-        comment: (city) => `${city}は雷雨の予報！気をつけてね⚡️`,
+        comment: (city) => `${city}は「雷雨」の予報！<br>気をつけてね⚡️`,
         bgColor: '#B3E5FC',
         borderColor: '#9C27B0'
     },
     'Drizzle': {　// 小雨
         image: 'img/character_rains.png',
-        comment: (city) => `${city}は小雨が降っているよ。`,
+        comment: (city) => `${city}は「小雨」が降っているよ。<br>お気に入りの傘を持って出かけよう！`,
         bgColor: '#B3E5FC',
         borderColor: '#2196F3'
     }
 };
-
-
 // ====================================================================
 // ★★★ アニメーション機能 ★★★
 // ====================================================================

@@ -26,6 +26,8 @@ body {
             #FFDCDC 0%, #FFECF0 15%, #F0E5FF 30%, #E0E5FF 45%,
             #E0FFF0 60%, #FFFFE0 75%, #FFE5D0 90%, #FFDCDC 100%);
     background-attachment: fixed;
+    background-size: 400% 400% !important;
+    animation: gradientBG 15s ease infinite !important;
 }
 
 /* グローバルタイトル */
@@ -45,6 +47,7 @@ body {
     line-height: 1.15 !important;
     white-space: normal !important;
     display: block;
+    animation: titleGlow 3s ease-in-out infinite alternate !important;
 }
 
 /* メインコンテンツ（遷移後の画面）のカード */
@@ -64,7 +67,7 @@ body {
     justify-content: flex-start;
     align-items: stretch;
     margin: 40px auto;
-    /* 💡 中央寄せ */
+    animation: fadeInUp 1.0s ease-out both !important;
 }
 
 h1 {
@@ -95,7 +98,6 @@ h2::after {
 /* ====================================================================
  * 2. スタート画面 
  * ==================================================================== */
-/* スタート画面のコンテナのカード */
 .start-container {
     position: relative;
     background-color: #ffffff;
@@ -106,10 +108,9 @@ h2::after {
     width: 90%;
     text-align: center;
     margin: 0 auto 50px auto;
-    /* 💡 左右autoで中央配置を徹底 */
+    animation: fadeInUp 1.0s ease-out both !important;
 }
 
-/* カード内のタイトル: 「☀️ 天気予報 🌧️」 */
 .start-container h1 {
     font-size: 3em;
     color: #ff4d88;
@@ -123,7 +124,6 @@ h2::after {
     font-size: 1.2em;
 }
 
-/* スタート画面の検索入力欄とボタンのコンテナ (PCレイアウト維持) */
 .start-input-group {
     display: flex;
     gap: 10px;
@@ -238,49 +238,6 @@ h2::after {
     font-size: 16px;
 }
 
-#get-weather-btn {
-    padding: 10px 18px;
-    font-size: 16px;
-}
-
-/* オートコンプリートのスタイル */
-#autocomplete-list {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    border: 1px solid #d4d4d4;
-    max-height: 200px;
-    overflow-y: auto;
-    background-color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 0 0 4px 4px;
-    margin-top: 1px;
-}
-
-/* スタート画面でのオートコンプリートの位置 */
-.start-input-group>#autocomplete-list {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    width: 100%;
-    margin-top: 5px;
-}
-
-.autocomplete-item {
-    padding: 10px;
-    cursor: pointer;
-    background-color: #fff;
-    border-bottom: 1px solid #eee;
-}
-
-.autocomplete-item:hover {
-    background-color: #e9e9e9;
-}
-
-
 /* キャラクターエリア */
 .character-area {
     display: flex;
@@ -297,245 +254,98 @@ h2::after {
 }
 
 #character-img {
-    width: 110px;
-    height: 110px;
+    width: 140px !important;
+    height: 140px !important;
     object-fit: contain;
     border-radius: 50%;
     cursor: pointer;
     flex-shrink: 0;
-    border: 5px solid var(--icon-border-color);
+    border: 6px solid var(--icon-border-color) !important;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-    animation: sway 4s ease-in-out infinite;
     margin-right: 5px;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, transform 0.2s ease !important;
+    animation: sway-constant 4s ease-in-out infinite !important;
 }
 
-@keyframes sway {
-
-    0%,
-    100% {
-        transform: translateY(0) scale(1);
-    }
-
-    50% {
-        transform: translateY(-5px) rotate(1deg) scale(1.02);
-    }
-}
-
+/* 💡【修正ポイント】吹き出しを文字幅に合わせる */
 #character-comment {
-    flex-grow: 1;
-    padding: 12px 18px;
+    flex-grow: 0 !important; /* 余白を埋めない */
+    width: fit-content !important; /* 文字幅に合わせる */
+    max-width: 80%; /* 念のため、長すぎた時に突き抜けないよう制限 */
+    padding: 18px 25px !important;
     border-radius: 8px;
-    font-size: 1.0em;
+    font-size: 1.3em !important;
     font-weight: bold;
     color: #333;
     background: var(--comment-bg-color);
     transition: background 0.3s ease;
+    line-height: 1.4 !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
 }
 
 /* キャラクター吹き出しの矢印（横向き） */
 .character-area::after {
     content: '';
     position: absolute;
-    left: 140px;
+    left: 175px !important; /* 画像サイズ140pxに合わせた位置 */
     top: 50%;
     transform: translateY(-50%);
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 8px 8px 8px 0;
+    border-width: 10px 10px 10px 0 !important;
     border-color: transparent var(--comment-bg-color) transparent transparent;
     z-index: auto;
     transition: border-color 0.3s ease;
 }
 
-/* ローディングスピナー */
-#loading-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.9);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 99;
-    border-radius: 8px;
-}
-
-.spinner {
-    border: 4px solid rgba(0, 0, 0, 0.1);
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border-left-color: #ff6699;
-    animation: spin 1s ease infinite;
-    margin: 20px auto;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-/* ----------------------------------------------------
- * 天気アイコンの浮遊アニメーション
- * ---------------------------------------------------- */
-@keyframes float-y {
-    0% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-5px);
-    }
-
-    100% {
-        transform: translateY(0);
-    }
-}
-
+/* ====================================================================
+ * 5. 週間予報・天気情報
+ * ==================================================================== */
 #main-weather-icon {
     display: inline-block;
-    animation: float-y 4s ease-in-out infinite;
+    animation: sway-constant 4s ease-in-out infinite !important;
     transition: transform 0.3s;
     will-change: transform;
 }
 
-
-/* 現在の天気タイトルと日付 */
 #weather-header-display {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     margin-top: 15px;
     margin-bottom: 10px;
-    border-bottom: none !important;
-    padding-bottom: 5px;
 }
 
-/* 都市名と定型文のサイズを分離するCSS定義 */
-#weather-header-display .weather-title {
-    margin: 0 !important;
-    padding: 0;
-    line-height: 1.2;
-    flex-shrink: 0;
-}
-
-/* 都市名（例：東京）を大きく */
 #weather-header-display .city-name-large {
     font-size: 1.5em !important;
     font-weight: bold;
     color: #34495e;
-    display: inline;
 }
 
-/* 「の現在の天気」を小さく維持 */
-#weather-header-display .subtitle-small {
-    font-size: 1.1em !important;
-    font-weight: normal;
-    color: #555;
-    display: inline;
-    padding-left: 5px;
-}
-
-/* 日付情報は小さく維持 */
-#weather-header-display .current-date-info {
-    font-size: 1.1em;
-    color: #555;
-    white-space: nowrap;
-    margin: 0;
-    padding-left: 10px;
-    flex-shrink: 1;
-}
-
-/* 現在の天気情報内の各行のボーダーと余白を削減 */
-#weather-display p,
-#weather-display hr {
-    border: none !important;
-    margin: 0 !important;
-    padding: 3px 0 !important;
-    line-height: 1.5;
-    font-size: 1.1em;
-}
-
-/* HTMLの<hr>タグ（日出/日入りの上にある線）は表示しない */
-#weather-display hr {
-    display: none !important;
-}
-
-/* 日の出/日の入り行をコンパクトに表示 */
-#weather-display .sun-info-line {
-    display: block;
-    margin-top: 10px !important;
-    padding-bottom: 5px !important;
-}
-
-/* 日の出と日の入りの間のスペースを削除 */
-#weather-display .sun-info-set {
-    padding-left: 10px !important;
-}
-
-/* データ取得時刻 */
-#weather-display p[style*="font-size: 0.8em;"] {
-    font-size: 0.85em !important;
-    color: #888;
-    margin-top: 5px !important;
-}
-
-
-/* ====================================================================
- * 5. 週間予報 
- * ==================================================================== */
-.forecast-section h2 {
-    font-size: 1.7em !important;
-    border: none !important;
-    padding-top: 20px;
-    display: block;
-    margin-top: 30px !important;
-    margin-bottom: 15px !important;
-}
-
-/* 週間予報のコンテナを横並びに強制 (横スクロール対応) */
 .forecast-container {
     display: flex;
     justify-content: flex-start;
     flex-wrap: nowrap;
     gap: 15px;
-    padding: 5px 0;
+    padding: 5px 0 15px 0;
     overflow-x: auto;
-    padding-bottom: 15px;
 }
 
 .forecast-item {
-    box-sizing: border-box;
     flex: 0 0 calc(20% - 12px);
     min-width: 120px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    min-height: 130px;
     text-align: center;
     padding: 10px 5px;
     border: 1px solid #f8d7da;
     border-radius: 8px;
-
     background-color: #ffe0f0;
-    font-size: 1.1em;
-    transition: transform 0.1s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    transition: transform 0.1s, box-shadow 0.2s;
     cursor: pointer;
 }
 
-/* 週間予報アイテム クリック・ホバー時のスタイル */
-.forecast-item:active,
 .forecast-item:hover {
     background-color: #ffcce0;
     border-color: #ff6699;
@@ -543,382 +353,43 @@ h2::after {
     box-shadow: 0 0 15px rgba(255, 102, 153, 0.8);
 }
 
-
-.item-icon {
-    font-size: 2.0em;
-    margin: 8px 0;
-}
-
 /* ====================================================================
- * 6. アニメーション設定
+ * 6. アニメーション定義
  * ==================================================================== */
-
-/* 週間予報アイテムクリック時のアニメーション (pulse) */
-.forecast-item.animate {
-    animation: pulse 0.5s ease-in-out;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.05);
-        box-shadow: 0 0 10px rgba(255, 102, 153, 0.6);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-/* キャラクターアイコンクリック時のアニメーション (wiggle) */
-#character-img.animate {
-    animation: wiggle 0.5s ease-in-out;
-}
-
-@keyframes wiggle {
-
-    0%,
-    100% {
-        transform: rotate(0deg);
-    }
-
-    25% {
-        transform: rotate(-5deg) scale(1.05);
-    }
-
-    75% {
-        transform: rotate(5deg) scale(1.05);
-    }
-}
-
-
-/* ====================================================================
- * 7. レスポンシブ対応 (モバイル環境での修正)
- * ==================================================================== */
-@media (max-width: 600px) {
-
-    /* 💡【余白調整】画面の端に均等な余白を設ける */
-    body {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-
-    /* グローバルタイトル */
-    #start-welcome-title {
-        font-size: 2.5em;
-        padding: 30px 0 30px 0;
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    /* メイン画面のカード */
-    .container {
-        width: 100%;
-        max-width: 100%;
-        padding: 35px 20px;
-        /* 💡 左右のパディングを均等化 */
-        padding-top: 60px;
-        padding-bottom: 40px;
-        margin: 20px auto;
-        /* 💡 中央寄せを徹底 */
-    }
-
-    /* スタート画面のカード */
-    .start-container {
-        width: 100%;
-        max-width: 100%;
-        padding: 45px 20px;
-        /* 💡 左右のパディングを均等化 */
-        margin: 0 auto 50px auto;
-        /* 💡 中央寄せを徹底 */
-    }
-
-    /* 検索ボタンの横並びを確保 */
-    .start-input-group {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        width: 100%;
-        max-width: none;
-        gap: 10px;
-        margin: 20px auto;
-    }
-
-    #city-input-start {
-        flex-grow: 1;
-        width: auto;
-        min-width: 0;
-        padding: 12px;
-    }
-
-    #start-btn {
-        flex-shrink: 0;
-        width: auto;
-        padding: 12px 18px;
-    }
-
-    /* 現在の天気ボタンの幅調整 */
-    #current-location-btn {
-        width: 80%;
-        max-width: 280px;
-    }
-
-    /* 吹き出しの矢印の位置調整 */
-    .character-area::after {
-        left: 105px;
-        /* 💡 アイコンサイズ等に合わせて調整 */
-    }
-}
-
-
-/* 画面幅400px以下のデバイス (最小スマホ) に特化した調整 */
-@media (max-width: 400px) {
-    body {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-
-    #start-welcome-title {
-        font-size: 2.0em;
-        padding: 20px 0 20px 0;
-    }
-
-    .start-container,
-    .container {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-
-    #current-location-btn {
-        width: 85%;
-    }
-}
-
-/* ====================================================================
- * レイアウトを変えずに動きだけを注入
- * ==================================================================== */
-
-/* 1. 背景を動かす（既存のbody設定を上書きしてアニメーションを有効化） */
-body {
-    background-size: 400% 400% !important;
-    animation: gradientBG 15s ease infinite !important;
-}
-
-/* 2. 背景アニメーションの定義 */
 @keyframes gradientBG {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
-/* 3. キャラクターとタイトルの「浮遊・光彩」を追加 */
-#character-img {
-    animation: sway 4s ease-in-out infinite !important;
-}
-
-#start-welcome-title {
-    animation: titleGlow 3s ease-in-out infinite alternate !important;
-}
-
-/* 4. 浮遊と光彩のアニメーション定義 */
-@keyframes sway {
-
-    0%,
-    100% {
-        transform: translateY(0) scale(1);
-    }
-
-    50% {
-        transform: translateY(-8px) rotate(1deg) scale(1.02);
-    }
+@keyframes sway-constant {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
 }
 
 @keyframes titleGlow {
-    from {
-        text-shadow: 0 0 10px rgba(255, 255, 255, 1), 3px 3px 15px rgba(255, 102, 153, 0.5);
-    }
-
-    to {
-        text-shadow: 0 0 20px rgba(255, 255, 255, 1), 3px 3px 25px rgba(255, 102, 153, 0.8);
-    }
+    from { text-shadow: 0 0 10px rgba(255, 255, 255, 1), 3px 3px 15px rgba(255, 102, 153, 0.5); }
+    to { text-shadow: 0 0 20px rgba(255, 255, 255, 1), 3px 3px 25px rgba(255, 102, 153, 0.8); }
 }
 
-/* 天気アイコンも浮遊させる（すでにIDがある場合） */
-#main-weather-icon {
-    animation: float-y 4s ease-in-out infinite !important;
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* ====================================================================
- * 動きとクリックリアクションの完全統合
- * ==================================================================== */
-
-/* 1. 背景を大きくして動かす */
-body {
-    background-size: 400% 400% !important;
-    animation: gradientBG 15s ease infinite !important;
-}
-
-@keyframes gradientBG {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-/* 2. キャラクターの浮遊（名前を sway-motion に変えて衝突を回避） */
-#character-img {
-    animation: sway-motion 4s ease-in-out infinite !important;
-    transition: transform 0.2s ease !important;
-}
-
-@keyframes sway-motion {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
-}
-
-/* 3. クリックした時のブルブル（既存の .animate クラスが効くように設定） */
 #character-img.animate {
     animation: wiggle-click 0.5s ease-in-out !important;
 }
 
 @keyframes wiggle-click {
-
-    0%,
-    100% {
-        transform: rotate(0deg) scale(1.1);
-    }
-
-    25% {
-        transform: rotate(-8deg);
-    }
-
-    75% {
-        transform: rotate(8deg);
-    }
-}
-
-/* 4. タイトルの光彩 */
-#start-welcome-title {
-    animation: titleGlow 3s ease-in-out infinite alternate !important;
-}
-
-@keyframes titleGlow {
-    from {
-        text-shadow: 0 0 10px rgba(255, 255, 255, 1), 3px 3px 15px rgba(255, 102, 153, 0.5);
-    }
-
-    to {
-        text-shadow: 0 0 20px rgba(255, 255, 255, 1), 3px 3px 25px rgba(255, 102, 153, 0.8);
-    }
-}
-
-/* 5. 天気アイコンの浮遊 */
-#main-weather-icon {
-    animation: float-y-motion 4s ease-in-out infinite !important;
-}
-
-@keyframes float-y-motion {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-8px);
-    }
+    0%, 100% { transform: rotate(0deg) scale(1.05); }
+    25% { transform: rotate(-8deg) scale(1.1); }
+    75% { transform: rotate(8deg) scale(1.1); }
 }
 
 /* ====================================================================
- * 【サイズアップ】キャラクター・吹き出し・文字の調整
+ * 7. レスポンシブ対応
  * ==================================================================== */
-
-/* 1. キャラクター画像を大きく (110px → 140px) */
-#character-img {
-    width: 140px !important;
-    height: 140px !important;
-    border-width: 6px !important;
-    /* 枠線も少し太くして強調 */
-    animation: sway-motion 4s ease-in-out infinite !important;
-}
-
-/* 2. 吹き出しを大きく、文字を太く大きく */
-#character-comment {
-    font-size: 1.3em !important;
-    /* 文字を大きく (1.0em → 1.3em) */
-    padding: 18px 25px !important;
-    /* 吹き出しの中の余白を広げる */
-    line-height: 1.4 !important;
-    min-height: 80px !important;
-    /* 高さにゆとりを持たせる */
-    display: flex !important;
-    align-items: center !important;
-}
-
-/* 3. 吹き出しの矢印（三角部分）の位置調整 */
-.character-area::after {
-    left: 175px !important;
-    /* 画像が大きくなった分、右へ移動 (140pxから調整) */
-    border-width: 10px 10px 10px 0 !important;
-    /* 矢印も少し大きく */
-}
-
-/* 💡 クリック時のアニメーション（サイズに合わせて拡大率を調整） */
-@keyframes wiggle-click {
-
-    0%,
-    100% {
-        transform: rotate(0deg) scale(1.05);
-    }
-
-    25% {
-        transform: rotate(-8deg) scale(1.1);
-    }
-
-    75% {
-        transform: rotate(8deg) scale(1.1);
-    }
-}
-
-/* 💡 浮遊アニメーション（大きな画像に合わせて動きを最適化） */
-@keyframes sway-motion {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-12px);
-    }
-}
-
-/* 4. モバイル環境でのサイズ微調整 */
 @media (max-width: 600px) {
     #character-img {
         width: 110px !important;
@@ -928,77 +399,234 @@ body {
     #character-comment {
         font-size: 1.1em !important;
         padding: 12px 18px !important;
+        max-width: 70%;
     }
 
     .character-area::after {
         left: 140px !important;
     }
+
+    #start-welcome-title {
+        font-size: 2.5em;
+    }
+}
+/* ====================================================================
+ * キャラクターエリアの特定修正（ここだけを上書き）
+ * ==================================================================== */
+
+/* 1. 全体を中央に寄せて、右側の余白を消す */
+.character-area {
+    display: flex !important;
+    justify-content: center !important; /* 全体を中央寄せ */
+    gap: 35px !important;               /* アイコンと吹き出しの間の隙間を広げる */
+    width: 100% !important;
+    padding: 15px 0 !important;
+}
+
+/* 2. 吹き出しを文字の長さに合わせる */
+#character-comment {
+    flex-grow: 0 !important;            /* 右に広がろうとする性質を止める */
+    flex-shrink: 1 !important;
+    width: fit-content !important;       /* 中身の幅に枠を合わせる */
+    max-width: 70% !important;           /* スマホ等で広がりすぎない制限 */
+    position: relative !important;       /* 矢印の基準点 */
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* 3. 矢印を吹き出しの左端に「固定」する */
+/* これにより、文章が短くなっても矢印が離れません */
+#character-comment::before {
+    content: '' !important;
+    position: absolute !important;
+    left: -10px !important;              /* 吹き出しのすぐ左に配置 */
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 0 !important;
+    height: 0 !important;
+    border-style: solid !important;
+    border-width: 8px 10px 8px 0 !important;
+    border-color: transparent #C5CAE9 transparent transparent !important; /* 背景色に合わせる */
+}
+
+/* 4. 元々あった「場所固定の矢印」を表示しないようにする */
+.character-area::after {
+    display: none !important;
+}
+
+/* 5. 画像の横マージンをリセットして中央寄せを正確にする */
+#character-img {
+    margin-right: 0 !important;
+    flex-shrink: 0 !important;
+}
+/* ====================================================================
+ * 【最終調整】色・位置・不要な線の修正
+ * ==================================================================== */
+
+/* 1. 不要な線（ボーダー）を完全に消す (image_965e88 対策) */
+#weather-display, 
+#weather-display p, 
+#weather-display hr {
+    border: none !important;
+    border-bottom: none !important;
+}
+hr {
+    display: none !important; /* 横線を非表示 */
+}
+
+/* 2. 都市名と日付のズレを解消 (image_95fdc4, image_965e88 対策) */
+#weather-header-display {
+    display: flex !important;
+    align-items: baseline !important; /* 文字の足元を揃える */
+    gap: 12px !important;
+    margin-bottom: 15px !important;
+}
+
+#weather-header-display .current-date-info {
+    font-size: 1.1em !important;
+    color: #555 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+    top: 0 !important; /* 縦位置のリセット */
+    line-height: 1 !important;
+}
+
+/* 3. キャラクターエリアの中央寄せと右側の余白解消 (image_95e37c 対策) */
+.character-area {
+    display: flex !important;
+    justify-content: center !important; /* 全体を中央へ */
+    align-items: center !important;
+    gap: 35px !important;               /* 画像と吹き出しの隙間 */
+    width: 100% !important;
+    margin: 30px 0 !important;
+}
+
+/* 4. 吹き出しを文字の長さに合わせ、色を動的に反映 */
+#character-comment {
+    flex-grow: 0 !important;            /* 右への広がりを防止 */
+    width: fit-content !important;       /* 文字幅に合わせる */
+    max-width: 75% !important;
+    padding: 15px 20px !important;
+    border-radius: 12px !important;
+    position: relative !important;
+    /* 背景色はJavaScript等で設定される変数をそのまま使用 */
+    background-color: var(--comment-bg-color, #C5CAE9) !important;
+    font-size: 1.2em !important;
+}
+
+/* 5. 吹き出しの矢印を「吹き出しの色」に連動させる (image_965e88 対策) */
+#character-comment::before {
+    content: '' !important;
+    position: absolute !important;
+    left: -12px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 0 !important;
+    height: 0 !important;
+    border-style: solid !important;
+    border-width: 10px 12px 10px 0 !important;
+    /* 吹き出しの背景色と同じ色を自動で使う設定 */
+    border-color: transparent !important;
+    border-right-color: inherit !important; 
+    border-right-color: var(--comment-bg-color, #C5CAE9) !important;
+}
+
+/* 古い矢印（ズレの原因）を削除 *//* ====================================================================
+ * キャラクターエリア（最終整理版）
+ * ==================================================================== */
+
+/* 全体レイアウト */
+.character-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+    width: 100%;
+    margin: 30px 0;
+    padding: 15px 0;
+    position: relative;
+
+    /* 吹き出し用カスタム変数 */
+    --comment-bg-color: #C5CAE9;
+    --icon-border-color: #007bff;
+}
+
+/* キャラクター画像 */
+#character-img {
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+    border-radius: 50%;
+    cursor: pointer;
+    flex-shrink: 0;
+
+    border: 6px solid var(--icon-border-color);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+
+    animation: sway-constant 4s ease-in-out infinite;
+    transition: transform 0.2s ease, border-color 0.3s ease;
+}
+
+/* クリック時アニメーション */
+#character-img.animate {
+    animation: wiggle-click 0.5s ease-in-out;
+}
+
+/* 吹き出し本体 */
+#character-comment {
+    display: flex;
+    align-items: center;
+
+    padding: 15px 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    line-height: 1.4;
+
+    color: #333;
+    background-color: var(--comment-bg-color);
+
+    border-radius: 12px;
+    position: relative;
+
+    width: fit-content;
+    max-width: 75%;
+}
+
+/* 吹き出し矢印（左向き） */
+#character-comment::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 0;
+    height: 0;
+
+    border-style: solid;
+    border-width: 10px 12px 10px 0;
+    border-color: transparent;
+    border-right-color: var(--comment-bg-color);
 }
 
 /* ====================================================================
- * 背景とキャラクターの浮遊アニメーション
+ * レスポンシブ（スマホ）
  * ==================================================================== */
-
-/* 1. 背景グラデーションを動かす設定 */
-body {
-    background-size: 400% 400% !important;
-    animation: gradientBG 15s ease infinite !important;
-}
-
-@keyframes gradientBG {
-    0% {
-        background-position: 0% 50%;
+@media (max-width: 600px) {
+    #character-img {
+        width: 110px;
+        height: 110px;
     }
 
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
+    #character-comment {
+        font-size: 1.1em;
+        padding: 12px 18px;
+        max-width: 70%;
     }
 }
 
-/* 2. キャラクターと天気アイコンを常時ゆらゆらさせる */
-#character-img,
-#main-weather-icon {
-    /* 浮遊(sway-constant) */
-    animation: sway-constant 4s ease-in-out infinite !important;
-}
-
-@keyframes sway-constant {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-12px);
-    }
-
-    /* 12px分、上下に動く */
-}
-
-/* 3. クリックした時の「ピクッ」とする動きを優先させる設定 */
-#character-img.animate {
-    animation: wiggle 0.5s ease-in-out !important;
-}
-
-/* 4. 画面を開いた時の「ふわっと登場」 */
-.start-container,
-.container {
-    animation: fadeInUp 1.0s ease-out both !important;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.character-area::after {
+    display: none !important;
 }
