@@ -3,7 +3,7 @@
 // ====================================================================
 const startPage = document.getElementById('start-page');
 const mainContent = document.getElementById('main-content');
-const startWelcomeTitle = document.getElementById('start-welcome-title'); 
+const startWelcomeTitle = document.getElementById('start-welcome-title');
 const startBtn = document.getElementById('start-btn');
 const backToStartBtn = document.getElementById('back-to-start-btn');
 
@@ -37,11 +37,11 @@ let isBGMPlaying = false;
 let nextLoopTime = 0;
 const LOOKAHEAD_TIME = 0.1;
 
-const chords = [ 
-    [261.63, 329.63, 392.00], 
-    [220.00, 261.63, 329.63], 
-    [174.61, 220.00, 261.63], 
-    [196.00, 246.94, 392.00] 
+const chords = [
+    [261.63, 329.63, 392.00],
+    [220.00, 261.63, 329.63],
+    [174.61, 220.00, 261.63],
+    [196.00, 246.94, 392.00]
 ];
 
 const CHORD_DURATION = 2;
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // OpenWeatherMapのAPIキーとURL
 // 実際のデプロイ時には、APIキーをサーバー側で管理することが推奨されます。
-const API_KEY = 'b805c0aa4bdcc94949925b79c2c4d405'; 
+const API_KEY = 'b805c0aa4bdcc94949925b79c2c4d405';
 const CURRENT_BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
 const FORECAST_BASE_URL = 'https://api.openweathermap.org/data/2.5/forecast';
 
@@ -181,103 +181,36 @@ function getFormattedTodayDate() {
 
     return `- ${month}月${day}日(${dayOfWeek})`;
 }
-
 // ====================================================================
-// ★★★ CITY_NAME_MAP (地名リスト)  ★★★
+// ★★★ CITY_NAME_MAP (地名・観光地・トレンド) ★★★
 // ====================================================================
 const CITY_NAME_MAP = {
-    // -------------------
-    // 北海道・東北地方
-    // -------------------
-    '札幌': 'Sapporo', '北海道': 'Sapporo', '旭川': 'Asahikawa', '函館': 'Hakodate', '帯広': 'Obihiro', '釧路': 'Kushiro', '小樽': 'Otaru', '苫小牧': 'Tomakomai', '室蘭': 'Muroran', '北見': 'Kitami', '網走': 'Abashiri', '稚内': 'Wakkanai',
-    '青森': 'Aomori', '青森県': 'Aomori', '弘前': 'Hirosaki', '八戸': 'Hachinohe',
-    '盛岡': 'Morioka', '岩手': 'Morioka', '岩手県': 'Morioka', '大船渡': 'Ofunato',
-    '仙台': 'Sendai', '宮城': 'Sendai', '宮城県': 'Sendai', '石巻': 'Ishinomaki',
-    '秋田': 'Akita', '秋田県': 'Akita', '横手': 'Yokote', '大館': 'Odate',
-    '山形': 'Yamagata', '山形県': 'Yamagata', '米沢': 'Yonezawa', '鶴岡': 'Tsuruoka',
-    '福島': 'Fukushima', '福島県': 'Fukushima', '郡山': 'Koriyama', 'いわき': 'Iwaki', '会津若松': 'Aizu-Wakamatsu',
+    // --- 国内主要都市 ---
+    '札幌': 'Sapporo', '函館': 'Hakodate', '旭川': 'Asahikawa', '青森': 'Aomori', '仙台': 'Sendai', '秋田': 'Akita', '山形': 'Yamagata', '福島': 'Fukushima',
+    '水戸': 'Mito', '宇都宮': 'Utsunomiya', '前橋': 'Maebashi', 'さいたま': 'Saitama', '千葉': 'Chiba', '東京': 'Tokyo', '横浜': 'Yokohama', '金沢': 'Kanazawa',
+    '福井': 'Fukui', '甲府': 'Kofu', '長野': 'Nagano', '岐阜': 'Gifu', '静岡': 'Shizuoka', '名古屋': 'Nagoya', '津': 'Tsu', '大津': 'Otsu', '京都': 'Kyoto',
+    '大阪': 'Osaka', '神戸': 'Kobe', '奈良': 'Nara', '和歌山': 'Wakayama', '鳥取': 'Tottori', '松江': 'Matsue', '岡山': 'Okayama', '広島': 'Hiroshima',
+    '山口': 'Yamaguchi', '徳島': 'Tokushima', '高松': 'Takamatsu', '松山': 'Matsuyama', '高知': 'Kochi', '福岡': 'Fukuoka', '佐賀': 'Saga', '長崎': 'Nagasaki',
+    '熊本': 'Kumamoto', '大分': 'Oita', '宮崎': 'Miyazaki', '鹿児島': 'Kagoshima', '那覇': 'Naha', '沖縄': 'Naha',
 
-    // -------------------
-    // 関東地方
-    // -------------------
-    '水戸': 'Mito', '茨城': 'Mito', '茨城県': 'Mito', 'つくば': 'Tsukuba', '土浦': 'Tsuchiura',
-    '宇都宮': 'Utsunomiya', '栃木': 'Utsunomiya', '栃木県': 'Utsunomiya', '日光': 'Nikko', '足利': 'Ashikaga',
-    '前橋': 'Maebashi', '群馬': 'Maebashi', '群馬県': 'Maebashi', '高崎': 'Takasaki',
-    'さいたま': 'Saitama', '埼玉': 'Saitama', '埼玉県': 'Saitama', '川越': 'Kawagoe', '熊谷': 'Kumagaya', '所沢': 'Tokorozawa', '越谷': 'Koshigaya', '川口': 'Kawaguchi', '春日部': 'Kasukabe',
-    '千葉': 'Chiba', '千葉県': 'Chiba', '船橋': 'Funabashi', '柏': 'Kashiwa', '市川': 'Ichikawa', '松戸': 'Matsudo', '浦安': 'Urayasu', '成田': 'Narita',
-    '東京': 'Tokyo', '東京都': 'Tokyo', '八王子': 'Hachioji', '町田': 'Machida', '立川': 'Tachikawa', '三鷹': 'Mitaka', '府中': 'Fuchu',
-    '横浜': 'Yokohama', '神奈川': 'Yokohama', '神奈川県': 'Yokohama', '川崎': 'Kawasaki', '相模原': 'Sagamihara', '横須賀': 'Yokosuka', '藤沢': 'Fujisawa', '小田原': 'Odawara', '厚木': 'Atsugi', '茅ヶ崎': 'Chigasaki', '箱根': 'Hakone',
+    // --- 国内レジャー・絶景・2025トレンド ---
+    'ディズニー': 'Urayasu', '舞浜': 'Urayasu', 'ユニバ': 'Osaka', 'USJ': 'Osaka', 'ハウステンボス': 'Sasebo',
+    '白川郷': 'Ono', '屋久島': 'Yakushima', '宮島': 'Hatsukaichi', '日光': 'Nikko', '箱根': 'Hakone', '軽井沢': 'Karuizawa',
+    '知床': 'Shari', '直島': 'Naoshima', '美瑛': 'Biei', '富良野': 'Furano', '草津': 'Kusatsu', '伊勢': 'Ise', '出雲': 'Izumo',
+    '阿蘇': 'Aso', '石垣島': 'Ishigaki', '宮古島': 'Miyakojima', '名護': 'Nago',
 
-    // -------------------
-    // 中部地方
-    // -------------------
-    '新潟': 'Niigata', '新潟県': 'Niigata', '長岡': 'Nagaoka', '上越': 'Joetsu',
-    '富山': 'Toyama', '富山県': 'Toyama', '高岡': 'Takaoka',
-    '金沢': 'Kanazawa', '石川': 'Kanazawa', '石川県': 'Kanazawa', '小松': 'Komatsu',
-    '福井': 'Fukui', '福井県': 'Fukui', '敦賀': 'Tsuruga',
-    '甲府': 'Kofu', '山梨': 'Kofu', '山梨県': 'Kofu', '富士吉田': 'Fujiyoshida',
-    '長野': 'Nagano', '長野県': 'Nagano', '松本': 'Matsumoto', '軽井沢': 'Karuizawa', '諏訪': 'Suwa',
-    '岐阜': 'Gifu', '岐阜県': 'Gifu', '大垣': 'Ogaki', '高山': 'Takayama',
-    '静岡': 'Shizuoka', '静岡県': 'Shizuoka', '沼津': 'Numazu', '浜松': 'Hamamatsu', '熱海': 'Atami', '伊豆': 'Izu',
-    '名古屋': 'Nagoya', '愛知': 'Nagoya', '愛知県': 'Nagoya', '豊田': 'Toyota', '岡崎': 'Okazaki', '豊橋': 'Toyohashi', '一宮': 'Ichinomiya', '春日井': 'Kasugai',
+    // --- 海外リゾート・観光地 ---
+    'ハワイ': 'Honolulu', 'ホノルル': 'Honolulu', 'ワイキキ': 'Honolulu', 'グアム': 'Guam', 'サイパン': 'Saipan',
+    'バリ島': 'Bali', 'プーケット': 'Phuket', 'セブ島': 'Cebu', 'ダナン': 'Da Nang', 'ニャチャン': 'Nha Trang',
+    'モルディブ': 'Male', 'タヒチ': 'Papeete', 'ボラカイ': 'Boracay', 'カンクン': 'Cancun',
 
-    // -------------------
-    // 近畿地方
-    // -------------------
-    '津': 'Tsu', '三重': 'Tsu', '三重県': 'Tsu', '四日市': 'Yokkaichi', '伊勢': 'Ise', '鳥羽': 'Toba',
-    '大津': 'Otsu', '滋賀': 'Otsu', '滋賀県': 'Otsu', '彦根': 'Hikone',
-    '京都': 'Kyoto', '京都府': 'Kyoto', '福知山': 'Fukuchiyama',
-    '大阪': 'Osaka', '大阪府': 'Osaka', '枚方': 'Hirakata', '堺': 'Sakai', '東大阪': 'Higashiosaka', '高槻': 'Takatsuki', '豊中': 'Toyonaka',
-    '神戸': 'Kobe', '兵庫': 'Kobe', '兵庫県': 'Kobe', '姫路': 'Himeji', '西宮': 'Nishinomiya', '明石': 'Akashi', '尼崎': 'Amagasaki',
-    '奈良': 'Nara', '奈良県': 'Nara',
-    '和歌山': 'Wakayama', '和歌山県': 'Wakayama',
-
-    // -------------------
-    // 中国・四国地方
-    // -------------------
-    '鳥取': 'Tottori', '鳥取県': 'Tottori', '米子': 'Yonago',
-    '松江': 'Matsue', '島根': 'Matsue', '島根県': 'Matsue', '出雲': 'Izumo',
-    '岡山': 'Okayama', '岡山県': 'Okayama', '倉敷': 'Kurashiki',
-    '広島': 'Hiroshima', '広島県': 'Hiroshima', '福山': 'Fukuyama', '呉': 'Kure', '尾道': 'Onomichi',
-    '山口': 'Yamaguchi', '山口県': 'Yamaguchi', '下関': 'Shimonoseki',
-    '徳島': 'Tokushima', '徳島県': 'Tokushima', '鳴門': 'Naruto',
-    '高松': 'Takamatsu', '香川': 'Takamatsu', '香川県': 'Takamatsu',
-    '松山': 'Matsuyama', '愛媛': 'Matsuyama', '愛媛県': 'Matsuyama', '今治': 'Imabari',
-    '高知': 'Kochi', '高知県': 'Kochi',
-
-    // -------------------
-    // 九州・沖縄地方
-    // -------------------
-    '福岡': 'Fukuoka', '福岡県': 'Fukuoka', '北九州': 'Kitakyushu', '久留米': 'Kurume', '大牟田': 'Omuta',
-    '佐賀': 'Saga', '佐賀県': 'Saga', '唐津': 'Karatsu',
-    '長崎': 'Nagasaki', '長崎県': 'Nagasaki', '佐世保': 'Sasebo',
-    '熊本': 'Kumamoto', '熊本県': 'Kumamoto', '阿蘇': 'Aso',
-    '大分': 'Oita', '大分県': 'Oita', '別府': 'Beppu', '中津': 'Nakatsu', '日田': 'Hita', '佐伯': 'Saiki', '臼杵': 'Usuki', '津久見': 'Tsukumi', '竹田': 'Taketa', '豊後高田': 'Bungo-Takada', '杵築': 'Kitsuki', '宇佐': 'Usa', '豊後大野': 'Bungo-ono', '由布': 'Yufu', '国東': 'Kunisaki', '日出': 'Hiji', '玖珠': 'Kusu', '九重': 'Kokonoe',
-    '宮崎': 'Miyazaki', '宮崎県': 'Miyazaki', '延岡': 'Nobeoka', '都城': 'Miyakonojo',
-    '鹿児島': 'Kagoshima', '鹿児島県': 'Kagoshima', '奄美': 'Amami', '種子島': 'Tanegashima',
-    '那覇': 'Naha', '沖縄': 'Naha', '沖縄県': 'Naha', '宮古島': 'Miyakojima', '石垣島': 'Ishigaki',
-    
-    // -------------------
-    // 世界の主要都市
-    // -------------------
-    // 北米
-    'ニューヨーク': 'New York', 'ロサンゼルス': 'Los Angeles', 'サンフランシスコ': 'San Francisco', 'ボストン': 'Boston', 'シカゴ': 'Chicago', 'シアトル': 'Seattle', 'ラスベガス': 'Las Vegas', 'ヒューストン': 'Houston', 'アトランタ': 'Atlanta', 'ダラス': 'Dallas', 'フィラデルフィア': 'Philadelphia', 'ワシントンD.C.': 'Washington D.C.',
-    'バンクーバー': 'Vancouver', 'トロント': 'Toronto', 'モントリオール': 'Montreal',
-
-    // ヨーロッパ
-    'ロンドン': 'London', 'パリ': 'Paris', 'ベルリン': 'Berlin', 'ローマ': 'Rome', 'モスクワ': 'Moscow', 'アムステルダム': 'Amsterdam', 'マドリード': 'Madrid', 'ウィーン': 'Vienna', 'イスタンブール': 'Istanbul', 'アテネ': 'Athens', 'リスボン': 'Lisbon', 'プラハ': 'Prague', 'ブリュッセル': 'Brussels', 'コペンハーゲン': 'Copenhagen', 'ストックホルム': 'Stockholm', 'ダブリン': 'Dublin', 'ブダペスト': 'Budapest', 'サンクトペテルブルク': 'Saint Petersburg', 'ミュンヘン': 'Munich', 'フランクフルト': 'Frankfurt', 'ミラノ': 'Milan', 'ヴェネツィア': 'Venice', 'ヘルシンキ': 'Helsinki',
-
-    // アジア・オセアニア
-    '北京': 'Beijing', '上海': 'Shanghai', 'ソウル': 'Seoul', 'バンコク': 'Bangkok', 'シンガポール': 'Singapore', 'シドニー': 'Sydney', '香港': 'Hong Kong', '台北': 'Taipei', 'デリー': 'Delhi', 'ジャカルタ': 'Jakarta', 'クアラルンプール': 'Kuala Lumpur', 'マニラ': 'Manila', 'ホーチミン': 'Ho Chi Minh City', 'ハノイ': 'Hanoi', 'ウェリントン': 'Wellington', 'オークランド': 'Auckland', 'パース': 'Perth', 'メルボルン': 'Melbourne', '釜山': 'Busan', '高雄': 'Kaohsiung',
-
-    // 中南米
-    'メキシコシティ': 'Mexico City', 'リオデジャネイロ': 'Rio de Janeiro', 'ブエノスアイレス': 'Buenos Aires', 'サンパウロ': 'Sao Paulo', 'リマ': 'Lima', 'サンティアゴ': 'Santiago',
-
-    // アフリカ・中東
-    'カイロ': 'Cairo', 'ドバイ': 'Dubai', 'ケープタウン': 'Cape Town', 'リヤド': 'Riyadh', 'エルサレム': 'Jerusalem', 'アブダビ': 'Abu Dhabi', 'ドーハ': 'Doha', 'ナイロビ': 'Nairobi', 'ヨハネスブルグ': 'Johannesburg',
+    // --- 海外主要都市・トレンド ---
+    'ニューヨーク': 'New York', 'ロサンゼルス': 'Los Angeles', 'ロンドン': 'London', 'パリ': 'Paris', 'ソウル': 'Seoul',
+    '台北': 'Taipei', '香港': 'Hong Kong', 'バンコク': 'Bangkok', 'シンガポール': 'Singapore', 'シドニー': 'Sydney',
+    'ローマ': 'Rome', 'バルセロナ': 'Barcelona', 'ベルリン': 'Berlin', 'バンクーバー': 'Vancouver', 'ドバイ': 'Dubai',
+    'ギザ': 'Giza', 'マチュピチュ': 'Machu Picchu', 'ウユニ': 'Uyuni', 'レイキャビク': 'Reykjavik',
+    'イエローナイフ': 'Yellowknife', 'ロバニエミ': 'Rovaniemi', 'カイロ': 'Cairo', 'ケープタウン': 'Cape Town'
 };
-
-
 // ====================================================================
 // ★★★ 天気ごとのキャラクター画像・コメント定義 ★★★
 // ====================================================================
@@ -289,7 +222,7 @@ const weatherMap = {
         borderColor: '#FFC107'
     },
     'Clouds': {　// 曇り
-        image: 'img/character_clouds.png',
+        image: 'img/character_rains.png',
         comment: (city) => `${city}は曇り。念のため、傘を持っていこう☁️`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
@@ -308,7 +241,7 @@ const weatherMap = {
     },
     'Fog': { // 濃霧
         image: 'img/character_noumu.png',
-        comment: (city) => `${city}は濃い霧だよ。運転や足元に注意してね！`, 
+        comment: (city) => `${city}は濃い霧だよ。運転や足元に注意してね！`,
         bgColor: '#E0E0E0',
         borderColor: '#9E9E9E'
     },
@@ -384,13 +317,13 @@ function triggerCharacterAnimation(targetElement) {
 
     element.classList.remove('animate');
     // リフローを強制してアニメーションをリセット
-    element.offsetHeight; 
+    element.offsetHeight;
     element.classList.add('animate');
 
     setTimeout(() => {
-                element.classList.remove('animate');
-            }
-            , 510);
+        element.classList.remove('animate');
+    }
+        , 510);
 }
 
 characterImg.addEventListener('click', () => triggerCharacterAnimation(characterImg));
@@ -430,7 +363,7 @@ currentLocationBtn.addEventListener('click', () => {
 
     // 画面遷移時にグローバルタイトルを非表示にする
     startWelcomeTitle.classList.add('hidden');
-    
+
     // BGMがON設定であれば再生を試みる (ユーザー操作)
     if (isBGMPlaying && audioCtx.state !== 'running') {
         startBGM();
@@ -489,15 +422,15 @@ function getCurrentLocationWeather() {
         const lon = position.coords.longitude;
         getWeatherByCoords(lat, lon);
     }
-    ,
-    error => {
-        setLoading(false);
-        handleGeoError(error);
-    }
-    ,
-    {
-    enableHighAccuracy: true, timeout: 5000, maximumAge: 0
-    });
+        ,
+        error => {
+            setLoading(false);
+            handleGeoError(error);
+        }
+        ,
+        {
+            enableHighAccuracy: true, timeout: 5000, maximumAge: 0
+        });
 }
 
 function handleGeoError(error) {
@@ -784,8 +717,8 @@ function displayForecast(data, displayCityName) {
 
             // 週間予報アイテムクリック時にアニメーションを発動
             forecastItem.addEventListener('click', () => {
-                        triggerCharacterAnimation(forecastItem);
-                    });
+                triggerCharacterAnimation(forecastItem);
+            });
         }
     });
 }
@@ -856,13 +789,13 @@ function handleInput(inputElement) {
         matchedCities.forEach(city => {
             const item = document.createElement('div');
             item.classList.add('autocomplete-item');
-            
+
             // 入力された部分を太字にする
             const index = city.toLowerCase().indexOf(val);
             const displayCity = `<strong>${city.substring(index, index + val.length)}</strong>${city.substring(index + val.length)}`;
             item.innerHTML = displayCity;
 
-            item.addEventListener('click', function(e) {
+            item.addEventListener('click', function (e) {
                 inputElement.value = city;
                 closeAllLists();
                 // スタート画面のインプットであれば自動で検索ボタンを押す
@@ -883,7 +816,7 @@ cityInputStart.addEventListener('input', () => handleInput(cityInputStart));
 cityInput.addEventListener('input', () => handleInput(cityInput));
 
 // 他の場所をクリックしたらリストを閉じる
-document.addEventListener("click", function(e) {
+document.addEventListener("click", function (e) {
     if (e.target.closest('#autocomplete-list') === null && e.target !== cityInputStart && e.target !== cityInput) {
         closeAllLists();
     }
