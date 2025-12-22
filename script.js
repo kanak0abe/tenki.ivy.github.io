@@ -285,7 +285,7 @@ const KANA_MAP = {
 // ★★★ キャラクター定義 ★★★
 // ====================================================================
 const weatherMap = {
-    'Clear': { image: 'img/character_clear.png', comment: (city) => `${city}は「快晴」お出かけ日和だね！☀️`, bgColor: '#FFE0B2', borderColor: '#FFC107' },
+    'Clear': { image: 'img/character_clear.png', comment: (city) => `${city}は「快晴」<br>お出かけ日和だね！☀️`, bgColor: '#FFE0B2', borderColor: '#FFC107' },
     'Clouds': { image: 'img/character_clouds.png', comment: (city) => `${city}は「曇り」だよ。<br>念のため、傘を持っていこう☁️`, bgColor: '#E0E0E0', borderColor: '#9E9E9E' },
     'Rain': { image: 'img/character_rain.png', comment: (city) => `${city}は「雨」が降っているよ。<br>濡れないように気をつけてね☔️`, bgColor: '#B3E5FC', borderColor: '#2196F3' },
     'Mist': { image: 'img/character_kiri.png', comment: (city) => `${city}は「霧が」出てるみたい。<br>運転や足元に注意だよ！`, bgColor: '#E0E0E0', borderColor: '#9E9E9E' },
