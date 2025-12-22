@@ -260,6 +260,28 @@ const CITY_NAME_MAP = {
 };
 
 // ====================================================================
+// ★★★ 五十音順ソート用：読み辞書 ★★★
+// ====================================================================
+// コンピューターが漢字の読みを判断できないため、ここに定義します。
+// ここにない漢字は、そのままの漢字順で並びます。
+const KANA_MAP = {
+    '札幌': 'さっぽろ', '旭川': 'あさひかわ', '函館': 'はこだて', '青森': 'あおもり', '盛岡': 'もりおか',
+    '仙台': 'せんだい', '秋田': 'あきた', '山形': 'やまがた', '福島': 'ふくしま', '水戸': 'みと',
+    '宇都宮': 'うつのみや', '前橋': 'まえばし', 'さいたま': 'さいたま', '千葉': 'ちば', '東京': 'とうきょう',
+    '横浜': 'よこはま', '新潟': 'にいがた', '富山': 'とやま', '金沢': 'かなざわ', '福井': 'ふくい',
+    '甲府': 'こうふ', '長野': 'ながの', '岐阜': 'ぎふ', '静岡': 'しずおか', '名古屋': 'なごや',
+    '津': 'つ', '大津': 'おおつ', '京都': 'きょうと', '大阪': 'おおさか', '神戸': 'こうべ',
+    '奈良': 'なら', '和歌山': 'わかやま', '鳥取': 'とっとり', '松江': 'まつえ', '岡山': 'おかやま',
+    '広島': 'ひろしま', '山口': 'やまぐち', '徳島': 'とくしま', '高松': 'たかまつ', '松山': 'まつやま',
+    '高知': 'こうち', '福岡': 'ふくおか', '佐賀': 'さが', '長崎': 'ながさき', '熊本': 'くまもと',
+    '大分': 'おおいた', '宮崎': 'みやざき', '鹿児島': 'かごしま', '那覇': 'なは',
+    '大分市': 'おおいたし', '別府': 'べっぷ', '中津': 'なかつ', '日田': 'ひた', '佐伯': 'さいき',
+    '臼杵': 'うすき', '津久見': 'つくみ', '竹田': 'たけた', '豊後高田': 'ぶんごたかだ',
+    '杵築': 'きつき', '宇佐': 'うさ', '豊後大野': 'ぶんごおおの', '由布': 'ゆふ', '国東': 'くにさき',
+    '日出': 'ひじ', '九重': 'ここのえ', '玖珠': 'くす', '姫島': 'ひめしま'
+};
+
+// ====================================================================
 // ★★★ キャラクター定義 ★★★
 // ====================================================================
 const weatherMap = {
@@ -330,6 +352,7 @@ function getCurrentLocationWeather() {
     setLoading(true);
     startPage.classList.add('hidden');
     mainContent.classList.remove('hidden');
+    characterImg.src = 'img/Q1.png';
     characterComment.innerHTML = `位置情報を取得中だよ...`;
     characterComment.style.background = '#E8F5E9';
     characterArea.style.setProperty('--comment-bg-color', '#E8F5E9');
@@ -369,6 +392,7 @@ async function getWeatherByCoords(lat, lon) {
 async function getWeather(city) {
     setLoading(true);
     closeAllLists();
+    characterImg.src =　'img/Q1.png'
     characterComment.innerHTML = `ちょっと待ってね...`;
     characterComment.style.background = '#E8F5E9';
     characterArea.style.setProperty('--comment-bg-color', '#E8F5E9');
@@ -397,10 +421,8 @@ function displayWeather(data, displayCityName) {
     characterArea.style.setProperty('--icon-border-color', charData.borderColor);
     triggerCharacterAnimation(characterImg);
 
-    // ヘッダー（都市名と日付）
     weatherHeaderDisplay.innerHTML = `<h2 class="weather-title"><span class="city-name-large">${displayCityName}</span>　の現在の天気</h2><span class="current-date-info">${getFormattedTodayDate()}</span>`;
 
-    // --- 時刻変換用の補助関数 ---
     const formatTime = (unixTimestamp) => {
         const dt = new Date(unixTimestamp * 1000);
         const hours = String(dt.getHours()).padStart(2, '0');
@@ -422,7 +444,6 @@ function displayWeather(data, displayCityName) {
         <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">データ取得時刻: ${updateTime}</p>
     `;
 }
-
 
 function displayForecast(data, displayCityName) {
     const daily = {};
@@ -446,22 +467,17 @@ function displayForecast(data, displayCityName) {
     });
     forecastDisplay.innerHTML = html;
 }
-// エラーが発生した時の処理
+
 function handleError(name, msg) {
     setLoading(false);
-
-    // 見つからない場合は Q1.png を表示
-    characterImg.src = 'img/Q1.png';
-
+    characterImg.src = 'img/q.png';
     characterComment.innerHTML = `ごめんね、その場所は見つからなかったよ。<br>もう一度教えてね！`;
     characterArea.style.setProperty('--comment-bg-color', '#FFCCBC');
     characterArea.style.setProperty('--icon-border-color', '#FF7043');
     characterComment.style.background = '#FFCCBC';
-
-    // 天気表示エリアを空にする
     weatherHeaderDisplay.innerHTML = '';
     weatherDisplay.innerHTML = `<p style="color:red; font-weight:bold;">「${name}」が見つかりませんでした。</p>`;
-    forecastDisplay.innerHTML = ''; 
+    forecastDisplay.innerHTML = '';
 }
 
 // ====================================================================
@@ -478,18 +494,32 @@ function handleInputCustom(inputElement, listId) {
     targetList.classList.add('hidden');
     if (!val) return;
 
-    // ★★★ 五十音順（localeCompare）でソート ★★★
-    const matchedCities = Object.keys(CITY_NAME_MAP)
-        .filter(city => city.toLowerCase().startsWith(val))
-        .sort((a, b) => a.localeCompare(b, 'ja')) // あいうえお順に並び替え
-        .slice(0, 15);
+    const allCityNames = Object.keys(CITY_NAME_MAP);
+    let matchedCities = allCityNames.filter(city => city.toLowerCase().startsWith(val) || (KANA_MAP[city] && KANA_MAP[city].startsWith(val)));
 
-    if (matchedCities.length > 0) {
-        matchedCities.forEach(city => {
+    // 【修正：五十音順並び替え】
+    matchedCities.sort((a, b) => {
+        // KANA_MAPにあれば読み（かな）を使い、なければ漢字そのものを使う
+        const kanaA = KANA_MAP[a] || a;
+        const kanaB = KANA_MAP[b] || b;
+        return kanaA.localeCompare(kanaB, 'ja');
+    });
+
+    const finalDisplayCities = matchedCities.slice(0, 15);
+
+    if (finalDisplayCities.length > 0) {
+        finalDisplayCities.forEach(city => {
             const item = document.createElement('div');
             item.classList.add('autocomplete-item');
             const index = city.toLowerCase().indexOf(val);
-            item.innerHTML = `<strong>${city.substring(index, index + val.length)}</strong>${city.substring(index + val.length)}`;
+
+            // 入力に一致する部分を強調表示（読みでヒットした場合は強調なし）
+            if (index !== -1) {
+                item.innerHTML = `<strong>${city.substring(index, index + val.length)}</strong>${city.substring(index + val.length)}`;
+            } else {
+                item.innerHTML = city;
+            }
+
             item.addEventListener('click', () => {
                 inputElement.value = city;
                 closeAllLists();

@@ -562,12 +562,29 @@ hr {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
 }
 
-/* 5. 小さなスマホ画面でキャラクターと吹き出しが重なるのを防ぐ */
+/* ====================================================================
+ * スマホ・Android用レイアウト最終調整
+ * ==================================================================== */
 @media (max-width: 500px) {
     #start-welcome-title {
         font-size: 2.5em !important;
+        padding: 30px 10px 40px 10px !important;
     }
 
+    /* 検索説明テキスト（赤線部分）を1行で表示 */
+    .small-text {
+        white-space: nowrap !important;
+        /* 絶対に改行させない */
+        font-size: 0.8em !important;
+        /* 1行に収まるよう少し小さく */
+        width: 100% !important;
+        margin: 15px 0 !important;
+        /* 上下の余白を確保 */
+        display: block !important;
+        text-align: center !important;
+    }
+
+    /* キャラクターエリアの縦並び */
     .character-area {
         flex-direction: column !important;
         gap: 15px !important;
@@ -578,7 +595,6 @@ hr {
         max-width: 95% !important;
         width: 100% !important;
         font-size: 1.1em !important;
-        margin-left: 0 !important;
     }
 
     #character-comment::before {
@@ -588,17 +604,8 @@ hr {
         border-width: 8px 10px 8px 0 !important;
     }
 
-    white-space: nowrap;
-    display: block;
-    width: 100% !important;
-    text-align: center;
-    overflow: visible;
-}
-
-/* もし文字が大きすぎて画面からはみ出る場合は、スマホ時だけ少し小さく */
-@media (max-width: 500px) {
-    .small-text {
-        font-size: 0.8em !important;
+    /* 入力グループと下のボタンの距離 */
+    .start-input-group {
+        margin-bottom: 35px !important;
     }
-}
 }
