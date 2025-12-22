@@ -369,39 +369,29 @@ hr {
 /* ====================================================================
  * 5. 天気情報・週間予報・ボタン
  * ==================================================================== */
-/* ====================================================================
- * 5. 天気情報・ヘッダー部分（修正版）
- * ==================================================================== */
 #weather-header-display {
     display: flex;
     flex-wrap: wrap;
-    /* 重要：入りきらない時に次の行へ逃がす */
-    align-items: center;
-    /* baselineからcenterに変更して高さを揃える */
+    align-items: baseline;
     justify-content: flex-start;
     gap: 8px 12px;
-    margin: 20px 0 15px 0;
+    margin: 20px 0 10px 0;
     width: 100%;
 }
 
 #weather-header-display .city-name-large {
     font-size: 1.4em;
-    /* スマホで見やすいサイズ */
     font-weight: bold;
     color: #34495e;
     white-space: nowrap;
-    /* 「大分市」が途中で切れるのを防ぐ */
-    display: inline-block;
 }
 
-/* 「の現在の天気」や「日付」がガタガタにならないようにする */
+/* 日付部分の設定 */
 #weather-header-display .current-date-info {
     font-size: 0.85em;
     color: #777;
     margin: 0;
     white-space: nowrap;
-    /* 日付が途中で改行されるのを防ぐ */
-    display: inline-block;
 }
 
 #main-weather-icon {
