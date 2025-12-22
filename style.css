@@ -169,21 +169,29 @@ hr {
     font-weight: bold;
     /* 修正：幅をスマホに合わせ、重なりを防ぐ */
     display: block;
-    width: 85%;            /* 幅を広げて安定させる */
+    width: 85%;
+    /* 幅を広げて安定させる */
     max-width: 300px;
-    margin: 30px auto;     /* 上下の余白を均等に */
-    position: relative;    /* 浮かないように固定 */
+    margin: 30px auto;
+    /* 上下の余白を均等に */
+    position: relative;
+    /* 浮かないように固定 */
     z-index: 10;
 }
 
 .small-text {
-    font-size: 0.9em;      /* 少し小さくしてバランス調整 */
+    font-size: 0.9em;
+    /* 少し小さくしてバランス調整 */
     color: #666;
-    margin: 10px auto;     /* 上下に隙間を作る */
+    margin: 10px auto;
+    /* 上下に隙間を作る */
     display: block;
-    width: 90%;            /* 横幅を確保 */
-    line-height: 1.5;      /* 行間を広げて読みやすく */
-    clear: both;           /* 上の要素との重なりを強制解除 */
+    width: 90%;
+    /* 横幅を確保 */
+    line-height: 1.5;
+    /* 行間を広げて読みやすく */
+    clear: both;
+    /* 上の要素との重なりを強制解除 */
 }
 
 .small-text1 {
@@ -210,6 +218,7 @@ hr {
     font-size: 16px;
     z-index: 2;
 }
+
 /* リスト全体の枠組み */
 .start-input-group> :not(input):not(button),
 .input-area> :not(input):not(button) {
@@ -360,23 +369,39 @@ hr {
 /* ====================================================================
  * 5. 天気情報・週間予報・ボタン
  * ==================================================================== */
+/* ====================================================================
+ * 5. 天気情報・ヘッダー部分（修正版）
+ * ==================================================================== */
 #weather-header-display {
     display: flex;
-    align-items: baseline;
-    gap: 12px;
-    margin: 15px 0 10px 0;
+    flex-wrap: wrap;
+    /* 重要：入りきらない時に次の行へ逃がす */
+    align-items: center;
+    /* baselineからcenterに変更して高さを揃える */
+    justify-content: flex-start;
+    gap: 8px 12px;
+    margin: 20px 0 15px 0;
+    width: 100%;
 }
 
 #weather-header-display .city-name-large {
-    font-size: 1.5em;
+    font-size: 1.4em;
+    /* スマホで見やすいサイズ */
     font-weight: bold;
     color: #34495e;
+    white-space: nowrap;
+    /* 「大分市」が途中で切れるのを防ぐ */
+    display: inline-block;
 }
 
+/* 「の現在の天気」や「日付」がガタガタにならないようにする */
 #weather-header-display .current-date-info {
-    font-size: 0.9em;
+    font-size: 0.85em;
     color: #777;
     margin: 0;
+    white-space: nowrap;
+    /* 日付が途中で改行されるのを防ぐ */
+    display: inline-block;
 }
 
 #main-weather-icon {
@@ -590,5 +615,14 @@ hr {
         top: -10px !important;
         transform: translateX(-50%) rotate(90deg) !important;
         border-width: 8px 10px 8px 0 !important;
+    }
+
+    @media (max-width: 500px) {
+
+        /* ...中略... */
+        .start-input-group {
+            margin-bottom: 40px !important;
+            /* ←これを追加してボタンとの隙間を作る */
+        }
     }
 }
