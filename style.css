@@ -203,34 +203,16 @@ hr {
     font-size: 16px;
     z-index: 2;
 }
-
-/* ====================================================================
- * 【最終修正】検索候補リスト（吹き出し矢印削除・シンプル表示）
- * ==================================================================== */
-
-//* ====================================================================
-* 【最終修正】検索候補リスト（吹き出し矢印削除・シンプル表示） *====================================================================*/
-
 /* リスト全体の枠組み */
 .start-input-group> :not(input):not(button),
 .input-area> :not(input):not(button) {
     position: absolute !important;
     top: 100% !important;
-    /* 入力欄の真下 */
     left: 0 !important;
-    /* 左端合わせ */
     margin-top: 5px !important;
-    /* 入力欄との隙間 */
-
-    /* ★★★ ここを変更しました（幅を短くする設定） ★★★ */
-    width: 100% !important;
-    /* 基本は親要素に合わせる */
-    max-width: 260px !important;
-    /* ★ここで横幅の上限をカット（お好みで数値を調整） */
-    min-width: auto !important;
-    /* 無理やり広げる設定を解除 */
-    /* ★★★★★★★★★★★★★★★★★★★★★★★★★ */
-
+    width: auto !important;
+    max-width: 100px !important;
+    min-width: 200px !important;
     padding: 5px 0 !important;
 
     background-color: #fff !important;
@@ -386,7 +368,7 @@ hr {
 
 #weather-header-display .current-date-info {
     font-size: 0.9em;
-    color: #555;
+    color: #777;
     margin: 0;
 }
 
