@@ -174,7 +174,7 @@ hr {
     z-index: 10;
 }
 
-.small-text {
+. {
     font-size: 0.9em;
     color: #666;
     margin: 10px auto;
@@ -187,6 +187,7 @@ hr {
 .small-text1 {
     color: #cc3333;
     font-weight: bold;
+    small-text
 }
 
 /* ====================================================================
@@ -563,25 +564,27 @@ hr {
 }
 
 /* ====================================================================
- * スマホ・Android用レイアウト最終調整
+ * スマホ・Android用レイアウト最終調整（はみ出し解決版）
  * ==================================================================== */
 @media (max-width: 500px) {
     #start-welcome-title {
-        font-size: 2.5em !important;
+        font-size: 2.2em !important;
+        /* スマホではタイトルをさらに抑える */
         padding: 30px 10px 40px 10px !important;
     }
 
-    /* 検索説明テキスト（赤線部分）を1行で表示 */
+    /* 「※より正確な〜」のテキスト修正 */
     .small-text {
-        white-space: nowrap !important;
-        /* 絶対に改行させない */
-        font-size: 0.8em !important;
-        /* 1行に収まるよう少し小さく */
-        width: 100% !important;
-        margin: 15px 0 !important;
-        /* 上下の余白を確保 */
+        white-space: normal !important;
+        /* 絶対にnormalにする（改行を許可） */
+        font-size: 0.75rem !important;
+        /* スマホ用に少し小さく */
+        width: 95% !important;
+        max-width: none !important;
+        margin: 15px auto !important;
         display: block !important;
         text-align: center !important;
+        line-height: 1.5 !important;
     }
 
     /* キャラクターエリアの縦並び */
@@ -604,8 +607,9 @@ hr {
         border-width: 8px 10px 8px 0 !important;
     }
 
-    /* 入力グループと下のボタンの距離 */
+    /* 入力グループの調整 */
     .start-input-group {
         margin-bottom: 35px !important;
+        width: 100% !important;
     }
 }
