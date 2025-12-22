@@ -124,7 +124,6 @@ hr {
     font-size: 1.2em;
 }
 
-/* 入力エリア（スタート画面） */
 .start-input-group {
     display: flex;
     gap: 10px;
@@ -167,31 +166,22 @@ hr {
     cursor: pointer;
     font-size: 18px;
     font-weight: bold;
-    /* 修正：幅をスマホに合わせ、重なりを防ぐ */
     display: block;
     width: 85%;
-    /* 幅を広げて安定させる */
     max-width: 300px;
     margin: 30px auto;
-    /* 上下の余白を均等に */
     position: relative;
-    /* 浮かないように固定 */
     z-index: 10;
 }
 
 .small-text {
     font-size: 0.9em;
-    /* 少し小さくしてバランス調整 */
     color: #666;
     margin: 10px auto;
-    /* 上下に隙間を作る */
     display: block;
     width: 90%;
-    /* 横幅を確保 */
     line-height: 1.5;
-    /* 行間を広げて読みやすく */
     clear: both;
-    /* 上の要素との重なりを強制解除 */
 }
 
 .small-text1 {
@@ -546,13 +536,9 @@ hr {
 #city-input-start,
 #city-input {
     flex: 1 !important;
-    /* 可能な限り広がる */
     min-width: 0 !important;
-    /* 潰れ防止 */
     height: 48px !important;
-    /* モバイルで押しやすい高さ */
     font-size: 16px !important;
-    /* iOSの自動ズーム防止 */
 }
 
 /* 3. ボタンの幅を固定 */
@@ -567,11 +553,9 @@ hr {
 .autocomplete-list {
     position: absolute !important;
     top: 100% !important;
-    /* 入力欄のすぐ下 */
     left: 0 !important;
     width: 100% !important;
     z-index: 10000 !important;
-    /* 最前面に表示 */
     margin-top: 5px !important;
     background: white !important;
     border: 1px solid #ccc !important;
@@ -582,12 +566,10 @@ hr {
 @media (max-width: 500px) {
     #start-welcome-title {
         font-size: 2.5em !important;
-        /* タイトルがはみ出るのを防ぐ */
     }
 
     .character-area {
         flex-direction: column !important;
-        /* キャラと吹き出しを縦に並べる */
         gap: 15px !important;
         align-items: center !important;
     }
@@ -600,19 +582,23 @@ hr {
     }
 
     #character-comment::before {
-        /* 吹き出しの三角を左から上に移動 */
         left: 50% !important;
         top: -10px !important;
         transform: translateX(-50%) rotate(90deg) !important;
         border-width: 8px 10px 8px 0 !important;
     }
 
-    @media (max-width: 500px) {
+    white-space: nowrap;
+    display: block;
+    width: 100% !important;
+    text-align: center;
+    overflow: visible;
+}
 
-        /* ...中略... */
-        .start-input-group {
-            margin-bottom: 40px !important;
-            /* ←これを追加してボタンとの隙間を作る */
-        }
+/* もし文字が大きすぎて画面からはみ出る場合は、スマホ時だけ少し小さく */
+@media (max-width: 500px) {
+    .small-text {
+        font-size: 0.8em !important;
     }
+}
 }

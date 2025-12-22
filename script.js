@@ -218,44 +218,44 @@ const CITY_NAME_MAP = {
     'オークランド': 'Auckland', 'クイーンズタウン': 'Queenstown',
     'ドバイ': 'Dubai', 'アブダビ': 'Abu Dhabi', 'カイロ': 'Cairo',
     'カサブランカ': 'Casablanca', 'ケープタウン': 'Cape Town',
-   // --- 大分県（API認識安定版） ---
-    '大分': 'Oita', 
+    // --- 大分県（API認識安定版） ---
+    '大分': 'Oita',
     '大分市': 'Oita',
     'おおいた': 'Oita',
-    '別府': 'Beppu', 
+    '別府': 'Beppu',
     '別府市': 'Beppu',
     'べっぷ': 'Beppu',
-    '中津': 'Nakatsu', 
+    '中津': 'Nakatsu',
     '中津市': 'Nakatsu',
-    '日田': 'Hita', 
+    '日田': 'Hita',
     '日田市': 'Hita',
-    '佐伯': 'Saiki', 
+    '佐伯': 'Saiki',
     '佐伯市': 'Saiki',
-    '臼杵': 'Usuki', 
+    '臼杵': 'Usuki',
     '臼杵市': 'Usuki',
-    '津久見': 'Tsukumi', 
+    '津久見': 'Tsukumi',
     '津久見市': 'Tsukumi',
-    '竹田': 'Taketa', 
+    '竹田': 'Taketa',
     '竹田市': 'Taketa',
-    '豊後高田': 'Bungo-Takada', 
+    '豊後高田': 'Bungo-Takada',
     '豊後高田市': 'Bungo-Takada',
-    '杵築': 'Kitsuki', 
+    '杵築': 'Kitsuki',
     '杵築市': 'Kitsuki',
-    '宇佐': 'Usa', 
+    '宇佐': 'Usa',
     '宇佐市': 'Usa',
-    '豊後大野': 'Bungo-ono', 
+    '豊後大野': 'Bungo-ono',
     '豊後大野市': 'Bungo-ono',
-    '由布': 'Yufu', 
+    '由布': 'Yufu',
     '由布市': 'Yufu',
-    '国東': 'Kunisaki', 
+    '国東': 'Kunisaki',
     '国東市': 'Kunisaki',
-    '日出': 'Hiji', 
+    '日出': 'Hiji',
     '日出町': 'Hiji',
-    '九重': 'Kokonoe', 
+    '九重': 'Kokonoe',
     '九重町': 'Kokonoe',
-    '玖珠': 'Kusu', 
+    '玖珠': 'Kusu',
     '玖珠町': 'Kusu',
-    '姫島': 'Himeshima', 
+    '姫島': 'Himeshima',
     '姫島村': 'Himeshima',
 };
 
@@ -331,7 +331,7 @@ function getCurrentLocationWeather() {
     startPage.classList.add('hidden');
     mainContent.classList.remove('hidden');
     characterComment.innerHTML = `位置情報を取得中だよ...`;
-    characterComment.style.background = '#E8F5E9'; // 薄いグリーン
+    characterComment.style.background = '#E8F5E9';
     characterArea.style.setProperty('--comment-bg-color', '#E8F5E9');
     characterArea.style.setProperty('--icon-border-color', '#81C784');
     navigator.geolocation.getCurrentPosition(
@@ -389,7 +389,7 @@ async function getWeather(city) {
 }
 
 function displayWeather(data, displayCityName) {
-    const charData = weatherMap[data.weather[0].main] || { image: 'img/Q1.png', comment: (c) => `天気は${data.weather[0].description}だよ！`, bgColor: '#f5ffcd', borderColor: '#f5ffcd' };
+    const charData = weatherMap[data.weather[0].main] || { image: 'img/q.png', comment: (c) => `天気は${data.weather[0].description}だよ！`, bgColor: '#f5ffcd', borderColor: '#f5ffcd' };
     characterImg.src = charData.image;
     characterComment.innerHTML = charData.comment(displayCityName);
     characterComment.style.background = charData.bgColor;
@@ -408,14 +408,11 @@ function displayWeather(data, displayCityName) {
         return `${hours}:${minutes}`;
     };
 
-    // --- データの準備 ---
     const sunrise = formatTime(data.sys.sunrise);
     const sunset = formatTime(data.sys.sunset);
 
     const now = new Date();
     const updateTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-
-    // --- メイン表示エリアの書き換え ---
     weatherDisplay.innerHTML = `
         <p>🌡️ 現在の気温: <strong>${Math.round(data.main.temp)}℃</strong></p>
         <p>✨ 詳しい天気: <strong>${data.weather[0].description}</strong></p>
@@ -456,10 +453,7 @@ function handleError(name, msg) {
     // 見つからない場合は Q1.png を表示
     characterImg.src = 'img/Q1.png';
 
-    // メッセージも統一
     characterComment.innerHTML = `ごめんね、その場所は見つからなかったよ。<br>もう一度教えてね！`;
-
-    // 背景色と枠線もエラー用に変更
     characterArea.style.setProperty('--comment-bg-color', '#FFCCBC');
     characterArea.style.setProperty('--icon-border-color', '#FF7043');
     characterComment.style.background = '#FFCCBC';
@@ -467,7 +461,7 @@ function handleError(name, msg) {
     // 天気表示エリアを空にする
     weatherHeaderDisplay.innerHTML = '';
     weatherDisplay.innerHTML = `<p style="color:red; font-weight:bold;">「${name}」が見つかりませんでした。</p>`;
-    forecastDisplay.innerHTML = ''; // 週間予報も消す
+    forecastDisplay.innerHTML = ''; 
 }
 
 // ====================================================================
