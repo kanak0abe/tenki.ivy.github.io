@@ -185,7 +185,6 @@ const CITY_NAME_MAP = {
     '佐賀': 'Saga', '佐賀県': 'Saga', '唐津': 'Karatsu',
     '長崎': 'Nagasaki', '長崎県': 'Nagasaki', '佐世保': 'Sasebo',
     '熊本': 'Kumamoto', '熊本県': 'Kumamoto', '阿蘇': 'Aso',
-    '大分': 'Oita', '大分市': 'Oita', '別府': 'Beppu', '中津': 'Nakatsu', '日田': 'Hita', '佐伯': 'Saiki', '臼杵': 'Usuki', '津久見': 'Tsukumi', '竹田': 'Taketa', '豊後高田': 'Bungo-Takada', '杵築': 'Kitsuki', '宇佐': 'Usa', '豊後大野': 'Bungo-ono', '由布': 'Yufu', '国東': 'Kunisaki', '日出': 'Hiji', '玖珠': 'Kusu', '九重': 'Kokonoe',
     '宮崎': 'Miyazaki', '宮崎県': 'Miyazaki', '延岡': 'Nobeoka', '都城': 'Miyakonojo',
     '鹿児島': 'Kagoshima', '鹿児島県': 'Kagoshima', '奄美': 'Amami', '種子島': 'Tanegashima',
     '那覇': 'Naha', '沖縄': 'Naha', '沖縄県': 'Naha', '宮古島': 'Miyakojima', '石垣島': 'Ishigaki',
@@ -218,7 +217,33 @@ const CITY_NAME_MAP = {
     'シドニー': 'Sydney', 'メルボルン': 'Melbourne', 'ケアンズ': 'Cairns', 'ゴールドコースト': 'Gold Coast',
     'オークランド': 'Auckland', 'クイーンズタウン': 'Queenstown',
     'ドバイ': 'Dubai', 'アブダビ': 'Abu Dhabi', 'カイロ': 'Cairo',
-    'カサブランカ': 'Casablanca', 'ケープタウン': 'Cape Town'
+    'カサブランカ': 'Casablanca', 'ケープタウン': 'Cape Town',
+    // --- 大分県（API認識安定版） ---
+    '大分': 'Oita', '大分市': 'Oita','おおいた': 'Oita',
+    '別府': 'Beppu', '別府市': 'Beppu',
+    '中津': 'Nakatsu', '中津市': 'Nakatsu',
+    '日田': 'Hita', '日田市': 'Hita',
+    '佐伯': 'Saiki', '佐伯市': 'Saiki',
+    '臼杵': 'Usuki', '臼杵市': 'Usuki',
+    '津久見': 'Tsukumi', '津久見市': 'Tsukumi',
+    '竹田': 'Taketa', '竹田市': 'Taketa',
+    '豊後高田': 'Bungo-Takada', '豊後高田市': 'Bungo-Takada',
+    '杵築': 'Kitsuki', '杵築市': 'Kitsuki',
+    '宇佐': 'Usa', '宇佐市': 'Usa',
+    '豊後大野': 'Bungo-ono', '豊後大野市': 'Bungo-ono',
+    '由布': 'Yufu', '由布市': 'Yufu',
+    '国東': 'Kunisaki', '国東市': 'Kunisaki',
+    '日出': 'Hiji', '日出町': 'Hiji',
+    '九重': 'Kokonoe', '九重町': 'Kokonoe',
+    '玖珠': 'Kusu', '玖珠町': 'Kusu',
+    '姫島': 'Himeshima', '姫島村': 'Himeshima',
+    // --- 個別対応エリア（親都市のデータに紐付け） ---
+    '安心院': 'Usa',        // 安心院は宇佐市のデータを使用
+    '院内': 'Usa',          // 院内は宇佐市のデータを使用
+    '湯布院': 'Yufu',       // 湯布院は由布市のデータを使用
+    '由布院': 'Yufu',       // 表記ゆれ対応
+    '耶馬渓': 'Nakatsu',    // 耶馬渓は中津市のデータを使用
+    'くじゅう': 'Kokonoe',  // 九重町のデータを使用
 };
 
 // ====================================================================
@@ -293,6 +318,9 @@ function getCurrentLocationWeather() {
     startPage.classList.add('hidden');
     mainContent.classList.remove('hidden');
     characterComment.innerHTML = `位置情報を取得中だよ...`;
+    characterComment.style.background = '#E8F5E9'; // 薄いグリーン
+    characterArea.style.setProperty('--comment-bg-color', '#E8F5E9');
+    characterArea.style.setProperty('--icon-border-color', '#81C784');
     navigator.geolocation.getCurrentPosition(
         pos => getWeatherByCoords(pos.coords.latitude, pos.coords.longitude),
         err => { setLoading(false); handleGeoError(err); },
@@ -329,6 +357,9 @@ async function getWeather(city) {
     setLoading(true);
     closeAllLists();
     characterComment.innerHTML = `ちょっと待ってね...`;
+    characterComment.style.background = '#E8F5E9';
+    characterArea.style.setProperty('--comment-bg-color', '#E8F5E9');
+    characterArea.style.setProperty('--icon-border-color', '#81C784');
     let displayCityName = city.trim();
     let searchCity = CITY_NAME_MAP[displayCityName] || displayCityName;
     const currentUrl = `${CURRENT_BASE_URL}?q=${searchCity}&appid=${API_KEY}&units=metric&lang=ja`;
@@ -353,9 +384,35 @@ function displayWeather(data, displayCityName) {
     characterArea.style.setProperty('--icon-border-color', charData.borderColor);
     triggerCharacterAnimation(characterImg);
 
-    weatherHeaderDisplay.innerHTML = `<h2 class="weather-title"><span class="city-name-large">${displayCityName}</span>現在の天気</h2><span class="current-date-info">${getFormattedTodayDate()}</span>`;
-    weatherDisplay.innerHTML = `<p>🌡️ 気温: <strong>${Math.round(data.main.temp)}℃</strong></p><p>✨ 天気: <strong>${data.weather[0].description}</strong></p><p>💧 湿度: <strong>${data.main.humidity}%</strong></p>`;
+    // ヘッダー（都市名と日付）
+    weatherHeaderDisplay.innerHTML = `<h2 class="weather-title"><span class="city-name-large">${displayCityName}</span>　の現在の天気</h2><span class="current-date-info">${getFormattedTodayDate()}</span>`;
+
+    // --- 時刻変換用の補助関数 ---
+    const formatTime = (unixTimestamp) => {
+        const dt = new Date(unixTimestamp * 1000);
+        const hours = String(dt.getHours()).padStart(2, '0');
+        const minutes = String(dt.getMinutes()).padStart(2, '0');
+        return `${hours}:${minutes}`;
+    };
+
+    // --- データの準備 ---
+    const sunrise = formatTime(data.sys.sunrise);
+    const sunset = formatTime(data.sys.sunset);
+
+    const now = new Date();
+    const updateTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+    // --- メイン表示エリアの書き換え ---
+    weatherDisplay.innerHTML = `
+        <p>🌡️ 現在の気温: <strong>${Math.round(data.main.temp)}℃</strong></p>
+        <p>✨ 詳しい天気: <strong>${data.weather[0].description}</strong></p>
+        <p>💧 湿度: <strong>${data.main.humidity}%</strong></p>
+        <p>🌪️ 風速: <strong>${data.wind.speed}m/s</strong></p>
+        <p>🌅 日の出: <strong>${sunrise}</strong> / 🌇 日の入り: <strong>${sunset}</strong></p>
+        <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">データ取得時刻: ${updateTime}</p>
+    `;
 }
+
 
 function displayForecast(data, displayCityName) {
     const daily = {};
@@ -372,7 +429,7 @@ function displayForecast(data, displayCityName) {
         const d = daily[key];
         const dateObj = new Date(d.dt * 1000);
         html += `<div class="forecast-item" id="forecast-item-${i}">
-            <p><strong>${dateObj.getMonth()+1}/${dateObj.getDate()}</strong></p>
+            <p><strong>${dateObj.getMonth() + 1}/${dateObj.getDate()}</strong></p>
             <p style="font-size:1.5rem;">${d.main === 'Clear' ? '☀️' : '☁️'}</p>
             <p>${Math.round(d.max)}℃ / ${Math.round(d.min)}℃</p>
         </div>`;
@@ -382,13 +439,13 @@ function displayForecast(data, displayCityName) {
 // エラーが発生した時の処理
 function handleError(name, msg) {
     setLoading(false);
-    
+
     // 見つからない場合は Q1.png を表示
-    characterImg.src = 'img/Q1.png'; 
-    
+    characterImg.src = 'img/Q1.png';
+
     // メッセージも統一
     characterComment.innerHTML = `ごめんね、その場所は見つからなかったよ。<br>もう一度教えてね！`;
-    
+
     // 背景色と枠線もエラー用に変更
     characterArea.style.setProperty('--comment-bg-color', '#FFCCBC');
     characterArea.style.setProperty('--icon-border-color', '#FF7043');

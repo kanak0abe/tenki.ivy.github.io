@@ -8,7 +8,9 @@ html {
     overflow-y: scroll;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
@@ -19,7 +21,7 @@ body {
     padding: 0;
     min-height: 100vh;
     height: auto;
-    
+
     background: linear-gradient(135deg,
             #FFDCDC 0%, #FFECF0 15%, #F0E5FF 30%, #E0E5FF 45%,
             #E0FFF0 60%, #FFFFE0 75%, #FFE5D0 90%, #FFDCDC 100%);
@@ -80,9 +82,18 @@ h2 {
     text-align: left;
     display: block;
 }
-h2::after { display: none; }
-.hidden { display: none !important; }
-hr { display: none; }
+
+h2::after {
+    display: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+hr {
+    display: none;
+}
 
 /* ====================================================================
  * 2. スタート画面
@@ -109,7 +120,9 @@ hr { display: none; }
     border: none;
 }
 
-.start-container p { font-size: 1.2em; }
+.start-container p {
+    font-size: 1.2em;
+}
 
 /* 入力エリア（スタート画面） */
 .start-input-group {
@@ -131,7 +144,8 @@ hr { display: none; }
     z-index: 2;
 }
 
-#start-btn, #get-weather-btn {
+#start-btn,
+#get-weather-btn {
     background-color: #28a745;
     color: white;
     border: none;
@@ -159,8 +173,16 @@ hr { display: none; }
     margin: 25px auto 30px auto;
 }
 
-.small-text { font-size: 1.0em; color: #888; margin: 3px 0; }
-.small-text1 { color: #cc3333; font-weight: bold; }
+.small-text {
+    font-size: 1.0em;
+    color: #888;
+    margin: 3px 0;
+}
+
+.small-text1 {
+    color: #cc3333;
+    font-weight: bold;
+}
 
 /* ====================================================================
  * 3. メイン画面入力エリア
@@ -187,36 +209,41 @@ hr { display: none; }
  * ==================================================================== */
 
 //* ====================================================================
- * 【最終修正】検索候補リスト（吹き出し矢印削除・シンプル表示）
- * ==================================================================== */
+* 【最終修正】検索候補リスト（吹き出し矢印削除・シンプル表示） *====================================================================*/
 
 /* リスト全体の枠組み */
-.start-input-group > :not(input):not(button),
-.input-area > :not(input):not(button) {
+.start-input-group> :not(input):not(button),
+.input-area> :not(input):not(button) {
     position: absolute !important;
-    top: 100% !important;        /* 入力欄の真下 */
-    left: 0 !important;          /* 左端合わせ */
-    margin-top: 5px !important;  /* 入力欄との隙間 */
-    
+    top: 100% !important;
+    /* 入力欄の真下 */
+    left: 0 !important;
+    /* 左端合わせ */
+    margin-top: 5px !important;
+    /* 入力欄との隙間 */
+
     /* ★★★ ここを変更しました（幅を短くする設定） ★★★ */
-    width: 100% !important;       /* 基本は親要素に合わせる */
-    max-width: 260px !important;  /* ★ここで横幅の上限をカット（お好みで数値を調整） */
-    min-width: auto !important;   /* 無理やり広げる設定を解除 */
+    width: 100% !important;
+    /* 基本は親要素に合わせる */
+    max-width: 260px !important;
+    /* ★ここで横幅の上限をカット（お好みで数値を調整） */
+    min-width: auto !important;
+    /* 無理やり広げる設定を解除 */
     /* ★★★★★★★★★★★★★★★★★★★★★★★★★ */
-    
+
     padding: 5px 0 !important;
-    
+
     background-color: #fff !important;
     border: 1px solid #ddd !important;
     border-radius: 8px !important;
-    
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15) !important;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15) !important;
     z-index: 9999 !important;
 }
 
 /* 中身が空（要素がない）場合は、枠線も影も消す（完全非表示） */
-.start-input-group > :not(input):not(button):empty,
-.input-area > :not(input):not(button):empty {
+.start-input-group> :not(input):not(button):empty,
+.input-area> :not(input):not(button):empty {
     display: none !important;
     padding: 0 !important;
     border: none !important;
@@ -224,20 +251,20 @@ hr { display: none; }
 }
 
 /* 【重要】吹き出しの矢印（三角）を完全に削除 */
-.start-input-group > :not(input):not(button)::before,
-.start-input-group > :not(input):not(button)::after,
-.input-area > :not(input):not(button)::before,
-.input-area > :not(input):not(button)::after {
+.start-input-group> :not(input):not(button)::before,
+.start-input-group> :not(input):not(button)::after,
+.input-area> :not(input):not(button)::before,
+.input-area> :not(input):not(button)::after {
     display: none !important;
     content: none !important;
     border: none !important;
 }
 
 /* リストの中身（行） */
-.start-input-group > :not(input):not(button) li,
-.input-area > :not(input):not(button) li,
-.start-input-group > :not(input):not(button) div,
-.input-area > :not(input):not(button) div {
+.start-input-group> :not(input):not(button) li,
+.input-area> :not(input):not(button) li,
+.start-input-group> :not(input):not(button) div,
+.input-area> :not(input):not(button) div {
     padding: 10px 15px !important;
     border-bottom: 1px solid #f0f0f0 !important;
     text-align: left !important;
@@ -250,24 +277,24 @@ hr { display: none; }
 }
 
 /* ホバー時の色 */
-.start-input-group > :not(input):not(button) li:hover,
-.input-area > :not(input):not(button) li:hover,
-.start-input-group > :not(input):not(button) div:hover,
-.input-area > :not(input):not(button) div:hover {
+.start-input-group> :not(input):not(button) li:hover,
+.input-area> :not(input):not(button) li:hover,
+.start-input-group> :not(input):not(button) div:hover,
+.input-area> :not(input):not(button) div:hover {
     background-color: #f7f9fa !important;
     color: #ff6699 !important;
 }
 
 /* 最後の項目の下線は消し、角丸に合わせる */
-.start-input-group > :not(input):not(button) > :last-child,
-.input-area > :not(input):not(button) > :last-child {
+.start-input-group> :not(input):not(button)> :last-child,
+.input-area> :not(input):not(button)> :last-child {
     border-bottom: none !important;
     border-radius: 0 0 8px 8px !important;
 }
 
 /* 最初の項目の角丸 */
-.start-input-group > :not(input):not(button) > :first-child,
-.input-area > :not(input):not(button) > :first-child {
+.start-input-group> :not(input):not(button)> :first-child,
+.input-area> :not(input):not(button)> :first-child {
     border-radius: 8px 8px 0 0 !important;
 }
 
@@ -283,7 +310,7 @@ hr { display: none; }
     margin: 30px 0;
     padding: 15px 0;
     position: relative;
-    
+
     --comment-bg-color: #C5CAE9;
     --icon-border-color: #007bff;
 }
@@ -301,7 +328,9 @@ hr { display: none; }
     transition: transform 0.2s ease, border-color 0.3s ease;
 }
 
-#character-img.animate { animation: wiggle-click 0.5s ease-in-out; }
+#character-img.animate {
+    animation: wiggle-click 0.5s ease-in-out;
+}
 
 #character-comment {
     display: flex;
@@ -314,7 +343,7 @@ hr { display: none; }
     background-color: var(--comment-bg-color);
     border-radius: 12px;
     position: relative;
-    
+
     flex-grow: 0;
     width: fit-content;
     max-width: 80%;
@@ -335,7 +364,9 @@ hr { display: none; }
     border-right-color: var(--comment-bg-color);
 }
 
-.character-area::after { display: none; }
+.character-area::after {
+    display: none;
+}
 
 /* ====================================================================
  * 5. 天気情報・週間予報・ボタン
@@ -354,7 +385,7 @@ hr { display: none; }
 }
 
 #weather-header-display .current-date-info {
-    font-size: 1.1em;
+    font-size: 0.9em;
     color: #555;
     margin: 0;
 }
@@ -420,116 +451,155 @@ hr { display: none; }
     opacity: 0.7;
     transition: opacity 0.3s;
 }
-.bgm-button.fixed-right-top:hover { opacity: 1.0; }
+
+.bgm-button.fixed-right-top:hover {
+    opacity: 1.0;
+}
 
 /* ====================================================================
  * 6. アニメーション定義
  * ==================================================================== */
 @keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
+
 @keyframes sway-constant {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
 }
+
 @keyframes titleGlow {
-    from { text-shadow: 0 0 10px rgba(255,255,255,1), 3px 3px 15px rgba(255,102,153,0.5); }
-    to { text-shadow: 0 0 20px rgba(255,255,255,1), 3px 3px 25px rgba(255,102,153,0.8); }
+    from {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 1), 3px 3px 15px rgba(255, 102, 153, 0.5);
+    }
+
+    to {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 1), 3px 3px 25px rgba(255, 102, 153, 0.8);
+    }
 }
+
 @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
+
 @keyframes wiggle-click {
-    0%, 100% { transform: rotate(0deg) scale(1.05); }
-    25% { transform: rotate(-8deg) scale(1.1); }
-    75% { transform: rotate(8deg) scale(1.1); }
+
+    0%,
+    100% {
+        transform: rotate(0deg) scale(1.05);
+    }
+
+    25% {
+        transform: rotate(-8deg) scale(1.1);
+    }
+
+    75% {
+        transform: rotate(8deg) scale(1.1);
+    }
 }
 
 /* ====================================================================
- * 7. レスポンシブ対応
- * ==================================================================== */
-@media (max-width: 600px) {
-    #start-welcome-title { font-size: 2.5em; }
-    
-    #character-img {
-        width: 110px;
-        height: 110px;
-    }
-    
-    #character-comment {
-        font-size: 1.1em;
-        padding: 12px 18px;
-        max-width: 70%;
-    }
-}
-/* ====================================================================
- * 緊急修正：レイアウト崩れのリセットとリストの再配置
+ * スマホ・Androidレイアウト修正（デザイン維持版）
  * ==================================================================== */
 
-/* 1. 親要素（入力エリアの枠）のレイアウトを安定させる */
-.input-area,
-.start-input-group {
+/* 1. 入力エリアの横並びを安定させ、潰れを防ぐ */
+.start-input-group,
+.input-area {
     display: flex !important;
-    align-items: center !important; /* 中身が縦に伸びすぎるのを防ぐ */
-    position: relative !important;  /* リストの配置基準点にする */
-    height: auto !important;        /* 高さを自動に戻す */
+    align-items: center !important;
+    position: relative !important;
+    /* リスト表示の基準 */
+    width: 100% !important;
+    gap: 8px !important;
 }
 
-/* 2. 入力欄とボタンの高さを正常に戻す */
-.input-area input,
-.input-area button,
-.start-input-group input,
-.start-input-group button {
-    height: 44px !important; /* 一般的なボタンの高さに固定（お好みで調整可） */
-    max-height: none !important;
-    min-height: 0 !important;
+/* 2. 入力欄がボタンに押されて細くなるのを防ぐ */
+#city-input-start,
+#city-input {
+    flex: 1 !important;
+    /* 可能な限り広がる */
+    min-width: 0 !important;
+    /* 潰れ防止 */
+    height: 48px !important;
+    /* モバイルで押しやすい高さ */
+    font-size: 16px !important;
+    /* iOSの自動ズーム防止 */
 }
 
-/* 3. 検索候補リストを確実に「絶対配置」で下に浮かせる */
+/* 3. ボタンの幅を固定 */
+#start-btn,
+#get-weather-btn {
+    flex-shrink: 0 !important;
+    height: 48px !important;
+    white-space: nowrap !important;
+}
+
+/* 4. 検索候補リストがメインコンテンツを押し下げないように浮かせる */
 .autocomplete-list {
-    position: absolute !important; /* これが効いていないのが原因でした */
-    top: 100% !important;          /* 親要素の真下に配置 */
-    left: 0 !important;            /* 左端を合わせる */
-    z-index: 9999 !important;      /* 最前面に表示 */
-    
-    /* 幅の調整（ここでお好みの長さに変えられます） */
-    width: auto !important;
-    min-width: 200px !important;   /* 最低限の幅 */
-    max-width: 280px !important;   /* ★ここで最大幅を制限（ちょうど良い長さに！） */
-    
-    margin-top: 8px !important;    /* 入力欄との隙間 */
-    padding: 5px 0 !important;
-    background-color: #fff !important;
-    border: 1px solid #ddd !important;
-    border-radius: 8px !important;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15) !important;
-    
-    /* Flexアイテムとしての影響を完全に打ち消す */
-    flex: none !important;
-    height: auto !important;
+    position: absolute !important;
+    top: 100% !important;
+    /* 入力欄のすぐ下 */
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 10000 !important;
+    /* 最前面に表示 */
+    margin-top: 5px !important;
+    background: white !important;
+    border: 1px solid #ccc !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
 }
 
-/* リストの中身のスタイル（念の為） */
-.autocomplete-item {
-    padding: 10px 15px !important;
-    border-bottom: 1px solid #f0f0f0 !important;
-    cursor: pointer !important;
-    text-align: left !important;
-    font-size: 15px !important;
-    color: #333 !important;
-    background: #fff !important;
-}
-.autocomplete-item:hover {
-    background-color: #f7f9fa !important;
-    color: #ff6699 !important;
-}
-.autocomplete-item:last-child {
-    border-bottom: none !important;
-    border-radius: 0 0 8px 8px !important;
-}
-.autocomplete-item:first-child {
-    border-radius: 8px 8px 0 0 !important;
+/* 5. 小さなスマホ画面でキャラクターと吹き出しが重なるのを防ぐ */
+@media (max-width: 500px) {
+    #start-welcome-title {
+        font-size: 2.5em !important;
+        /* タイトルがはみ出るのを防ぐ */
+    }
+
+    .character-area {
+        flex-direction: column !important;
+        /* キャラと吹き出しを縦に並べる */
+        gap: 15px !important;
+        align-items: center !important;
+    }
+
+    #character-comment {
+        max-width: 95% !important;
+        width: 100% !important;
+        font-size: 1.1em !important;
+        margin-left: 0 !important;
+    }
+
+    #character-comment::before {
+        /* 吹き出しの三角を左から上に移動 */
+        left: 50% !important;
+        top: -10px !important;
+        transform: translateX(-50%) rotate(90deg) !important;
+        border-width: 8px 10px 8px 0 !important;
+    }
 }
