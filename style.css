@@ -162,21 +162,28 @@ hr {
     background-color: #ff6699;
     color: white;
     border: none;
-    padding: 14px 35px;
+    padding: 15px 20px;
     border-radius: 8px;
     cursor: pointer;
     font-size: 18px;
     font-weight: bold;
+    /* 修正：幅をスマホに合わせ、重なりを防ぐ */
     display: block;
-    width: 40%;
-    max-width: 250px;
-    margin: 25px auto 30px auto;
+    width: 85%;            /* 幅を広げて安定させる */
+    max-width: 300px;
+    margin: 30px auto;     /* 上下の余白を均等に */
+    position: relative;    /* 浮かないように固定 */
+    z-index: 10;
 }
 
 .small-text {
-    font-size: 1.0em;
-    color: #888;
-    margin: 3px 0;
+    font-size: 0.9em;      /* 少し小さくしてバランス調整 */
+    color: #666;
+    margin: 10px auto;     /* 上下に隙間を作る */
+    display: block;
+    width: 90%;            /* 横幅を確保 */
+    line-height: 1.5;      /* 行間を広げて読みやすく */
+    clear: both;           /* 上の要素との重なりを強制解除 */
 }
 
 .small-text1 {
