@@ -343,6 +343,12 @@ getWeatherBtn.addEventListener('click', () => {
 });
 
 cityInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') getWeatherBtn.click(); });
+// 最初のページの入力欄でもEnterキーで検索できるようにする
+cityInputStart.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        startBtn.click(); // 検索ボタンをクリックしたのと同じ動作をさせる
+    }
+});
 
 // ====================================================================
 // ★★★ 位置情報検索 ★★★
