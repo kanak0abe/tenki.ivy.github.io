@@ -603,9 +603,6 @@ hr {
 }
 
 /* ====================================================================
- * スマホ・Android用レイアウト最終調整（はみ出し解決版）
- * ==================================================================== */
-/* ====================================================================
  * スマホ・Android用レイアウト最終調整
  * ==================================================================== */
 @media (max-width: 500px) {
@@ -657,5 +654,32 @@ hr {
     .start-input-group {
         margin-bottom: 35px !important;
         width: 100% !important;
+    }
+}
+
+/* 週間予報のスマホ表示修正 */
+@media (max-width: 500px) {
+    .forecast-container {
+        /* 中央寄せを解除し、左詰め（開始位置）から表示する */
+        justify-content: flex-start !important;
+
+        /* 横スクロールを滑らかにし、端まで見えるようにする */
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+
+        /* 左側の余白を確保して、最初の項目が見切れないようにする */
+        padding-left: 15px;
+        padding-right: 15px;
+
+        /* 画面端までスクロール領域を広げる */
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+
+    .forecast-item {
+        /* スマホで1画面に2.5個〜3個くらい見えるサイズに調整 */
+        flex: 0 0 auto !important;
+        min-width: 100px !important;
+        margin-bottom: 5px;
     }
 }
