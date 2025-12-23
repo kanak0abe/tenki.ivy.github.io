@@ -1,50 +1,52 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>天気予報</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    
-    <div id="start-welcome-title"> 
+
+    <div id="start-welcome-title">
         <span>ようこそ<br>天気予報サイトへ</span>
     </div>
-    
+
     <button id="bgm-toggle-btn" class="bgm-button action-button fixed-right-top">
         BGM: ON 🔈
     </button>
-    
+
     <div class="start-container" id="start-page">
-        <h1>☀️ 天気予報 🌧️</h1> 
-        
+        <h1>☀️ 天気予報 🌧️</h1>
+
         <p>検索したい都市を入力してください。</p>
-        
+
         <div class="start-input-group">
             <input type="text" id="city-input-start" placeholder="例: 大分, パリ" autocomplete="off">
             <button id="start-btn">検索</button>
             <div id="autocomplete-list-start" class="autocomplete-list hidden"></div>
         </div>
-        
+
         <button id="current-location-btn">📍現在地の天気</button>
-        
+
         <p class="small-text">※ このサイトはOpenWeather<span class="small-text1">無料版</span>を参照しているため、</p>
         <p class="small-text">予報に誤差が生じることがございます。</p>
         <p class="small-text">より正確な情報が必要な場合は、<span class="small-text1">有料版</span>のご利用をご検討ください。</p>
-        
+
     </div>
 
     <div class="container hidden" id="main-content">
-        
+
         <button id="back-to-start-btn" class="home-button action-button">
             <span class="icon">🏠</span>
             戻る
         </button>
-        
+
         <h1>天気予報</h1>
-        
+
         <div class="input-area">
             <input type="text" id="city-input" placeholder="検索したい都市をいれてね" autocomplete="off">
             <button id="get-weather-btn">検索</button>
@@ -55,14 +57,14 @@
             <div id="loading-overlay" class="hidden">
                 <div class="spinner"></div>
             </div>
-            
+
             <img id="character-img" src="img/Q1.png" alt="キャラクターアイコン">
             <div id="character-comment">都市名を入力してね！</div>
         </div>
 
         <div id="weather-header-display">
         </div>
-        
+
         <div id="weather-display">
         </div>
 
@@ -75,4 +77,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

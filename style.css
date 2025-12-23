@@ -453,8 +453,6 @@ hr {
     opacity: 1.0;
 }
 
-/* --- レイアウトを中央に寄せるための追加設定 --- */
-
 /* 都市名と日付のエリア */
 #weather-header-display {
     justify-content: center !important;
@@ -560,7 +558,6 @@ hr {
 /* ====================================================================
  * スマホ・Androidレイアウト修正（デザイン維持版）
  * ==================================================================== */
-
 /* 1. 入力エリアの横並びを安定させ、潰れを防ぐ */
 .start-input-group,
 .input-area {
@@ -611,7 +608,7 @@ hr {
         padding: 30px 10px 40px 10px !important;
     }
 
-    /* BGMボタンの調整（ここに入れました） */
+    /* BGMボタンの調整 */
     .bgm-button.fixed-right-top {
         padding: 6px 12px !important;
         font-size: 12px !important;
@@ -657,10 +654,10 @@ hr {
     }
 }
 
-/* 週間予報のスマホ表示修正 */
+/* 週間予報のスマホ表示 */
 @media (max-width: 500px) {
     .forecast-container {
-        /* 中央寄せを解除し、左詰め（開始位置）から表示する */
+        /* 左詰め（開始位置）から表示する */
         justify-content: flex-start !important;
 
         /* 横スクロールを滑らかにし、端まで見えるようにする */

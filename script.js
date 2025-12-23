@@ -398,7 +398,7 @@ async function getWeatherByCoords(lat, lon) {
 async function getWeather(city) {
     setLoading(true);
     closeAllLists();
-    characterImg.src =　'img/Q1.png'
+    characterImg.src = 'img/Q1.png'
     characterComment.innerHTML = `ちょっと待ってね...`;
     characterComment.style.background = '#E8F5E9';
     characterArea.style.setProperty('--comment-bg-color', '#E8F5E9');
